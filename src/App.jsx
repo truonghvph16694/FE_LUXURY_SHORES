@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminPage from './Page/Admin/HomePage/AdminPage';
 import Products from './Page/Admin/product/Products';
 import AdminLayout from './Layout/AdminLayout';
+import Categories from './Page/Admin/Category/Categories';
 
 function App() {
   return <div className="App">
@@ -15,6 +16,7 @@ function App() {
             // </PrivateLayout>
           } >
           <Route index element={<AdminPage />} />
+          <Route path="categories" element={<Categories />} />
           <Route path="products" element={<Products />} />
         </Route>
       </Routes>
