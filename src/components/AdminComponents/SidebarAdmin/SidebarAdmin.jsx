@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Breadcrumb, Layout, theme } from 'antd'
 import { Layout, Menu } from "antd";
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LaptopOutlined, UserOutlined } from "@ant-design/icons";
 import SubMenu from 'antd/es/menu/SubMenu';
 const { Sider } = Layout;
@@ -17,8 +17,8 @@ const SidebarAdmin = () => {
 
                         style={{ height: '100%', borderRight: 0 }}
                     >
-                        <Menu.Item key="1">Categorys</Menu.Item>
-                        <Menu.Item key="1">Products</Menu.Item>
+                        <Link to="/admin/category">  <Menu.Item key="1" style={{ textAlign: 'center', fontSize: 16 }} >  Categorys </Menu.Item></Link>
+                        <Link to="/admin/products">   <Menu.Item key="1" style={{ textAlign: 'center', fontSize: 16 }} >Products</Menu.Item></Link>
                         <SubMenu key="sub1" icon={<UserOutlined />} title="Submenu 1">
                             <Menu.Item key="1">Option 1</Menu.Item>
                             <Menu.Item key="2">Option 2</Menu.Item>

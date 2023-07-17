@@ -2,19 +2,19 @@ import instance from "./config";
 
 const categoryApi = {
   GetAll: async () => {
-    return await instance.get("categories");
+    return await instance.get(`category`);
   },
   Get: async (id) => {
-    return await instance.get(`categories/${id}`);
+    return await instance.get(`category/${id}`);
   },
   Add: async (data) => {
-    return await instance.post("categories", data);
+    return await instance.post("category", data);
   },
   Update: async (data) => {
-    return await instance.put(`categories/${data._id}`, data);
+    return await instance.put(`category/${data._id}`, data);
   },
   Remove: async (id) => {
-    return await instance.delete(`categories/${id}`);
+    return await instance.delete(`category/${id}`);
   },
 };
 
