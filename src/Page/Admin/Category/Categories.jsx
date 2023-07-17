@@ -47,7 +47,7 @@ const Categories = () => {
                     title="Action"
                     render={(record) => (
                         <Space size="middle">
-                            <Link to={`/categories/${record.id}/edit`}>
+                            <Link to={`/admin/category/edit/${record._id}`}>
                                 <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
                             </Link>
                             <Popconfirm

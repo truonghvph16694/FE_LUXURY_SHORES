@@ -7,9 +7,11 @@ import { store } from '../src/app/store.js'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <BrowserRouter />
     <Provider store={store}>
       <App />
     </Provider>
