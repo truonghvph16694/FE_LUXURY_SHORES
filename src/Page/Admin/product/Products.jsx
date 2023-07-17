@@ -24,10 +24,11 @@ const Products = () => {
 
   const handleDelete = async (id) => {
     console.log( "_id", id);
-    const response = await productApi.Remove(id);
     try {
+      const response = await productApi.Remove(id);
         if (response.status === 200) {
           console.log("Xóa thành công");
+          useEffect();
         } else {
           console.log('Xóa không thành công');
         }
@@ -39,11 +40,13 @@ const Products = () => {
   return (
     <div>
       <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-        <Button type="primary" icon={<FileAddTwoTone />}>
+       <Link><Button type="primary" icon={<FileAddTwoTone />}>
           Add New
-        </Button>
+        </Button></Link> 
       </div>
       <Table dataSource={productList}>
+      {/* <Column title="id" dataIndex="dât" key="_id" /> */}
+
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Description" dataIndex="description" key="description" />
 
