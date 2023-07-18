@@ -1,15 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect ,useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, message, Select } from 'antd';
 import productApi from '../../../api/products';
-import { useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import categoryApi from '../../../api/category';
-const AddProducts = () => {
 
-    const [categoryList, setCategoryList] = useState([]);
+const UpdateProduct = () => {
+    const { id } = useParams();
+    // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await productApi.Get(id);
+                console.log('product:', response);
+                form.setFieldsValue({ name: response.name, description: response.description,categoryId: response.categoryId }); // Đặt giá trị mặc định cho trường name trong Form
+            } catch (error) {
+                console.log('Failed to fetch category', error);
+            }
+        };
 
+        fetchProduct();
+    }, [id, form]);
+
+    const onFinish = async (values) => {
+        try {
+
+            const response = await productApi.Update({ ...values, _id: id });
+            console.log('Update product response:', response);
+            if (response.status === 200) {
+                message.success('product updated successfully');
+            }
+            toastSuccess("Cập nhật thành công!")
+            navigate("/admin/products");
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                // Xử lý lỗi từ phía server
+                const errorData = error.response.data;
+                message.error(errorData.message);
+            }
+            toastError("Cập nhật không thành công!")
+        }
+    };
+//gọi caterory
+    const [categoryList, setCategoryList] = useState([]);
     const fetchCategoryList = async () => {
         try {
             const response = await categoryApi.GetAll();
@@ -20,34 +55,15 @@ const AddProducts = () => {
             console.log('Failed to fetch CategoryList', error);
         }
     };
-
     useEffect(() => {
         fetchCategoryList();
     }, []);
-
-    const onFinish = async (values) => {
-        try {
-            const response = await productApi.Add(values);
-            if (response.status === 200) {
-                message.success('Products added successfully');
-            }
-            toastSuccess("Thêm Thành Công!")
-            navigate("/admin/products");
-        } catch (error) {
-            if (error.response && error.response.status === 400) {
-                // Xử lý lỗi từ phía server
-                // const errorData = error.response.data;
-                // message.error(errorData.message);
-                toastError("Thêm Danh Mục Không Thành Công!")
-            }
-        }
-    };
 
     return (
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="name"
-                label="Products"
+                label="Product Name"
                 rules={[
                     {
                         required: true,
@@ -63,12 +79,13 @@ const AddProducts = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please enter category name',
+                        message: 'Please enter product description',
                     },
                 ]}
             >
-                <Input placeholder="Enter category name" />
+                <Input placeholder="Enter product description" />
             </Form.Item>
+
             <Form.Item
                 name="categoryId"
                 label="Category"
@@ -87,19 +104,13 @@ const AddProducts = () => {
 
             </Form.Item>
 
-
-
-
             <Form.Item>
                 <Button type="primary" htmlType="submit">
-                    Add
+                    Update Products
                 </Button>
             </Form.Item>
         </Form>
     );
 };
 
-export default AddProducts;
-
-
-
+export default UpdateProduct;

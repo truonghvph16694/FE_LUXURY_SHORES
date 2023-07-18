@@ -4,37 +4,35 @@ import categoryApi from '../../../api/category';
 import { Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { toastSuccess } from '../../../components/toast/Toast';
 
+5
 const { Column } = Table;
 
 const Products = ({ categoryList }) => {
   const [productList, setProductList] = useState([]);
 
+
+  const fetchProductList = async () => {
+    try {
+      const response = await productApi.GetAll();
+      console.log('response', response.docs);
+      setProductList(response.docs);
+    } catch (error) {
+      console.log('Failed to fetch ProductList', error);
+    }
+  };
   useEffect(() => {
-    const fetchProductList = async () => {
-      try {
-        const response = await productApi.GetAll();
-        console.log('response', response.docs);
-        setProductList(response.docs);
-      } catch (error) {
-        console.log('Failed to fetch ProductList', error);
-      }
-    };
     fetchProductList();
   }, []);
 
   const handleDelete = async (id) => {
-    console.log("_id", id);
     try {
-      const response = await productApi.Remove(id);
-      if (response.status === 200) {
-        console.log("Xóa thành công");
-        useEffect();
-      } else {
-        console.log('Xóa không thành công');
-      }
+      await productApi.Remove(id);
+      toastSuccess("Delete success")
+      fetchProductList();
     } catch (error) {
-      console.log('Failed to delete product', error);
+      console.log('Failed to delete products', error);
     }
   };
 
@@ -64,7 +62,7 @@ const Products = ({ categoryList }) => {
           title="Action"
           render={(record) => (
             <Space size="middle">
-              <Link to={`/products/${record.id}`}>
+              <Link to={`/admin/products/edit/${record._id}`}>
                 <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
               </Link>
               <Popconfirm

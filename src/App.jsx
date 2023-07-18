@@ -7,6 +7,7 @@ import AdminLayout from './Layout/AdminLayout';
 import Categories from './Page/Admin/Category/Categories';
 import AddCategory from './Page/Admin/Category/AddCategory';
 import NotFound from './Page/NotFound/NotFound';
+import UpdateProduct from './Page/Admin/product/UpdateProduct';
 
 function App() {
   return <div className="App">
@@ -23,6 +24,7 @@ function App() {
           <Route path="category/add" element={<AddCategory />} />
           <Route path="products" element={<Products />} />
           <Route path="products/add" element={<AddProducts />} />
+          <Route path="products/edit/:id" element={<UpdateProduct/>} />
 
     
         </Route>
