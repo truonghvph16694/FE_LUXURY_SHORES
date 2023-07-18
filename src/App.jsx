@@ -7,6 +7,7 @@ import Categories from './Page/Admin/Category/Categories';
 import AddCategory from './Page/Admin/Category/AddCategory';
 import NotFound from './Page/NotFound/NotFound';
 import UpdateCategory from './Page/Admin/Category/UpdateCategory';
+import User from './Page/Admin/User/User';
 
 function App() {
   return <div className="App">
@@ -23,6 +24,7 @@ function App() {
           <Route path="category/add" element={<AddCategory />} />
           <Route path="category/edit/:id" element={<UpdateCategory />} />
           <Route path="products" element={<Products />} />
+          <Route path="user" element={<User />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
