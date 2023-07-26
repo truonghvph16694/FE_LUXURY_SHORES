@@ -119,6 +119,11 @@ const App = () => {
       key: 'name',
     },
     {
+      title: 'Images',
+      dataIndex: 'image',
+      key: 'image',
+    },
+    {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
