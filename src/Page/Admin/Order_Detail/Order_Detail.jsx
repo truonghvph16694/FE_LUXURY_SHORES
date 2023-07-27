@@ -11,6 +11,7 @@ const { Column } = Table;
 
 const Order_detail = () => {
     const [order_detail, setOrder_detail] = useState([]);
+    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
     const fetchOrder_detail = async () => {
         try {

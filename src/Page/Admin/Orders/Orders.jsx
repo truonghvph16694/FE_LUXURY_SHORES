@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ordersApi from '../../../api/orders';
-
+import userApi from '../../../api/user';
 import { Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -10,19 +10,53 @@ import { toastSuccess } from '../../../components/toast/Toast';
 const { Column } = Table;
 
 const Orders = () => {
+
     const [ordersList, setOrdersList] = useState([]);
+    const [userList, setUserList] = useState([]);
 
     const fetchOrdersList = async () => {
         try {
             const response = await ordersApi.GetAll();
-            console.log('response', response.docs);
-            setOrdersList(response.docs);
+            console.log('response', response);
+            setOrdersList(response);
         } catch (error) {
             console.log('Failed to fetch OrdersList', error);
         }
+        const convertStatus = (status) => {
+            switch (status) {
+                case 0:
+                    return 'Đơn hàng mới';
+                    break;
+                case 1:
+                    return 'Đang xử lý';
+                    break;
+                case 2:
+                    return 'Đang giao hàng';
+                    break;
+                case 3:
+                    return 'Hoàn thành';
+                    break;
+                default:
+                    return 'Đang xử lý'
+                    break;
+            }
+        }
     };
+
+    const fetchUserList = async () => {
+        try {
+            const response = await userApi.GetAll();
+            console.log('response', response.docs);
+            setUserList(response.docs);
+        } catch (error) {
+            console.log('Failed to fetch UsersList', error);
+        }
+    };
+    
+
     useEffect(() => {
         fetchOrdersList();
+        fetchUserList();
     }, []);
 
 
@@ -30,20 +64,20 @@ const Orders = () => {
     return (
         <div>
             <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                {/* <Link to={'/admin/orders/add'}>
+                <Link to={'/admin/orders/add'}>
                     <Button type="primary" icon={<FileAddTwoTone />}>
                         Add New
                     </Button>
-                </Link> */}
+                </Link>
             </div>
             <Table dataSource={ordersList}>
                 {/* <Column title="id" dataIndex="dât" key="_id" /> */}
                 {/* <Column title="ID" dataIndex="id" key="id" /> */}
-                <Column title="Status" dataIndex="status" key="status" />
+                <Column title="Status" dataIndex="status" key="status" render={(status) => convertStatus(status)} />
                 <Column
                     title="user_id"
-                    dataIndex="user_id"
-                    key="user_id"
+                    dataIndex={['user', 'fullname']}
+                    key="fullname"
 
                 />
                 <Column title="province_id" dataIndex="province_id" key="province_id" />
@@ -63,7 +97,7 @@ const Orders = () => {
                             <Link to={`/admin/orders/edit/${record._id}`}>
                                 <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
                             </Link>
-                            
+
                         </Space>
                     )}
                 />

@@ -19,6 +19,7 @@ const SidebarAdmin = () => {
                     >
                         <Link to="/admin/category">  <Menu.Item key="1" style={{ textAlign: 'center', fontSize: 16 }} >  Categorys </Menu.Item></Link>
                         <Link to="/admin/products">   <Menu.Item key="1" style={{ textAlign: 'center', fontSize: 16 }} >Products</Menu.Item></Link>
+                        <Link to="/admin/orders">   <Menu.Item key="1" style={{ textAlign: 'center', fontSize: 16 }} >Orders</Menu.Item></Link>
                         <SubMenu key="sub1" icon={<UserOutlined />} title="Submenu 1">
                             <Menu.Item key="1">Option 1</Menu.Item>
                             <Menu.Item key="2">Option 2</Menu.Item>
