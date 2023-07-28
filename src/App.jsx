@@ -33,7 +33,7 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="orders/edit/:id" element={<UpdateOrders />} />
           <Route path="bills" element={<Bills />} />
-          <Route path="order-detail" element={<Order_detail />} />
+          <Route path="order-detail/:id" element={<Order_detail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

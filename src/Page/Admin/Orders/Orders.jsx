@@ -22,25 +22,7 @@ const Orders = () => {
         } catch (error) {
             console.log('Failed to fetch OrdersList', error);
         }
-        const convertStatus = (status) => {
-            switch (status) {
-                case 0:
-                    return 'Đơn hàng mới';
-                    break;
-                case 1:
-                    return 'Đang xử lý';
-                    break;
-                case 2:
-                    return 'Đang giao hàng';
-                    break;
-                case 3:
-                    return 'Hoàn thành';
-                    break;
-                default:
-                    return 'Đang xử lý'
-                    break;
-            }
-        }
+        
     };
 
     const fetchUserList = async () => {
@@ -51,7 +33,45 @@ const Orders = () => {
         } catch (error) {
             console.log('Failed to fetch UsersList', error);
         }
+        
     };
+
+    const convertStatus = (status) => {
+        switch (status) {
+            case 0:
+                return 'Đơn hàng mới';
+                break;
+            case 1:
+                return 'Đang xử lý';
+                break;
+            case 2:
+                return 'Đang giao hàng';
+                break;
+            case 3:
+                return 'Hoàn thành';
+                break;
+            default:
+                return 'Đang xử lý'
+                break;
+        }
+    }
+
+    const convertPayment = (Payment) => {
+        switch (Payment) {
+            case 0:
+                return 'Thanh toán bằng tiền mặt';
+                break;
+            case 1:
+                return 'Chuyển khoản';
+                break;
+            case 2:
+                return 'Thanh toán khi nhận hàng';
+                break;
+            default:
+                return 'Đang xử lý'
+                break;
+        }
+    }
     
 
     useEffect(() => {
@@ -75,7 +95,7 @@ const Orders = () => {
                 {/* <Column title="ID" dataIndex="id" key="id" /> */}
                 <Column title="Status" dataIndex="status" key="status" render={(status) => convertStatus(status)} />
                 <Column
-                    title="user_id"
+                    title="User_Name"
                     dataIndex={['user', 'fullname']}
                     key="fullname"
 
@@ -86,10 +106,9 @@ const Orders = () => {
                 <Column title="detail_address" dataIndex="detail_address" key="detail_address" />
                 <Column title="created_at" dataIndex="created_at" key="created_at" />
                 <Column title="note" dataIndex="note" key="note" />
-                <Column title="finish_date" dataIndex="finish_date" key="finish_date" />
                 <Column title="ships" dataIndex="ships" key="ships" />
                 <Column title="total_price" dataIndex="total_price" key="total_price" />
-                <Column title="payment" dataIndex="payment" key="payment" />
+                <Column title="payment" dataIndex="payment" key="payment" render={(payment) => convertPayment(payment)}/>
                 <Column
                     title="Action"
                     render={(record) => (
@@ -97,8 +116,11 @@ const Orders = () => {
                             <Link to={`/admin/orders/edit/${record._id}`}>
                                 <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
                             </Link>
-
+                            <Link to={`/admin/order-detail/${record._id}`}>
+                                <EditTwoTone style={{ fontSize: '20px', color: '#888' }} />
+                            </Link>
                         </Space>
+                        
                     )}
                 />
             </Table>

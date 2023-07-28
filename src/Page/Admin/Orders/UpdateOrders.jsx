@@ -15,7 +15,7 @@ const UpdateOrders = () => {
             try {
                 const response = await ordersApi.Get(id);
                 console.log('order:', response);
-                form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note,ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
+                form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note, ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
                 console.log('Failed to fetch category', error);
             }
@@ -105,7 +105,7 @@ const UpdateOrders = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please enter detail_address',
+                        message: 'Please enter detail_address' ,
                     },
                 ]}
             >
@@ -156,10 +156,10 @@ const UpdateOrders = () => {
                     },
                 ]}
             >
-                <Input placeholder="Enter note" disabled />
+                <Input placeholder="Enter note" />
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
                 name="finish_date"
                 label="finish_date"
                 rules={[
@@ -170,7 +170,7 @@ const UpdateOrders = () => {
                 ]}
             >
                 <Input placeholder="Enter finish_date" disabled />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item
                 name="ships"
@@ -207,8 +207,14 @@ const UpdateOrders = () => {
                         message: 'Please enter payment',
                     },
                 ]}
-            >   
-                <Input  placeholder="Enter payment" disabled />
+            >
+                <Select placeholder="Select Payment">
+
+                    <Select.Option value={0}>Thanh toán bằng tiền mặt</Select.Option>
+                    <Select.Option value={1}>Chuyển khoản</Select.Option>
+                    <Select.Option value={2}>Thanh toán khi nhận hàng</Select.Option>
+
+                </Select>
             </Form.Item>
 
 
