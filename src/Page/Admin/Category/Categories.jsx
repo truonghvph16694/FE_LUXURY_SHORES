@@ -18,6 +18,8 @@ const Categories = () => {
             const response = await categoryApi.GetAll();
             console.log('response', response);
             setCategoryList(response);
+            console.log('categoryList', categoryList)
+
         } catch (error) {
             console.log('Failed to fetch CategoryList', error);
         }
