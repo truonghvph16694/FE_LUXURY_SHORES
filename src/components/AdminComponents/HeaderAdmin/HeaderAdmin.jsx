@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layout, Menu, message } from 'antd';
+import { Layout, Menu } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, LogoutOutlined } from '@ant-design/icons';
-import fuserApi from '../../../api/user';
+import fuserApi from '../../../api/fuser';
 
 // const { Header } = Layout;
 

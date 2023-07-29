@@ -8,7 +8,7 @@ import AddCategory from './Page/Admin/Category/AddCategory';
 import NotFound from './Page/NotFound/NotFound';
 import UpdateCategory from './Page/Admin/Category/UpdateCategory';
 import User from './Page/Admin/User/User';
-import Login from './Page/Admin/User/login/Login';
+import Login from './Page/Admin/User/Login/Login';
 
 function App() {
   return <div className="App">
@@ -26,7 +26,6 @@ function App() {
           <Route path="category/edit/:id" element={<UpdateCategory />} />
           <Route path="products" element={<Products />} />
           <Route path="user" element={<User />} />
-
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
