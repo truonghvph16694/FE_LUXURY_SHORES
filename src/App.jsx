@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminPage from './Page/Admin/HomePage/AdminPage';
 import Products from './Page/Admin/product/Products';
+import Demo from './Page/Admin/product/Demo';
 import AddProducts from './Page/Admin/product/AddProducts';
 import AdminLayout from './Layout/AdminLayout';
 import Categories from './Page/Admin/Category/Categories';
@@ -16,6 +17,7 @@ import UpdateOrders from './Page/Admin/Orders/UpdateOrders';
 import Bills from './Page/Admin/Bills/Bills';
 import Order_detail from './Page/Admin/Order_Detail/Order_Detail';
 
+import Feedback from './Page/Admin/feedback/Feedback/';
 
 function App() {
   return <div className="App">
@@ -39,6 +41,12 @@ function App() {
           <Route path="orders/edit/:id" element={<UpdateOrders />} />
           <Route path="bills" element={<Bills />} />
           <Route path="order-detail/:id" element={<Order_detail />} />
+          <Route path="feedback" element={<Feedback />} />
+          <Route path="demo" element={<Demo />} />
+
+
+
+
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
