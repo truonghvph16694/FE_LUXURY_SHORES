@@ -1,0 +1,280 @@
+.container {
+    position: relative;
+    width: 100%;
+  }
+  .navigation {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: #2a303b;
+    /* border-left: 10px solid #2a303b; */
+    transition: 0.5s;
+    overflow-y: scroll;
+  }
+  .navigation::-webkit-scrollbar {
+    width: 10px;
+  
+  }
+  .navigation::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    
+  }
+  .navigation::-webkit-scrollbar-thumb {
+    background: #4D535E;
+    border-radius: 10px;
+  }
+  .navigation::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  .navigation.active {
+    width: 80px;
+  }
+  .navigation ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .navigation ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+  .navigation ul li:nth-child(1) {
+    margin-bottom: 40px;
+    pointer-events: none;
+  }
+  .navigation ul li:hover,
+  .navigation ul li.active {
+    background-color: white;
+  }
+  .navigation ul li:hover a,
+  .navigation ul li.active a {
+    color: #5b6372;
+  }
+  .navigation ul li:hover a::before,
+  .navigation ul li.active a::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    pointer-events: none;
+    top: -50px;
+    box-shadow: 35px 35px 0 10px white;
+  }
+  .navigation ul li:hover a::after,
+  .navigation ul li.active a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    pointer-events: none;
+    bottom: -50px;
+    box-shadow: 35px -35px 0 10px white;
+  }
+  .navigation ul li a {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+  }
+  .navigation ul li a .icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+  }
+  .navigation ul li a .icon .io {
+    font-size: 1.75rem;
+    cursor: pointer;
+  }
+  .navigation ul li a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+  }
+  .main {
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: white;
+    transition: 0.5s;
+  }
+  .main.active {
+    width: calc(100% - 80px);
+    left: 80px;
+  }
+  .main .topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+  }
+  .main .toggle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+  }
+  .main .search {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+  }
+  .main .search label {
+    position: relative;
+    width: 100%;
+  }
+  .main .search label input {
+    width: 100%;
+    height: 35px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 15px;
+    outline: none;
+    border: 1px solid gray;
+  }
+  .main .search label .io {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2rem;
+  }
+  .user {
+    position: relative;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+  .user img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .user .box {
+    position: absolute;
+    width: 150px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    z-index: 999;
+    top: 55px;
+    left: -100px;
+  }
+  .user .box ul {
+    position: relative;
+    list-style-type: none;
+  }
+  .user .box ul li {
+    padding: 10px;
+  }
+  .user .box ul li:hover {
+    background-color: blue;
+    color: white;
+    transition: all 0.3s linear;
+  }
+  .user .box ul li:first-child {
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .user .box ul li:first-child:hover {
+    cursor: default;
+    background-color: white;
+    color: black;
+    transition: all 0.3s linear;
+  }
+  .user .box ul li:last-child {
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .user .box ul li:last-child:hover {
+    background-color: blue;
+    color: white;
+    transition: all 0.3s linear;
+  }
+  .user .box::before {
+    content: "";
+    position: absolute;
+    transform: rotate(45deg);
+    width: 16px;
+    height: 16px;
+    top: -9px;
+    background-color: white;
+    right: 20px;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+  }
+  @media (max-width: 991px) {
+    .navigation {
+      left: -300px;
+    }
+    .navigation.active {
+      width: 300px;
+      left: 0;
+    }
+    .main {
+      width: 100%;
+      left: 0;
+    }
+    .main.active {
+      left: 300px;
+    }
+  }
+  @media (max-width: 480px) {
+    .navigation {
+      width: 100%;
+      left: -100%;
+      z-index: 1000;
+    }
+    .navigation.active {
+      width: 100%;
+      left: 0;
+    }
+    .toggle {
+      z-index: 10001;
+    }
+    .user {
+      min-width: 40px;
+    }
+    .main.active .toggle {
+      color: #fff;
+      position: fixed;
+      right: 0;
+      left: initial;
+    }
+  }
+  

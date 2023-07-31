@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FeedbackApi from '../../../api/feedback';
-import { Button, Popconfirm, Space, Table } from 'antd';
-import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Popconfirm, Space, Table } from 'antd';
+import { DeleteTwoTone } from '@ant-design/icons';
 import { toastSuccess } from '../../../components/toast/Toast';
 
 const { Column } = Table;
