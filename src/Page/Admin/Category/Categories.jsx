@@ -85,8 +85,8 @@ const Categories = () => {
 
     return (
         <>
-            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                <Link to={'/admin/category/add'}>
+            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end', marginTop: 20, marginRight: 20 }}>
+                <Link to={'/admin/category/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
                     <Button type="primary" icon={<FileAddTwoTone />}>
                         Add New
                     </Button>

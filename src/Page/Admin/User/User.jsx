@@ -25,7 +25,7 @@ const User = () => {
     }, []);
 
     const onChange = async (checked, record) => {
-        console.log('record', record._id, checked);
+        // console.log('record', record._id, checked);
         try {
             await userApi.editStatus(record._id, { status: checked });
             fetchUserList();
@@ -43,7 +43,7 @@ const User = () => {
                 <Column title="FullName" dataIndex="fullname" key="fullname" />
                 <Column title="Số điện thoại" dataIndex="phone" key="phone" />
                 <Column title="Email" dataIndex="email" key="email" />
-                <Column
+                <Column style={{ backgroundColor: "blue" }}
                     title="Trạng thái"
                     dataIndex="status"
                     key="status"
