@@ -19,7 +19,6 @@ import UpdateOrders from './Page/Admin/Orders/UpdateOrders';
 import Bills from './Page/Admin/Bills/Bills';
 import Order_detail from './Page/Admin/Order_Detail/Order_Detail';
 import Feedback from './Page/Admin/feedback/Feedback/';
-import Login from './Page/Admin/User/login/Login';
 import HomePage from './Page/Home/HomePage';
 import Cart from './Page/Cart/Cart';
 

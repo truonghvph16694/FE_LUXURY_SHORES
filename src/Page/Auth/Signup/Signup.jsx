@@ -4,13 +4,13 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
+import { Toast } from 'react-bootstrap';
+import { toastError, toastSuccess } from '../../../components/toast/Toast';
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
   const {
-    register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
 
@@ -19,14 +19,14 @@ const Signup = () => {
 
     try {
       const response = await userApi.signup(values);
-      console.log('API Response:', response);
+      // console.log('API Response:', response);
       setLoading(false);
-      message.success('Registration successful. Please login.');
+     toastSuccess("Đăng kí tài khoản thành công!")
       nav('/login');
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);
-      message.error('Error occurred. Please try again.');
+    toastError(error.response.data.message)
     }
   };
 
@@ -50,7 +50,7 @@ const Signup = () => {
                 <Form
                   className="mt-8 space-y-6"
                   id="form-signup"
-                  onFinish={handleSubmit(onFinish)}
+                  onFinish={onFinish}
                 >
                   <div className="rounded-md shadow-sm -space-y-px">
                     <div className="mb-4">

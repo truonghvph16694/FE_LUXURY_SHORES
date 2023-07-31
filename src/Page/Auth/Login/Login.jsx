@@ -15,10 +15,11 @@ const Login = () => {
   } = useForm();
 
   const onFinish = async (values) => {
+    console.log('value',values)
     setLoading(true);
 
     try {
-      const response = await userApi.signin(values.data);
+      const response = await userApi.signin(values);
       console.log('API Response:', response);
       setLoading(false);
       nav('/admin');
@@ -49,11 +50,11 @@ const Login = () => {
                 <Form
                   className="mt-8 space-y-6"
                   id="form-signin"
-                  onFinish={handleSubmit(onFinish)}
+                  onFinish={onFinish}
                 >
                   <div className="rounded-md shadow-sm -space-y-px">
                     <div className="mb-4">
-                      <label htmlFor="input-email" className="py-2">
+                      <label htmlFor="email" className="py-2">
                         Email
                       </label>
                       <Form.Item
@@ -67,11 +68,11 @@ const Login = () => {
                         ]}
                       >
                         <Input
-                          id="input-email"
+                          id="email"
                           type="email"
                           placeholder="Email"
                           prefix={<UserOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm email"
                         />
                       </Form.Item>
                       <p className="text-red-400 text-xs">
@@ -93,10 +94,10 @@ const Login = () => {
                         ]}
                       >
                         <Input.Password
-                          id="input-password"
+                          id="password"
                           placeholder="Mật khẩu"
                           prefix={<LockOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="password appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                           autoComplete="on"
                         />
                       </Form.Item>
