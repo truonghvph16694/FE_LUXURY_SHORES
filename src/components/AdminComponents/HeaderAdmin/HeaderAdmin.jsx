@@ -5,7 +5,6 @@ import SubMenu from 'antd/es/menu/SubMenu';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, LogoutOutlined } from '@ant-design/icons';
 import userApi from '../../../api/user';
 
-// const { Header } = Layout;
 
 const HeaderAdmin = () => {
 

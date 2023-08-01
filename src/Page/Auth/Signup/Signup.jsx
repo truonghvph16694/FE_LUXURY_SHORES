@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, PhoneOutlined, IdcardOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
@@ -15,18 +15,19 @@ const Signup = () => {
   } = useForm();
 
   const onFinish = async (values) => {
+    console.log('values',values)
     setLoading(true);
 
     try {
       const response = await userApi.signup(values);
       // console.log('API Response:', response);
       setLoading(false);
-     toastSuccess("Đăng kí tài khoản thành công!")
+      toastSuccess("Đăng kí tài khoản thành công!")
       nav('/login');
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);
-    toastError(error.response.data.message)
+      toastError(error.response.data.message)
     }
   };
 
@@ -37,7 +38,7 @@ const Signup = () => {
           <img
             className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
             alt="Logo"
-            // src="https://res.cloudinary.com/assignment22/image/upload/v1668812529/Ass-reactjs/20221114_LvgOAj9N9Fklx76G5UyG9SHD_pncdqr.jpg"
+          // src="https://res.cloudinary.com/assignment22/image/upload/v1668812529/Ass-reactjs/20221114_LvgOAj9N9Fklx76G5UyG9SHD_pncdqr.jpg"
           />
           <section>
             <div className="min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8">
@@ -52,6 +53,29 @@ const Signup = () => {
                   id="form-signup"
                   onFinish={onFinish}
                 >
+                  {/* New "fullname" field */}
+                  <div className="mb-4">
+                    <label htmlFor="fullname" className="py-2">
+                      Họ và tên
+                    </label>
+                    <Form.Item
+                      name="fullname"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập họ và tên' },
+                      ]}
+                    >
+                      <Input
+                        id="fullname"
+                        type="text"
+                        placeholder="Họ và tên"
+                        prefix={<IdcardOutlined />}
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                      />
+                    </Form.Item>
+                    <p className="text-red-400 text-xs">
+                      {errors.fullname?.message}
+                    </p>
+                  </div>
                   <div className="rounded-md shadow-sm -space-y-px">
                     <div className="mb-4">
                       <label htmlFor="email" className="py-2">
@@ -103,6 +127,37 @@ const Signup = () => {
                       </Form.Item>
                       <p className="text-red-400 text-xs">
                         {errors.password?.message}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="rounded-md shadow-sm -space-y-px">
+                    {/* Existing email and password fields */}
+                    {/* ... */}
+
+
+
+                    {/* New "phone" (phone number) field */}
+                    <div className="mb-4">
+                      <label htmlFor="phone" className="py-2">
+                        Số điện thoại
+                      </label>
+                      <Form.Item
+                        name="phone"
+                        rules={[
+                          { required: true, message: 'Vui lòng nhập số điện thoại' },
+                          // You can add additional validation rules for phone numbers if needed
+                        ]}
+                      >
+                        <Input
+                          id="phone"
+                          type="text"
+                          placeholder="Số điện thoại"
+                          prefix={<PhoneOutlined />}
+                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                        />
+                      </Form.Item>
+                      <p className="text-red-400 text-xs">
+                        {errors.phone?.message}
                       </p>
                     </div>
                   </div>

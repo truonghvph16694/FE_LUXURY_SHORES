@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
 
-const Login = () => {
+const Signin = () => {
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
   const {
@@ -137,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signin;

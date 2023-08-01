@@ -12,7 +12,6 @@ import Orders from './Page/Admin/Orders/Orders'
 import NotFound from './Page/NotFound/NotFound';
 import UpdateCategory from './Page/Admin/Category/UpdateCategory';
 import User from './Page/Admin/User/User';
-import Login from './Page/Auth/Login/Login';
 import Signup from './Page/Auth/Signup/Signup';
 import UpdateProduct from './Page/Admin/product/UpdateProduct';
 import UpdateOrders from './Page/Admin/Orders/UpdateOrders';
@@ -21,6 +20,7 @@ import Order_detail from './Page/Admin/Order_Detail/Order_Detail';
 import Feedback from './Page/Admin/feedback/Feedback/';
 import HomePage from './Page/Home/HomePage';
 import Cart from './Page/Cart/Cart';
+import Signin from './Page/Auth/Signin/Signin';
 
 function App() {
   return <div className="App">
@@ -49,7 +49,7 @@ function App() {
 
 
 
-      <Route path="login" element={<Login />} />
+      <Route path="signin" element={<Signin />} />
       <Route path="signup" element={<Signup />} />
       <Route path="*" element={<NotFound />} />
 
