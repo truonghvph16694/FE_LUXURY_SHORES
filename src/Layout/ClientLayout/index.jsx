@@ -8,6 +8,7 @@ const ClientLayout = () => {
             <header className='bg-[#fff]'>
                 <ClientHeader />
             </header>
+            
             <main className="pt-16">
                 <Outlet />
             </main>

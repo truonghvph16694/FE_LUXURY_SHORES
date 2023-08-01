@@ -3,15 +3,14 @@ import { Layout, Menu, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, LogoutOutlined } from '@ant-design/icons';
-import fuserApi from '../../../api/fuser';
+import userApi from '../../../api/user';
 
-// const { Header } = Layout;
 
 const HeaderAdmin = () => {
 
     const handleLogout = async () => {
         try {
-            await fuserApi.logout();
+            await userApi.logout();
             // Do something to handle successful logout (e.g., redirect to login page)
         } catch (error) {
             console.error('API Error:', error);
