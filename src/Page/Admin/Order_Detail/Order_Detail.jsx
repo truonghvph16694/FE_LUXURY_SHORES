@@ -52,8 +52,8 @@ const Order_detail = () => {
     const fetchProductsList = async () => {
         try {
             const response = await productApi.GetAll()
-            setProducts(response.docs)
-            console.log("products",response.docs);
+            setProducts(response)
+            console.log("products",response);
         } catch (error) {
             console.log("Failed to fetch Product List");
         }

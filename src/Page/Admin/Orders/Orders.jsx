@@ -72,11 +72,11 @@ const Orders = () => {
     return (
         <div>
             <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                <Link to={'/admin/orders/add'}>
+                {/* <Link to={'/admin/orders/add'}>
                     <Button type="primary" icon={<FileAddTwoTone />}>
                         Add New
                     </Button>
-                </Link>
+                </Link> */}
             </div>
             <Table dataSource={ordersList}>
                 <Column
