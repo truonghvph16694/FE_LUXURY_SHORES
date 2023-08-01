@@ -1,14 +1,24 @@
-import React from 'react'
-import { Layout, Menu } from 'antd';
+import React from 'react';
+import { Layout, Menu, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import SubMenu from 'antd/es/menu/SubMenu';
-import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
-import LaptopOutlined from '@ant-design/icons/lib/icons/LaptopOutlined';
-import NotificationOutlined from "@ant-design/icons/lib/icons/NotificationOutlined";
-
+import { UserOutlined, LaptopOutlined, NotificationOutlined, LogoutOutlined } from '@ant-design/icons';
+import fuserApi from '../../../api/fuser';
 
 // const { Header } = Layout;
+
 const HeaderAdmin = () => {
+
+    const handleLogout = async () => {
+        try {
+            await fuserApi.logout();
+            // Do something to handle successful logout (e.g., redirect to login page)
+        } catch (error) {
+            console.error('API Error:', error);
+            message.error('Error occurred. Please try again.');
+        }
+    };
+
     return (
         <Layout>
             <Header className="header" style={{ width: '100%', padding: '0px' }}>
@@ -24,11 +34,14 @@ const HeaderAdmin = () => {
                         <Menu.Item key="6">Option 4</Menu.Item>
                     </SubMenu>
                     <Menu.Item key="7" icon={<NotificationOutlined />} />
+                    <Menu.Item key="8" icon={<LogoutOutlined />} style={{ float: 'right' }}>
+                        <button onClick={() => handleLogout}>Logout</button>
+                    </Menu.Item>
                 </Menu>
             </Header>
             {/* <ToastContainer /> */}
         </Layout>
-    )
-}
+    );
+};
 
-export default HeaderAdmin
+export default HeaderAdmin;

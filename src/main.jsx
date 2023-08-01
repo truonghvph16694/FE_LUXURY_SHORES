@@ -1,5 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx'
 import './index.css'
 import "antd/dist/reset.css";
@@ -8,11 +9,14 @@ import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+        <ToastContainer />
+      </BrowserRouter>
     </Provider>
-    <ToastContainer />
-  </React.StrictMode>
-)
+  </React.StrictMode>,
+  document.getElementById("root"),
+);

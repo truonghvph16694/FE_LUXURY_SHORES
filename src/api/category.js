@@ -7,6 +7,9 @@ const categoryApi = {
   Get: async (id) => {
     return await instance.get(`category/${id}`);
   },
+  GetProducts: async (id) =>{
+    return await instance.get(`category/${id}/products`)
+  },
   Add: async (data) => {
     return await instance.post("category", data);
   },
