@@ -12,15 +12,19 @@ import Orders from './Page/Admin/Orders/Orders'
 import NotFound from './Page/NotFound/NotFound';
 import UpdateCategory from './Page/Admin/Category/UpdateCategory';
 import User from './Page/Admin/User/User';
+import Signup from './Page/Auth/Signup/Signup';
 import UpdateProduct from './Page/Admin/product/UpdateProduct';
 import UpdateOrders from './Page/Admin/Orders/UpdateOrders';
 import Bills from './Page/Admin/Bills/Bills';
 import Order_detail from './Page/Admin/Order_Detail/Order_Detail';
-
 import Feedback from './Page/Admin/feedback/Feedback/';
-import Login from './Page/Admin/User/login/Login';
 import HomePage from './Page/Home/HomePage';
 import Cart from './Page/Cart/Cart';
+import Signin from './Page/Auth/Signin/Signin';
+import Tintuc from './Page/Tintuc/Tintuc';
+import Lienhe from './Page/Lienhe/Lienhe';
+import Product from './Page/Product/Product';
+
 
 function App() {
   return <div className="App">
@@ -48,17 +52,24 @@ function App() {
       </Route>
 
 
+
+      <Route path="signin" element={<Signin />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="*" element={<NotFound />} />
+
+
       {/* Frontend Route */}
       <Route path="/" element={<ClientLayout />}>
         <Route index path='home' element={<HomePage />} />
+        <Route index path='tintuc' element={<Tintuc />} />
+        <Route index path='lienhe' element={<Lienhe />} />
+        <Route index path='product' element={<Product/>} />
+
+
         <Route path='cart' element={<Cart />} />
 
       </Route>
-
-
-      <Route path="login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    </Routes >
 
   </div >;
 }
