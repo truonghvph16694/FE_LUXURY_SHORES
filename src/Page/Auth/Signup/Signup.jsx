@@ -173,7 +173,7 @@ const Signup = () => {
                   </div>
                   <p className="mt-3 text-center text-sm text-gray-600 mr-2">
                     Bạn đã có tài khoản?
-                    <Link to="/login">
+                    <Link to="/signin">
                       <span className="ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700">
                         Đăng nhập
                       </span>
