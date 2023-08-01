@@ -21,6 +21,10 @@ import Feedback from './Page/Admin/feedback/Feedback/';
 import HomePage from './Page/Home/HomePage';
 import Cart from './Page/Cart/Cart';
 import Signin from './Page/Auth/Signin/Signin';
+import Tintuc from './Page/Tintuc/Tintuc';
+import Lienhe from './Page/Lienhe/Lienhe';
+import Product from './Page/Product/Product';
+
 
 function App() {
   return <div className="App">
@@ -57,6 +61,11 @@ function App() {
       {/* Frontend Route */}
       <Route path="/" element={<ClientLayout />}>
         <Route index path='home' element={<HomePage />} />
+        <Route index path='tintuc' element={<Tintuc />} />
+        <Route index path='lienhe' element={<Lienhe />} />
+        <Route index path='product' element={<Product/>} />
+
+
         <Route path='cart' element={<Cart />} />
 
       </Route>

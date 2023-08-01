@@ -98,7 +98,7 @@ const ClientHeader = () => {
                             <div className={styles.line}></div>
                         </li>
                         <li className={`${styles.item} ${styles.itemSubNav}`}>
-                            <Link to={"/products"} className={styles.itemLink}>
+                            <Link to={"/Product"} className={styles.itemLink}>
                                 Sản phẩm
                             </Link>
                             <div className={styles.line}></div>
@@ -112,13 +112,13 @@ const ClientHeader = () => {
             <SubNav />
           </li> */}
                         <li className={styles.item}>
-                            <Link to={"/post"} className={styles.itemLink}>
+                            <Link to={"/tintuc"} className={styles.itemLink}>
                                 Tin tức
                             </Link>
                             <div className={styles.line}></div>
                         </li>
                         <li className={styles.item}>
-                            <Link to={"/contact"} className={styles.itemLink}>
+                            <Link to={"/lienhe"} className={styles.itemLink}>
                                 Liên Hệ
                             </Link>
                             <div className={styles.line}></div>
