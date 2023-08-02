@@ -1,61 +1,44 @@
-import React from 'react';
-import { Table } from 'antd';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'John Doe',
-    age: 30,
-    address: '123 ABC Street',
-  },
-  {
-    key: '2',
-    name: 'Jane Smith',
-    age: 28,
-    address: '456 XYZ Street',
-  },
-];
-
-const expandedRowRender = (record) => {
-  // Thông tin bổ sung hoặc chi tiết về mỗi hàng
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import React, { useState } from 'react';
+const App = () => {
+  const [fileList, setFileList] = useState([
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+  ]);
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
   return (
-    <p>
-      Additional information for {record.name}: <br />
-      Age: {record.age} <br />
-      Address: {record.address}
-    </p>
+    <ImgCrop rotationSlider>
+      <Upload
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        listType="picture-card"
+        fileList={fileList}
+        onChange={onChange}
+        onPreview={onPreview}
+      >
+        {fileList.length < 5 && '+ Upload'}
+      </Upload>
+    </ImgCrop>
   );
 };
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
-
-const Demo = () => {
-  return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      expandable={{
-        expandedRowRender: expandedRowRender,
-        // rowExpandable: (record) => record.name !== 'Jane Smith', // Điều kiện để mở rộng hàng
-      }}
-    />
-  );
-};
-
-export default Demo;
+export default App;

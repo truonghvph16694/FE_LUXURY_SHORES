@@ -19,6 +19,15 @@ const userApi = {
   Remove: async (id) => {
     return await instance.delete(`user/${id}`);
   },
+  signin: async (data) => {
+    return await instance.post("auth/signin", data);
+  },
+  signup: async (data) => {
+    return await instance.post("auth/signup", data);
+  },
+  logout: async () => {
+    return await instance.post("auth/logout")
+  }
 };
 
 export default userApi;

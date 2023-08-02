@@ -7,7 +7,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegUser } from "react-icons/fa";
-
+import logo from "../../../public/logo3.png"
 
 const AdminLayout = () => {
     const boxUser = useRef(null);
@@ -61,14 +61,14 @@ const AdminLayout = () => {
                             <Link to="/">
                                 <span className={styles.icon}>
                                     <img
-                                        src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png"
+                                        src={logo}
                                         className={styles.io}
                                         alt=""
                                         width="100px"
                                     />
                                 </span>
                                 <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
-                                    The Man
+                                    Luxury Shoes
                                 </span>
                             </Link>
                         </li>

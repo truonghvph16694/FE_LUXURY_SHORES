@@ -1,13 +1,14 @@
 import React from 'react'
+import Banner from '../../components/Banner/Banner'
+import SubBanner from '../../components/SubBanner/SubBanner'
 
 const HomePage = () => {
+
     return (
-        <div>HomePage
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        </div>
+        <>
+            <Banner />
+            <SubBanner />
+        </>
     )
 }
 

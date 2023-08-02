@@ -1,6 +1,6 @@
 .header {
     margin: 0 auto;
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 0 0px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgb(209 213 219);
@@ -12,17 +12,50 @@
     z-index: 50;
   }
   
+  .icon_bar1 {
+    /* width: 40px;
+    height: 20px; */
+    display: block;
+    /* user-select: none; */
+    cursor: pointer;
+    position: absolute;
+  }
+  .icon_bar1 svg{
+    height: 40px;
+    font-size: 40px;
+    margin-top: 3px;
+  }
+  .icon_bar1:hover .categories {
+    visibility: visible;
+
+  }
+  .categories{
+    transition-delay: 3s;
+    transition-duration: 1s;
+      position: fixed;
+      margin: auto;
+      left: 0;
+      top: 86px;
+      width: 300px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 6px #00000029;
+
+
+  }
   .icon_bar {
     font-size: 1.5rem /* 24px */;
     line-height: 2rem /* 32px */;
     display: block;
     user-select: none;
+    cursor: pointer;
   }
   
   .nav_bar {
     position: fixed;
     top: 66px;
-    left: 0;
+    /* left: 20px; */
     right: 0;
     width: 100%;
     height: 100vh;
@@ -32,6 +65,8 @@
   
   .nav_bar_desktop {
     display: block;
+    padding-left: 60px;
+    margin-top: 10px;
   }
   .menu {
     display: flex;
@@ -160,18 +195,23 @@
   }
   .logo {
     width: 30%;
+    display: flex;
   }
   .img_logo {
     width: 100px;
+    height: 65px;
     position: relative;
     top: -10px;
     display: flex;
     align-items: flex-start;
+    margin-left: 20px;
+    
   }
   .box_icon {
     display: flex;
     flex-direction: row;
     gap: 1.25rem /* 20px */;
+    margin-top: 10px;
   }
   
   .box_user {
@@ -290,4 +330,3 @@
       left: -500%;
     }
   }
-  
