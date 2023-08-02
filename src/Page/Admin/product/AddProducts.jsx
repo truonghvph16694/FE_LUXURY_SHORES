@@ -160,6 +160,30 @@ const AddProducts = () => {
         <Input placeholder="Enter category name" />
       </Form.Item>
       <Form.Item
+        name="price"
+        label="Price"
+        rules={[
+          {
+            required: true,
+            message: 'Please enter price',
+          },
+        ]}
+      >
+        <Input placeholder="Enter price" />
+      </Form.Item>
+      {/* <Form.Item
+        {...restField}
+        name={[name, 'price']}
+        rules={[
+          {
+            required: true,
+            message: 'Missing price',
+          },
+        ]}
+      >
+        <Input placeholder="price" />
+      </Form.Item> */}
+      <Form.Item
         name="categoryId"
         label="Category"
         rules={[
@@ -249,18 +273,7 @@ const AddProducts = () => {
                   >
                     <Input placeholder="Quantity" />
                   </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    name={[name, 'price']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Missing price',
-                      },
-                    ]}
-                  >
-                    <Input placeholder="price" />
-                  </Form.Item>
+
                   <Form.Item
                     {...restField}
                     name={[name, 'sizeId']}

@@ -19,7 +19,7 @@ const ClientHeader = () => {
         // Đợi 3 giây trước khi ẩn danh mục
         setTimeout(() => {
             setShowCategories(false);
-        }, 3000);
+        }, 100);
     };
     const fetchCategoryList = async () => {
         try {
@@ -40,10 +40,10 @@ const ClientHeader = () => {
                     <AiOutlineUnorderedList value={{ height: '40px' }} />
                     {showCategories && (
                         <div className={styles.categories}>
-                            <ul>
+                            <ul className="mb-0">
                                 {categories.map((category) => (
                                     <li key={category.id}>
-                                        <Link to={`/category/${category.id}`}>{category.name}</Link>
+                                        <Link to={`/category/${category.id}`} className="ml-4 pt-8">{category.name}</Link>
                                     </li>
                                 ))}
                             </ul>

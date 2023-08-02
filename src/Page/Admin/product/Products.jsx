@@ -93,11 +93,6 @@ const App = () => {
         },
       },
       {
-        title: 'Giá',
-        dataIndex: 'price',
-        key: 'price',
-      },
-      {
         title: 'Số lượng',
         dataIndex: 'quantity',
         key: 'quantity',
@@ -119,6 +114,11 @@ const App = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: 'Giá',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: 'Images',
