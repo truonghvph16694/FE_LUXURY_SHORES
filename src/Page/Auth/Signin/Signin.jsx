@@ -76,7 +76,7 @@ const Signin = () => {
                           type="email"
                           placeholder="Email"
                           prefix={<UserOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm email"
+                          className="appearance-none rounded-none relative  px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm email"
                         />
                       </Form.Item>
                       <p className="text-red-400 text-xs">
@@ -101,7 +101,7 @@ const Signin = () => {
                           id="password"
                           placeholder="Mật khẩu"
                           prefix={<LockOutlined />}
-                          className="password appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="password appearance-none rounded-none relative px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                           autoComplete="on"
                         />
                       </Form.Item>

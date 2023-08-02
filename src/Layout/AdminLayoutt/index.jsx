@@ -64,11 +64,11 @@ const AdminLayout = () => {
                                         src={logo}
                                         className={styles.io}
                                         alt=""
-                                        width="100px"
+                                        width="110px"
                                     />
                                 </span>
-                                <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
-                                    Luxury Shoes
+                                <span className="text-[22px] font-[500] ml-[px] italic hover:text-red-600 ">
+                                    LUXURY STORE
                                 </span>
                             </Link>
                         </li>

@@ -50,8 +50,6 @@ const ClientHeader = () => {
                         </div>
                     )}
                 </div>
-
-
                 <div className={styles.nav_bar_desktop}>
                     <ul className={styles.menu}>
                         <li className={styles.item}>
