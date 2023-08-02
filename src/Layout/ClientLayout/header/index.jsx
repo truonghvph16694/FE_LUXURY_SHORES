@@ -1,93 +1,56 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-    AiOutlineBars,
-} from "react-icons/ai";
+import { AiOutlineUnorderedList } from "react-icons/ai";
 import { CiSearch } from 'react-icons/ci';
-import { CiUser } from 'react-icons/ci';
-// import { IoSearchOutline } from 'react-icons/io';
-// import { useSelector } from "react-redux";
-// import { User } from "../../../models/User";
-// import { signout } from "../../../redux/slices/authSlice";
+import { CiUser, CiShoppingCart } from 'react-icons/ci';
 import styles from "./Header.module.css";
-// import { readCart } from "../../../redux/slices/cartSlice";
-// import { SubmitHandler, useForm } from "react-hook-form";
-// import { search } from "../../../redux/slices/productSlice";
-// import Voucher from "../../../components/Voucher";
+import categoryApi from "../../../api/category";
+import logo from "../../../../public/logo5.png"
 
 const ClientHeader = () => {
-    const navBar = useRef(null);
-    // const cart = useSelector((state) => state.carts);
-    // const navigate = useNavigate();
-    const [showNav, setShowNav] = useState(false);
-    // useEffect(() => {
-    //     const navBarElement = navBar.current;
-    //     if (showNav) {
-    //         navBarElement.style.left = "0px";
-    //     } else {
-    //         navBarElement.style.left = "-100%";
-    //     }
-    // }, [showNav]);
-    // const {
-    //     register,
-    //     handleSubmit,
-    //     formState: { errors },
-    //     reset,
-    // } = useForm();
-    // let isLogged = useSelector((state) => state.auth.isLogged);
-    // let currentUser = useSelector((state) => state.auth.currentUser);
+    const [categories, setCategories] = useState([]);
+    const [showCategories, setShowCategories] = useState(false);
 
-    // if (localStorage.getItem("user")) {
-    //     isLogged = true;
-    //     currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-    // }
-    // const dispatch = useDispatch();
-    // const handleSignout = async () => {
-    //     await dispatch(signout());
-    // };
-    // useEffect(() => {
-    //     (async () => {
-    //         if (currentUser?.users?.id) {
-    //             await dispatch(readCart(currentUser?.users?.id));
-    //         }
-    //     })();
-    // }, [dispatch]);
+    const handleMouseEnter = () => {
+        setShowCategories(true);
+    };
 
-    // const onSubmit = async (values) => {
-    //     navigate(`/search/${values?.name}`);
-    // };
+    const handleMouseLeave = () => {
+        // Đợi 3 giây trước khi ẩn danh mục
+        setTimeout(() => {
+            setShowCategories(false);
+        }, 3000);
+    };
+    const fetchCategoryList = async () => {
+        try {
+            const response = await categoryApi.GetAll();
+            setCategories(response); // Use setCategories instead of setShowCategories
+        } catch (error) {
+            console.log('Failed to fetch CategoryList', error);
+        }
+    };
 
+    useEffect(() => {
+        fetchCategoryList();
+    }, []);
     return (
         <header>
             <div className={styles.header}>
-                <div className={styles.icon_bar} onClick={() => setShowNav(!showNav)}>
-                    <AiOutlineBars />
+                <div className={styles.icon_bar1} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <AiOutlineUnorderedList value={{ height: '40px' }} />
+                    {showCategories && (
+                        <div className={styles.categories}>
+                            <ul>
+                                {categories.map((category) => (
+                                    <li key={category.id}>
+                                        <Link to={`/category/${category.id}`}>{category.name}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
-                <nav ref={navBar} className={styles.nav_bar}>
-                    <div className={styles.overlay} onClick={() => setShowNav(!showNav)}></div>
-                    <div className={styles.menu}>
-                        <li className={styles.item}>
-                            <Link to={"/"}>Trang chủ</Link>
-                            <div className={styles.line}></div>
-                        </li>
-                        <li className={styles.item}>
-                            <Link to={""}>Quần</Link>
-                            <div className={styles.line}></div>
-                        </li>
-                        <li className={styles.item}>
-                            <Link to={""}>Phụ Kiện</Link>
-                            <div className={styles.line}></div>
-                        </li>
-                        <li className={styles.item}>
-                            <Link to={""}>Giới Thiệu</Link>
-                            <div className={styles.line}></div>
-                        </li>
-                        <li className={styles.item}>
-                            <Link to={"/contact"}>Liên Hệ</Link>
-                            <div className={styles.line}></div>
-                        </li>
-                    </div>
-                </nav>
+
 
                 <div className={styles.nav_bar_desktop}>
                     <ul className={styles.menu}>
@@ -102,15 +65,8 @@ const ClientHeader = () => {
                                 Sản phẩm
                             </Link>
                             <div className={styles.line}></div>
-                            {/* <SubNav /> */}
                         </li>
-                        {/* <li className={`${styles.item} ${styles.itemSubNav}`}>
-            <Link to={""} className={styles.itemLink}>
-              Phụ Kiện
-            </Link>
-            <div className={styles.line}></div>
-            <SubNav />
-          </li> */}
+
                         <li className={styles.item}>
                             <Link to={"/tintuc"} className={styles.itemLink}>
                                 Tin tức
@@ -128,10 +84,13 @@ const ClientHeader = () => {
 
                 <Link to={"/"} className={styles.logo}>
                     <img
-                        src="https://i.postimg.cc/8FRzkGHk/logo.png"
+                        src={logo}
                         className={styles.img_logo}
                         alt="logo"
                     />
+                    {/* <span className="text-[25px] font-[600] italic hover:text-red-600 block">
+                        Luxury Shoes
+                    </span> */}
                 </Link>
 
                 <div className={styles.box_icon}>
@@ -194,20 +153,18 @@ const ClientHeader = () => {
                         </div> */}
                     </div>
 
-                    {/* {isLogged && currentUser ? (
-                        <div className={styles.box_cart}>
-                            <Link to={"/cart"}>
-                                <div className={styles.icon2}>
-                                    <CiShoppingCart />
-                                </div>
-                            </Link>
-                            <div className={styles.count_cart}>
-                                {cart?.carts?.products ? cart.carts.products.length : 0}
+
+                    <div className={styles.box_cart}>
+                        <Link to={"/cart"}>
+                            <div className={styles.icon2}>
+                                <CiShoppingCart />
                             </div>
+                        </Link>
+                        <div className={styles.count_cart}>
+                            {/* {cart?.carts?.products ? cart.carts.products.length : 0} */}
                         </div>
-                    ) : (
-                        ""
-                    )} */}
+                    </div>
+
                 </div>
             </div>
             <div>

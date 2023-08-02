@@ -6,7 +6,7 @@
     position: fixed;
     width: 300px;
     height: 100%;
-    background: #2a303b;
+    background: #87d1ee;
     /* border-left: 10px solid #2a303b; */
     transition: 0.5s;
     overflow-y: scroll;
@@ -97,6 +97,7 @@
     min-width: 60px;
     height: 60px;
     line-height: 75px;
+    /* padding-top: 35px; */
   }
   .navigation ul li a .icon .io {
     font-size: 1.75rem;

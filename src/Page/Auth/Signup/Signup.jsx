@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined, PhoneOutlined, IdcardOutlined } from '@ant-design/icons';
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined, IdcardOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
-import { Toast } from 'react-bootstrap';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
+import logo from "../../../../public/logo.png"
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
@@ -15,15 +15,15 @@ const Signup = () => {
   } = useForm();
 
   const onFinish = async (values) => {
-    console.log('values',values)
+    console.log('values', values)
     setLoading(true);
 
     try {
       const response = await userApi.signup(values);
-      // console.log('API Response:', response);
+      console.log('API Response:', response);
       setLoading(false);
       toastSuccess("Đăng kí tài khoản thành công!")
-      nav('/login');
+      nav('/signin');
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);
@@ -33,12 +33,12 @@ const Signup = () => {
 
   return (
     <div className="pt-1">
-      <div className="xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
+      <div className="xl:w-[1600px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
         <div className="content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg">
           <img
-            className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
+            className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg w-full h-[100%]"
             alt="Logo"
-          // src="https://res.cloudinary.com/assignment22/image/upload/v1668812529/Ass-reactjs/20221114_LvgOAj9N9Fklx76G5UyG9SHD_pncdqr.jpg"
+            src={logo}
           />
           <section>
             <div className="min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8">
@@ -69,7 +69,7 @@ const Signup = () => {
                         type="text"
                         placeholder="Họ và tên"
                         prefix={<IdcardOutlined />}
-                        className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                        className="appearance-none rounded-none relative  w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                       />
                     </Form.Item>
                     <p className="text-red-400 text-xs">
@@ -96,7 +96,7 @@ const Signup = () => {
                           type="email"
                           placeholder="Email"
                           prefix={<UserOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="appearance-none rounded-none relative  w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                         />
                       </Form.Item>
                       <p className="text-red-400 text-xs">
@@ -121,7 +121,7 @@ const Signup = () => {
                           id="password"
                           placeholder="Mật khẩu"
                           prefix={<LockOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="appearance-none rounded-none relative  w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                           autoComplete="on"
                         />
                       </Form.Item>
@@ -136,28 +136,28 @@ const Signup = () => {
 
 
 
-                    {/* New "phone" (phone number) field */}
+
                     <div className="mb-4">
-                      <label htmlFor="phone" className="py-2">
-                        Số điện thoại
+                      <label htmlFor="confirmPassword" className="py-2">
+                        Confirm Password
                       </label>
                       <Form.Item
-                        name="phone"
+                        name="confirmPassword"
                         rules={[
-                          { required: true, message: 'Vui lòng nhập số điện thoại' },
+                          { required: true, message: 'Vui lòng xác nhận Password' },
                           // You can add additional validation rules for phone numbers if needed
                         ]}
                       >
                         <Input
-                          id="phone"
+                          id="confirmPassword"
                           type="text"
-                          placeholder="Số điện thoại"
-                          prefix={<PhoneOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          placeholder="Xác nhận password"
+                          prefix={<LockOutlined />}
+                          className="appearance-none rounded-none relative  w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                         />
                       </Form.Item>
                       <p className="text-red-400 text-xs">
-                        {errors.phone?.message}
+                        {errors.confirmPassword?.message}
                       </p>
                     </div>
                   </div>

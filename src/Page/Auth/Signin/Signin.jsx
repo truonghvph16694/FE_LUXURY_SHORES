@@ -1,32 +1,35 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
+import logo from "../../../../public/logo.png"
+import { toastError, toastSuccess } from '../../../components/toast/Toast';
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
   const {
-    register,
-    handleSubmit,
+    // register,
+    // handleSubmit,
     formState: { errors },
   } = useForm();
 
   const onFinish = async (values) => {
-    console.log('value',values)
+    console.log('value', values)
     setLoading(true);
 
     try {
       const response = await userApi.signin(values);
       console.log('API Response:', response);
       setLoading(false);
+      toastSuccess("Đăng nhập tài khoản thành công!")
       nav('/admin');
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);
-      message.error('Error occurred. Please try again.');
+      toastError("Tài khoản hoặc mật khẩu không chính xác!")
     }
   };
 
@@ -38,6 +41,7 @@ const Signin = () => {
             className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
             alt="Logo"
             // src="https://res.cloudinary.com/assignment22/image/upload/v1668812529/Ass-reactjs/20221114_LvgOAj9N9Fklx76G5UyG9SHD_pncdqr.jpg"
+            src={logo}
           />
           <section>
             <div className="min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8">
