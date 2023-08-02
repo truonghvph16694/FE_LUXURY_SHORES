@@ -177,7 +177,6 @@ const AddProducts = () => {
           ))}
         </Select>
       </Form.Item>
-
       <Form.Item 
       name="upload"
         label="File">
