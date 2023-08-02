@@ -15,14 +15,40 @@ const Signin = () => {
   } = useForm();
 
   const onFinish = async (values) => {
-    console.log('value', values)
+    // console.log('value', values)
     setLoading(true);
 
     try {
       const response = await userApi.signin(values);
       console.log('API Response:', response);
       setLoading(false);
-      nav('/admin');
+
+      if(response.accessToken){
+        if(response.user.status ==  true){
+          if(response.user.type === "admin"){
+            localStorage.setItem("user", JSON.stringify(response.user))
+            localStorage.setItem('token', JSON.stringify(response.accessToken))
+            setTimeout(()=>{
+              nav("/admin")
+            }, 1000)
+            
+          }else{
+            localStorage.setItem('token', JSON.stringify(response.accessToken))
+            localStorage.setItem("user", JSON.stringify(response.user))
+            setTimeout(()=>{
+              nav("/")
+            }, 1000)
+          }
+          
+        }else{
+          message.error('Invalid credentials. Please try again.');
+        }
+      }else{
+        message.error("Invalid credentials. Please try again.")
+      }
+      
+
+      
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);

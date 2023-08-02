@@ -16,17 +16,39 @@ const AdminLayout = () => {
     const [toggle, setToggle] = useState(true);
     const [showModelUser, setShowModelUser] = useState(false);
 
+    const userlocal = localStorage.getItem('user')
+    const tokenlocal = localStorage.getItem('token')
     const navigate = useNavigate();
+
+    
+    console.log("type", userlocal.type);
+    
     // const dispatch = useDispatch();
 
     const handleSignout = async () => {
         // await dispatch(signout());
-        navigate("/signin");
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        setTimeout(() => {
+            navigate("/signin");
+        }, 500)
+        
     };
 
     useEffect(() => {
         const navigationE = navigationElement.current;
         const mainE = mainElement.current;
+
+        if(userlocal.type === "admin" && tokenlocal){
+            setTimeout(()=>{
+                navigate('/admin')
+            },500)
+        }else{
+            setTimeout(()=>{
+                navigate('/')
+            },500)
+        }
+
         if (toggle) {
             navigationE.classList.toggle(styles.active);
             mainE.classList.toggle(styles.active);

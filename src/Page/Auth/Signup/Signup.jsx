@@ -23,7 +23,7 @@ const Signup = () => {
       // console.log('API Response:', response);
       setLoading(false);
       toastSuccess("Đăng kí tài khoản thành công!")
-      nav('/login');
+      nav('/signin');
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);
@@ -129,6 +129,34 @@ const Signup = () => {
                         {errors.password?.message}
                       </p>
                     </div>
+
+                    <div className="mb-4">
+                      <label htmlFor="Password-Confirm" className="py-2">
+                        Xác Nhận Mật khẩu
+                      </label>
+                      <Form.Item
+                        name="confirmPassword"
+                        rules={[
+                          { required: true, message: 'Vui lòng nhập mật khẩu' },
+                          {
+                            min: 8,
+                            message: 'Vui lòng nhập mật khẩu trên 8 ký tự',
+                          },
+                        ]}
+                      >
+                        <Input.Password
+                          id="confirmPassword"
+                          placeholder="Xác Nhận Mật khẩu"
+                          prefix={<LockOutlined />}
+                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          autoComplete="on"
+                        />
+                      </Form.Item>
+                      <p className="text-red-400 text-xs">
+                        {errors.password?.message}
+                      </p>
+                    </div>
+
                   </div>
                   <div className="rounded-md shadow-sm -space-y-px">
                     {/* Existing email and password fields */}
