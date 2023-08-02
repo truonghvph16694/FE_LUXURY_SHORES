@@ -1,0 +1,118 @@
+.container {
+    display: flex;
+    flex-direction: row-reverse; /* Đảo ngược vị trí các phần tử con theo chiều ngang */
+    align-items: stretch;
+  }
+  .content {
+    padding: 0 100px 50px 100px;
+  }
+  .contact {
+    flex: 1; /* Cột liên hệ sẽ chiếm phần còn lại của container */
+    padding: 1rem;
+    background-color: #dbe1e2;
+  }
+  .title {
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 41px;
+    padding: 20px 0;
+  }
+  .title::before {
+    content: "";
+    padding-right: 20px;
+    border-left: 7px solid black;
+  }
+  .contact_item {
+    padding: 15px 0;
+  }
+  .contact_item p {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 27px;
+  }
+  .contact_item span {
+    font-weight: 450;
+    font-size: 15px;
+    line-height: 27px;
+    color: #999999;
+  }
+  
+  .form_contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .form_row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding-bottom: 20px;
+  }
+  .form_group {
+    width: 100%;
+  }
+  .form_row input {
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    text-indent: 10px;
+    outline: none;
+    transition: all 0.2s linear;
+  }
+  .form_row input:focus {
+    border: 1px solid blue;
+  }
+  .area {
+    min-height: 160px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 20px;
+    box-sizing: border-box;
+    outline: none;
+  }
+  .input_error {
+    border: 1px solid rgb(248 113 113) !important;
+  }
+  .error {
+    color: rgb(248 113 113);
+    font-size: 13px;
+    margin: 8px 0 0 8px;
+  }
+  .btn {
+    margin-top: 25px;
+    width: fit-content;
+    background: #000000;
+    padding: 15px 55px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #ffffff;
+    transition: all 0.2s linear;
+  }
+  .btn:hover {
+    background-color: blue;
+  }
+  /* Trong ContactMap.module.css */
+.container {
+    display: flex;
+  }
+  
+  .map {
+    width: 48%;
+    height: 600px;
+    flex: 1; /* Cột bản đồ sẽ chiếm phần còn lại của container */
+  }
+  
+  .contact-info {
+    width: 50%;
+    padding: 1rem;
+    background-color: #f0f0f0;
+  }
+  
