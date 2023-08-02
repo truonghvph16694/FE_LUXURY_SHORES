@@ -30,19 +30,30 @@
 
   }
   .categories{
-    transition-delay: 3s;
-    transition-duration: 1s;
+    /* transition-delay: 3s;
+    transition-duration: 1s; */
       position: fixed;
       margin: auto;
       left: 0;
       top: 86px;
       width: 300px;
-      padding: 10px;
-      border-radius: 10px;
+      height: auto;
       background-color: white;
       box-shadow: 0 4px 6px #00000029;
 
-
+   
+  }
+  .categories li{
+      list-style:none;
+      border: solid 1px rgb(150, 150, 150);
+      width: 100%;
+      height: 40px;
+      font-weight: 500;
+      /* font-size: .9em; */
+      padding-top: 10px;
+  }
+  .categories li:hover{
+    font-weight: bold;
   }
   .icon_bar {
     font-size: 1.5rem /* 24px */;
