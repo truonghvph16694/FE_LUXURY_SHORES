@@ -20,8 +20,7 @@ const AdminLayout = () => {
     const tokenlocal = localStorage.getItem('token')
     const navigate = useNavigate();
 
-    
-    console.log("type", userlocal.type);
+    const userjson = JSON.parse(userlocal)
     
     // const dispatch = useDispatch();
 
@@ -39,7 +38,7 @@ const AdminLayout = () => {
         const navigationE = navigationElement.current;
         const mainE = mainElement.current;
 
-        if(userlocal.type === "admin" && tokenlocal){
+        if( userlocal && userjson.type === "admin" && tokenlocal ){
             setTimeout(()=>{
                 navigate('/admin')
             },500)
