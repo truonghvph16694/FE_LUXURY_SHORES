@@ -92,23 +92,6 @@ const ClientHeader = () => {
                 </Link>
 
                 <div className={styles.box_icon}>
-                    <div className={styles.search}>
-                        <div className={styles.icon}>
-                            <CiSearch />
-                        </div>
-                        <div className={styles.search_input}>
-                            <form >
-                                <input
-                                    type="text"
-
-                                    placeholder="Tìm kiếm sản phẩm...."
-                                />
-                                <button type="submit" className={styles.ico}>
-                                    {/* <IoSearchOutline /> */}<p></p>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
 
                     <div className={styles.box_user}>
                         <div className={styles.icon}>
