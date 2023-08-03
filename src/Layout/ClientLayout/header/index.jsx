@@ -36,7 +36,7 @@ const ClientHeader = () => {
     return (
         <header>
             <div className={styles.header}>
-                <div className={styles.icon_bar1} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {/* <div className={styles.icon_bar1} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <AiOutlineUnorderedList value={{ height: '40px' }} />
                     {showCategories && (
                         <div className={styles.categories}>
@@ -49,7 +49,7 @@ const ClientHeader = () => {
                             </ul>
                         </div>
                     )}
-                </div>
+                </div> */}
                 <div className={styles.nav_bar_desktop}>
                     <ul className={styles.menu}>
                         <li className={styles.item}>

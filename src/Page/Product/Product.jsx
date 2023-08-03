@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import giay from '../../../public/giay.jpg';
 import productApi from '../../api/products';
 import { formatCurrency } from '../../../utils';
-import './style.css';
+import styles from "./Product.module.css";
 import categoryApi from "../../api/category";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -31,7 +31,7 @@ const Product = () => {
         // Đợi 3 giây trước khi ẩn danh mục
         setTimeout(() => {
             setShowCategories(false);
-        }, 100);
+        }, 200);
     };
     const fetchCategoryList = async () => {
         try {
@@ -84,10 +84,10 @@ const Product = () => {
 
     return (
         <div className="container mx-auto py-4">
-                <div  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <AiOutlineUnorderedList value={{ height: '40px' }} Danh Mục />
+                   <div className={styles.icon_bar1} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <AiOutlineUnorderedList  value={{ height: '40px' }} />
                     {showCategories && (
-                        <div >
+                        <div className={styles.categories}>
                             <ul className="mb-0">
                                 {categories.map((category) => (
                                     <li key={category.id}>
