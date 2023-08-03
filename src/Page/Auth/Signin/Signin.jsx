@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import userApi from '../../../api/user';
 import logo from "../../../../public/logo.png"
-import { toastError, toastSuccess } from '../../../components/toast/Toast';
+import { toastError } from '../../../components/toast/Toast';
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
@@ -17,15 +17,40 @@ const Signin = () => {
   } = useForm();
 
   const onFinish = async (values) => {
-    console.log('value', values)
+    // console.log('value', values)
     setLoading(true);
 
     try {
       const response = await userApi.signin(values);
       console.log('API Response:', response);
       setLoading(false);
-      toastSuccess("Đăng nhập tài khoản thành công!")
-      nav('/admin');
+
+      if (response.accessToken) {
+        if (response.user.status == true) {
+          if (response.user.type === "admin") {
+            localStorage.setItem("user", JSON.stringify(response.user))
+            localStorage.setItem('token', JSON.stringify(response.accessToken))
+            setTimeout(() => {
+              nav("/admin")
+            }, 1000)
+
+          } else {
+            localStorage.setItem('token', JSON.stringify(response.accessToken))
+            localStorage.setItem("user", JSON.stringify(response.user))
+            setTimeout(() => {
+              nav("/")
+            }, 1000)
+          }
+
+        } else {
+          message.error('Invalid credentials. Please try again.');
+        }
+      } else {
+        message.error("Invalid credentials. Please try again.")
+      }
+
+
+
     } catch (error) {
       console.error('API Error:', error);
       setLoading(false);

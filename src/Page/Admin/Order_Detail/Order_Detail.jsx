@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import order_detail_api from '../../../api/order-detail-Api';
-import ordersApi from '../../../api/orders';
+import sizeApi from '../../../api/size';
+import colorApi from '../../../api/color';
+// import ordersApi from '../../../api/orders';
 import { Space, Table, Popconfirm, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
+import productApi from '../../../api/products';
 
 5
 const { Column } = Table;
@@ -22,24 +25,35 @@ const Order_detail = () => {
     const [productSize, setProductSizeList] = useState([]);
     const [products, setProducts] = useState([])
 
-    
 
-    const fetchOrder_detail = async () => {
+
+    const fetchOrder_detail = async (id) => {
         try {
-            const response = await order_detail_api.Get(id);
+            const response = await order_detail_api.GetAll();
             console.log('response', response);
-            setOrder_detail(response);
-            setLoading(false)
+
+            // Filter the response array based on the order_id matching the provided id
+            const details = response.filter(item => item.order_id === id);
+
+            console.log('details', details);
+
+            // Assuming you have a function setOrder_detail to set the state
+            setOrder_detail(details);
+
+            setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Order_detail', error);
-            setLoading(false)
+            setLoading(false);
         }
     };
+
+
 
     const fetchProductsList = async () => {
         try {
             const response = await productApi.GetAll()
-            setProducts(response.docs)
+            setProducts(response)
+            console.log("products",response);
         } catch (error) {
             console.log("Failed to fetch Product List");
         }
@@ -62,14 +76,14 @@ const Order_detail = () => {
             console.log('Failed to fetch ProductColorList', error);
         }
     };
-
-
     useEffect(() => {
-        fetchOrder_detail();
+        // Call the fetchOrder_detail function with the provided 'id' from useParams()
+        fetchOrder_detail(id);
         fetchProductSizeList();
         fetchProductColorList();
         fetchProductsList();
-    }, []);
+    }, [id]); // Add 'id' as a dependency to the useEffect so that it runs whenever the 'id' changes
+
 
 
     const expandedRowRender = (record) => {
@@ -77,9 +91,12 @@ const Order_detail = () => {
             {
                 title: 'Sản phẩm',
                 dataIndex: 'productId',
-                key: 'name',
+                key: 'product',
                 render: (productId) => {
+                    console.log('productId',productId);
                     const product = products.find((item) => item._id === productId);
+                    
+                    console.log('product',product);
                     return product ? product.name : '';
                 },
             },
@@ -106,16 +123,9 @@ const Order_detail = () => {
                 dataIndex: 'price',
                 key: 'price',
             },
-            {
-                title: 'Số lượng',
-                dataIndex: 'quantity',
-                key: 'quantity',
-            },
-
         ];
         return <Table columns={columns} dataSource={record.product_entries} pagination={false} />;
     };
-
 
     const handleExpand = (expanded, record) => {
         if (expanded) {
@@ -141,43 +151,28 @@ const Order_detail = () => {
             dataIndex: 'quantity',
             key: 'quantity',
         },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-        },
-        {
-            title: 'VAT',
-            dataIndex: 'VAT',
-            key: 'VAT',
-        },
-        {
-            title: 'CODE',
-            dataIndex: 'code',
-            key: 'code',
-        },
-        
-        {
-            title: 'Action',
-            key: 'operation',
-            render: (text, record) => (
-                <Space size="middle">
-                    {/* <Link to={`/admin/products/edit/${record._id}`}>
-                <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
-              </Link> */}
-                    <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        onConfirm={() => handleDelete(record._id)}
-                        okText="Yes"
-                        cancelText="No"
-                        okButtonProps={{ className: 'text-light bg-primary' }}
-                    >
-                        <DeleteTwoTone style={{ fontSize: '18px' }} />
-                    </Popconfirm>
-                </Space>
-            ),
-        },
+
+        // {
+        //     title: 'Action',
+        //     key: 'operation',
+        //     render: (text, record) => (
+        //         <Space size="middle">
+        //             {/* <Link to={`/admin/products/edit/${record._id}`}>
+        //         <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
+        //       </Link> */}
+        //             <Popconfirm
+        //                 title="Delete the task"
+        //                 description="Are you sure to delete this task?"
+        //                 onConfirm={() => handleDelete(record._id)}
+        //                 okText="Yes"
+        //                 cancelText="No"
+        //                 okButtonProps={{ className: 'text-light bg-primary' }}
+        //             >
+        //                 <DeleteTwoTone style={{ fontSize: '18px' }} />
+        //             </Popconfirm>
+        //         </Space>
+        //     ),
+        // },
     ];
 
 

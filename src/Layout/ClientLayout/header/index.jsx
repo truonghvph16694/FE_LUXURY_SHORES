@@ -1,38 +1,84 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { AiOutlineUnorderedList } from "react-icons/ai";
-import { CiSearch } from 'react-icons/ci';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+// import { AiOutlineUnorderedList } from "react-icons/ai";
+// import { CiSearch } from 'react-icons/ci';
 import { CiUser, CiShoppingCart } from 'react-icons/ci';
 import styles from "./Header.module.css";
-import categoryApi from "../../../api/category";
+// import { readCart } from "../../../redux/slices/cartSlice";
+// import { SubmitHandler, useForm } from "react-hook-form";
+// import { search } from "../../../redux/slices/productSlice";
+// import Voucher from "../../../components/Voucher";
 import logo from "../../../../public/logo5.png"
 
+
 const ClientHeader = () => {
-    const [categories, setCategories] = useState([]);
-    const [showCategories, setShowCategories] = useState(false);
+    // const navBar = useRef(null);
+    const boxUser = useRef(null);
+    // const cart = useSelector((state) => state.carts);
+    // const navigate = useNavigate();
+    // const [showNav, setShowNav] = useState(false);
+    const [showModelUser, setShowModelUser] = useState(false);
 
-    const handleMouseEnter = () => {
-        setShowCategories(true);
-    };
+    const nav = useNavigate();
 
-    const handleMouseLeave = () => {
-        // Đợi 3 giây trước khi ẩn danh mục
+    const userlocal = localStorage.getItem('user')
+    const localtoken = localStorage.getItem('token')
+    // useEffect(() => {
+    //     const navBarElement = navBar.current;
+    //     if (showNav) {
+    //         navBarElement.style.left = "0px";
+    //     } else {
+    //         navBarElement.style.left = "-100%";
+    //     }
+    // }, [showNav]);
+
+    const handleSignout = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
         setTimeout(() => {
-            setShowCategories(false);
-        }, 100);
-    };
-    const fetchCategoryList = async () => {
-        try {
-            const response = await categoryApi.GetAll();
-            setCategories(response); // Use setCategories instead of setShowCategories
-        } catch (error) {
-            console.log('Failed to fetch CategoryList', error);
-        }
-    };
+            nav('/signin')
+        }, 500)
+    }
 
     useEffect(() => {
-        fetchCategoryList();
-    }, []);
+        const boxUserElement = boxUser.current;
+        if (showModelUser) {
+            boxUserElement.style.display = "block";
+        } else {
+            boxUserElement.style.display = "none";
+        }
+    }, [showModelUser])
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     formState: { errors },
+    //     reset,
+    // } = useForm();
+    // let isLogged = useSelector((state) => state.auth.isLogged);
+    // let currentUser = useSelector((state) => state.auth.currentUser);
+
+    // const handleMouseEnter = () => {
+    //     setShowCategories(true);
+    // };
+
+    // const handleMouseLeave = () => {
+    //     // Đợi 3 giây trước khi ẩn danh mục
+    //     setTimeout(() => {
+    //         setShowCategories(false);
+    //     }, 100);
+    // };
+    // const fetchCategoryList = async () => {
+    //     try {
+    //         const response = await categoryApi.GetAll();
+    //         setCategories(response); // Use setCategories instead of setShowCategories
+    //     } catch (error) {
+    //         console.log('Failed to fetch CategoryList', error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     fetchCategoryList();
+    // }, []);
     return (
         <header>
             <div className={styles.header}>
@@ -94,8 +140,63 @@ const ClientHeader = () => {
                 <div className={styles.box_icon}>
 
                     <div className={styles.box_user}>
+                        {/* <div className={styles.icon}>
+                            <Link to="/signin"><CiUser /></Link>
+                        </div> */}
+
                         <div className={styles.icon}>
-                            <CiUser />
+
+
+
+                            {/* Kiểm tra xem người dùng đã đăng nhập hay chưa */}
+                            {localtoken && userlocal ? (
+                                <div className={styles.user}
+                                    onClick={() => setShowModelUser(!showModelUser)}>
+                                    <img
+                                        src={
+                                            "https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"
+                                        }
+                                        alt=""
+                                    />
+                                    <div ref={boxUser} className={styles.box}>
+                                        <ul>
+                                            <li>
+                                                <span className="block italic">Xin chào!</span>
+                                                <span className="font-bold text-blue-600">
+                                                    {userlocal?.users?.fullname}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <Link to="/">Trang chủ</Link>
+                                            </li>
+                                            <li>
+                                                <div onClick={() => handleSignout()}>Đăng xuất</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            ) : (
+
+                                <div className={styles.user}
+                                    onClick={() => setShowModelUser(!showModelUser)}>
+                                    <Link to="/signin">
+                                        {/* Hiển thị đường dẫn đến trang đăng nhập nếu chưa đăng nhập */}
+                                        <CiUser />
+                                    </Link>
+                                    <div ref={boxUser} className={styles.box}>
+                                        <ul>
+                                            <li>
+                                                <Link to="/signin">
+                                                    {/* Hiển thị đường dẫn đến trang đăng nhập nếu chưa đăng nhập */}
+                                                    <CiUser />
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            )}
                         </div>
 
                         {/* <div className={styles.modal_user}>
