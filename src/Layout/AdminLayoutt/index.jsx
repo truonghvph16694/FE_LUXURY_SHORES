@@ -13,39 +13,41 @@ const AdminLayout = () => {
     const boxUser = useRef(null);
     const navigationElement = useRef(null);
     const mainElement = useRef(null);
-    const [toggle, setToggle] = useState(true);
+    const [toggle, setToggle] = useState(false);
     const [showModelUser, setShowModelUser] = useState(false);
 
     const userlocal = localStorage.getItem('user')
     const tokenlocal = localStorage.getItem('token')
+    const user = JSON.parse(userlocal);
     const navigate = useNavigate();
 
     const userjson = JSON.parse(userlocal)
-    
+
     // const dispatch = useDispatch();
 
     const handleSignout = async () => {
         // await dispatch(signout());
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+
         setTimeout(() => {
             navigate("/signin");
         }, 500)
-        
+
     };
 
     useEffect(() => {
         const navigationE = navigationElement.current;
         const mainE = mainElement.current;
 
-        if( userlocal && userjson.type === "admin" && tokenlocal ){
-            setTimeout(()=>{
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
                 navigate('/admin')
-            },500)
-        }else{
-            setTimeout(()=>{
+            }, 500)
+        } else {
+            setTimeout(() => {
                 navigate('/')
-            },500)
+            }, 500)
         }
 
         if (toggle) {
@@ -85,10 +87,10 @@ const AdminLayout = () => {
                                         src={logo}
                                         className={styles.io}
                                         alt=""
-                                        width="110px"
+                                        width="100px"
                                     />
                                 </span>
-                                <span className="text-[20px] font-[700] ml-[px] italic hover:text-red-600 ">
+                                <span className="text-[19px] font-[600] ml-[10px] mt-2 italic hover:text-red-600 ">
                                     LUXURY STORE
                                 </span>
                             </Link>
@@ -164,8 +166,8 @@ const AdminLayout = () => {
                                     <li>
                                         <span className="block italic">Xin chào!</span>
                                         <span className="font-bold text-blue-600">
-                                            {/* {currentUser?.users?.fullname} */}
-                                            <p>hvt</p>
+                                            {user.fullname}
+                                            {/* <p>hvt</p> */}
                                         </span>
                                     </li>
                                     <li>

@@ -6,9 +6,12 @@ import './styles.css'
 import categoryApi from "../../api/category";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { FiFilter } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Product = () => {
+    const { _id } = useParams();
+    console.log("id", _id);
+
     const [productList, setProductList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProductList, setFilteredProductList] = useState([]);
@@ -17,7 +20,7 @@ const Product = () => {
     const [showPriceRangeDropdown, setShowPriceRangeDropdown] = useState(false);
     // const [showCategories, setShowCategories] = useState(false);
     const [categories, setCategories] = useState([]);
-
+    const [pfromc, setPfromC] = useState([])
     const priceRangeOptions = [
         { label: 'Dưới 500,000đ', min: '0', max: '500000' },
         { label: 'Từ 500,000đ - 1,000,000đ', min: '500000', max: '1000000' },
@@ -26,6 +29,16 @@ const Product = () => {
     ];
 
 
+
+    const fetchPfromC = async (_id) => {
+        try {
+            const respose = await categoryApi.GetProducts(_id);
+            console.log("p", respose);
+            setPfromC(respose)
+        } catch (error) {
+            console.log('Lỗi khi lấy danh sách sản phẩm danh mục', error);
+        }
+    }
 
     const fetchCategoryList = async () => {
         try {
@@ -39,6 +52,7 @@ const Product = () => {
     const fetchProductList = async () => {
         try {
             const response = await productApi.GetAll();
+            console.log('response', response)
             setProductList(response);
         } catch (error) {
             console.log('Lỗi khi lấy danh sách sản phẩm', error);
@@ -48,14 +62,15 @@ const Product = () => {
     useEffect(() => {
         fetchProductList();
         fetchCategoryList();
-    }, []);
+        fetchPfromC(_id);
+    }, [_id]);
 
     useEffect(() => {
         // Lọc danh sách sản phẩm dựa trên từ khóa tìm kiếm và khoảng giá
         const filteredList = productList.filter(item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            (minPrice === '' || item.price >= parseFloat(minPrice)) &&
-            (maxPrice === '' || item.price <= parseFloat(maxPrice))
+            item.name ? item.name.toLowerCase().includes(searchTerm.toLowerCase()) : null &&
+                (minPrice === '' || item.price >= parseFloat(minPrice)) &&
+                (maxPrice === '' || item.price <= parseFloat(maxPrice))
         );
         setFilteredProductList(filteredList);
     }, [productList, searchTerm, minPrice, maxPrice]);
@@ -94,7 +109,7 @@ const Product = () => {
                             <ul className="mb-0 ">
                                 {categories.map((category) => (
                                     <li key={category.id} className='font-Roboto Mono  hover:text-blue-500 '>
-                                        <Link to={`/category/${category.id}`} className="ml-[45px] pt-8">{category.name.toUpperCase()}</Link>
+                                        <Link className="ml-[45px] pt-8">{category.name.toUpperCase()}</Link>
                                     </li>
                                 ))}
                             </ul>
@@ -140,18 +155,26 @@ const Product = () => {
                         />
 
                     </div>
-                    <div className="grid grid-cols-3 gap-3 mt-8 m-[0px,10px]">
-                        {filteredProductList.map((item, index) => (
-                            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" key={index + 1}>
-                                <img src={giay} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
 
-                                <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-lg sm:text-xl font-bold text-red-600">{formatCurrency(item.price)}</span>
-                                </div>
+                    <div className="grid grid-cols-3 gap-3 mt-8 m-[0px,10px]">
+
+                        {filteredProductList.map((item, index) => (
+
+                            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" key={index + 1}>
+                                <Link to={`/product/${item._id}`}>
+                                    <img src={giay} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
+
+                                    <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-lg sm:text-xl font-bold text-red-600">{item.price ? formatCurrency(item.price) : null}</span>
+                                    </div>
+                                </Link>
                             </div>
+
                         ))}
+
                     </div>
+
                 </div>
             </div>
         </div>

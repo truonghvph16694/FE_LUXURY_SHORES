@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import productApi from '../../../api/products';
 import categoryApi from '../../../api/category';
 import sizeApi from '../../../api/size';
-import colorApi from '../../../api/color';
+// import colorApi from '../../../api/color';
 import { Badge, Dropdown, Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [productList, setProductList] = useState([]);
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
-  const [productColor, setProductColorList] = useState([]);
+  // const [productColor, setProductColorList] = useState([]);
   const [productSize, setProductSizeList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
 
@@ -37,14 +37,14 @@ const App = () => {
     }
   };
 
-  const fetchProductColorList = async () => {
-    try {
-      const response = await colorApi.GetAll();
-      setProductColorList(response.docs);
-    } catch (error) {
-      console.log('Failed to fetch ProductColorList', error);
-    }
-  };
+  // const fetchProductColorList = async () => {
+  //   try {
+  //     const response = await colorApi.GetAll();
+  //     setProductColorList(response.docs);
+  //   } catch (error) {
+  //     console.log('Failed to fetch ProductColorList', error);
+  //   }
+  // };
 
   const fetchCategoryList = async () => {
     try {
@@ -58,7 +58,7 @@ const App = () => {
   useEffect(() => {
     fetchProductList();
     fetchProductSizeList();
-    fetchProductColorList();
+    // fetchProductColorList();
     fetchCategoryList();
   }, []);
 
@@ -73,16 +73,17 @@ const App = () => {
   };
 
   const expandedRowRender = (record) => {
+    // console.log('record', record)
     const columns = [
-      {
-        title: 'Màu',
-        dataIndex: 'colorId',
-        key: 'color',
-        render: (colorId) => {
-          const color = productColor.find((item) => item._id === colorId);
-          return color ? color.value : '';
-        },
-      },
+      // {
+      //   title: 'Màu',
+      //   dataIndex: 'colorId',
+      //   key: 'color',
+      //   render: (colorId) => {
+      //     const color = productColor.find((item) => item._id === colorId);
+      //     return color ? color.value : '';
+      //   },
+      // },
       {
         title: 'Size',
         dataIndex: 'sizeId',
@@ -122,17 +123,12 @@ const App = () => {
     },
     {
       title: 'Images',
-      dataIndex: 'images',
-      key: 'images',
-      render: (imageUrl) => {
+      dataIndex: 'product_images',
+      key: 'product_image',
+      render: (record) => {
+        console.log('record', record)
         return (
-          <CloudinaryImage
-            cloudName="datn2023"
-            publicId={imageUrl}
-            width="50"
-            height="50"
-            crop="fill"
-          />
+          <img src={record.length > 0 ? record[0].path : null} alt="" />
         );
       },
     },
@@ -185,15 +181,15 @@ const App = () => {
 
       {/* Render the table after the API call is completed */}
       {!loading ? (
-       <Table
-       columns={columns}
-       expandable={{
-         expandedRowRender: expandedRowRender,
-         expandedRowKeys: expandedRowKeys,
-         onExpand: handleExpand,
-       }}
-       dataSource={productList.map((product) => ({ ...product, key: product._id }))}
-     />
+        <Table
+          columns={columns}
+          expandable={{
+            expandedRowRender: expandedRowRender,
+            expandedRowKeys: expandedRowKeys,
+            onExpand: handleExpand,
+          }}
+          dataSource={productList.map((product) => ({ ...product, key: product._id }))}
+        />
       ) : (
         <p>Loading...</p>
       )}

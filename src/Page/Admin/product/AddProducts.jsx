@@ -39,14 +39,14 @@ const AddProducts = () => {
     }
   };
 
-  const fetchProductColorList = async () => {
-    try {
-      const response = await colorApi.GetAll();
-      setProductColorList(response.docs);
-    } catch (error) {
-      console.log('Failed to fetch ProductColorList', error);
-    }
-  };
+  // const fetchProductColorList = async () => {
+  //   try {
+  //     const response = await colorApi.GetAll();
+  //     setProductColorList(response.docs);
+  //   } catch (error) {
+  //     console.log('Failed to fetch ProductColorList', error);
+  //   }
+  // };
 
   const fetchProductSizeList = async () => {
     try {
@@ -59,7 +59,7 @@ const AddProducts = () => {
 
   useEffect(() => {
     fetchCategoryList();
-    fetchProductColorList();
+    // fetchProductColorList();
     fetchProductSizeList();
   }, []);
 
@@ -76,37 +76,39 @@ const AddProducts = () => {
     return isJpgOrPng && isLt2M;
   };
 
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList }) => { console.log(newFileList); setFileList(newFileList) };
 
 
   const onFinish = async (values) => {
     // try {
-      const a=[];
-      fileList.map(item=>{
-        console.log('item',item)
-        a.push(item.originFileObj)
-      })
-
-      
-       
+    const a = [];
+    fileList.map(item => {
+      console.log('item', item)
+      a.push(item.thumbUrl)
+    })
 
 
-      console.log('ògin',a)
-      values.image = imageUrl;
-      values.upload=a;
-      const formData = new FormData();
-      formData.append("value", values);
-      formData.append("images", a);
-      const response = await productApi.Add(formData,{
-        headers: {
-          "Content-type": "application/form-data",
-        },
-      });
-      if (response.status === 200) {
-        message.success('Thêm sản phẩm thành công');
-      }
-      toastSuccess('Thêm Thành Công!');
-      navigate('/admin/products');
+
+
+
+    console.log('ògin', a)
+    // values.image = imageUrl;
+    values.uploads = a;
+    // const formData = new FormData();
+    // formData.append("value", { value: values });
+    // formData.append("file", a);
+    // this.buildFormData(formData, { values: values, attachments: a })
+    // const config = {}
+    // if (formData instanceof FormData) {
+    //   config['headers'] = { 'Content-Type': 'multipart/form-data' }
+    // }
+
+    const response = await productApi.Add(values);
+    if (response.status === 200) {
+      message.success('Thêm sản phẩm thành công');
+    }
+    toastSuccess('Thêm Thành Công!');
+    navigate('/admin/products');
     // } catch (error) {
     //   if (error.response && error.response.status === 400) {
     //     toastError('Thêm Danh Mục Không Thành Công!');
@@ -201,8 +203,8 @@ const AddProducts = () => {
           ))}
         </Select>
       </Form.Item>
-      <Form.Item 
-      name="upload"
+      <Form.Item
+        name="upload"
         label="File">
         <Upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -292,7 +294,7 @@ const AddProducts = () => {
                       ))}
                     </Select>
                   </Form.Item>
-                  <Form.Item
+                  {/* <Form.Item
                     {...restField}
                     name={[name, 'colorId']}
                     rules={[
@@ -309,7 +311,7 @@ const AddProducts = () => {
                         </Option>
                       ))}
                     </Select>
-                  </Form.Item>
+                  </Form.Item> */}
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}

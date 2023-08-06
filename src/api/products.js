@@ -7,12 +7,9 @@ const productApi = {
   Get: async (id) => {
     return await instance.get(`products/${id}`);
   },
+
   Add: async (data) => {
-    return await instance.post("products", data,{
-      headers: {
-        "Content-type": "application/form-data",
-      },
-    });
+    return await instance.post("products", data);
   },
   Update: async (data) => {
     return await instance.put(`products/${data._id}`, data);

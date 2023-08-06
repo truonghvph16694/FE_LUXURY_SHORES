@@ -16,7 +16,7 @@ const { Column } = Table;
 const Order_detail = () => {
 
     const { id } = useParams();
-    console.log('id', id);
+    // console.log('id', id);
 
     const [loading, setLoading] = useState(true);
     const [order_detail, setOrder_detail] = useState([]);
@@ -53,7 +53,7 @@ const Order_detail = () => {
         try {
             const response = await productApi.GetAll()
             setProducts(response)
-            console.log("products",response);
+            console.log("products", response);
         } catch (error) {
             console.log("Failed to fetch Product List");
         }
@@ -93,10 +93,10 @@ const Order_detail = () => {
                 dataIndex: 'productId',
                 key: 'product',
                 render: (productId) => {
-                    console.log('productId',productId);
+                    console.log('productId', productId);
                     const product = products.find((item) => item._id === productId);
-                    
-                    console.log('product',product);
+
+                    console.log('product', product);
                     return product ? product.name : '';
                 },
             },

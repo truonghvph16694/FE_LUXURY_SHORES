@@ -65,7 +65,7 @@ function App() {
         <Route path='tintuc' element={<Tintuc />} />
         <Route path='lienhe' element={<Lienhe />} />
         <Route path='product' element={<Product />} />
-        <Route path='product_detail' element={<Product_detail />} />
+        <Route path='product/:id' element={<Product_detail />} />
 
 
         <Route path='cart' element={<Cart />} />

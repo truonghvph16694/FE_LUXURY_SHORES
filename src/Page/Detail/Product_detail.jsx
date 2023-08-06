@@ -1,83 +1,107 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import productApi from '../../api/products';
+import { useParams } from 'react-router';
+// import { formatCurrency } from '../../../utils';
+import img from '../../../public/logo.png'
+import cartApi from '../../api/cart';
 
 const Product_detail = () => {
-  const [selectedColor, setSelectedColor] = useState('');
+  // const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [product, setProductList] = useState({});
+  // console.log("product", productList)
+  const { id } = useParams();
+  // console.log("object", id)    const dataFromLocalStorage = localStorage.getItem('myData');
+  const userLogin = localStorage.getItem('user');
 
-  const product = {
-    id: 1,
-    name: 'Awesome Sneakers',
-    price: 99.99,
-    sizes: ['US 7', 'US 8', 'US 9'],
-    colors: ['Red', 'Blue', 'Black'],
-    description: 'These awesome sneakers will make you stand out in any crowd.',
-    imageUrl: 'https://picsum.photos/2160',
+  const fetchProductList = async (id) => {
+    try {
+      const response = await productApi.Get(id);
+
+      setProductList(response[0]);
+    } catch (error) {
+      console.log('Lỗi khi lấy danh sách sản phẩm', error);
+    }
+  };
+  const handleSizeChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedSize(selectedValue);
   };
 
-  const addToCart = () => {
-    // Thêm logic xử lý thêm sản phẩm vào giỏ hàng ở đây
-    console.log('Thêm sản phẩm vào giỏ hàng:', product);
-  };
+  // const isOutOfStock = product.product_entries.quantity === 0;
 
-  return (
-    <div className="flex justify-center p-4">
-      <div className="w-full max-w-3xl p-4 border rounded-lg shadow-lg">
-        <div className="flex">
-          <div className="w-1/2 pr-4">
-            <img
-              className="w-full"
-              src={product.imageUrl}
-              alt={product.name}
-            />
-          </div>
-          <div className="w-1/2 pl-4">
-            <h2 className="text-2xl font-semibold mb-2">{product.name}</h2>
-            <p className="text-gray-700 mb-2">${product.price.toFixed(2)}</p>
-            <div className="mb-4">
-              <strong className="block mb-1">Colors:</strong>
-              {product.colors.map((color, index) => (
-                <label key={index} className="inline-flex items-center mr-4">
-                  <input
-                    type="radio"
-                    value={color}
-                    checked={selectedColor === color}
-                    onChange={() => setSelectedColor(color)}
-                    className="form-radio"
-                  />
-                  <span className="ml-2">{color}</span>
-                </label>
-              ))}
+  useEffect(() => {
+    console.log('dataFromLocalStorage', JSON.parse(userLogin))
+    fetchProductList(id);
+  }, [id]);
+
+
+  const addToCart = async () => {
+    if (userLogin) {
+      // Nếu tồn tại userLogin thì thêm vào giở hàng
+      const objLogin = JSON.parse(userLogin);
+      const data = {
+        'userId': objLogin._id,
+        'product': product,
+      }
+      const response = await cartApi.Add(data);
+      // gửi data về backend để sử lí
+    } else {
+      // nếu không có thì bắt đăng nhập
+      // return về trag đăng nhập 
+
+    }
+  };
+  // console.log('product.product_entries', product)
+  if (product != undefined) {
+    return (
+      <div className="flex justify-center p-4" >
+        <div className="w-full max-w-3xl p-4 border rounded-lg shadow-lg">
+          <div className="flex">
+            <div className="w-1/2 pr-4">
+              <img
+                className="w-full"
+                src={img}
+              />
             </div>
-            <div className="mb-4">
-              <label className="block mb-1 font-semibold">Size:</label>
-              <select
-                className="w-full form-select"
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
+            <div className="w-1/2 pl-4">
+              <h2 className="text-2xl font-semibold mb-2">{product.name?.toString()}</h2>
+              <p className="text-gray-700 mb-2">{product.price}</p>
+
+              <div >
+                <div className="mb-4">
+                  <label className="block mb-1 font-semibold">Size:</label>
+                  <select className="w-full form-select" onChange={handleSizeChange}>
+                    <option value="">Select size</option>
+                    {product.product_entries &&
+                      product.product_entries.map((item, i) => (
+                        <option key={i} value={item.product_sizes.value}>
+                          {item.product_sizes.value}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+              {/* {isOutOfStock && <span>Hết hàng</span>} */}
+              <p className="text-gray-700 mb-4">{product.description}</p>
+              <button
+                onClick={addToCart}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
-                <option value="">Select size</option>
-                {product.sizes.map((size, index) => (
-                  <option key={index} value={size}>{size}</option>
-                ))}
-              </select>
+                Add to Cart
+              </button>
             </div>
-            <p className="text-gray-700 mb-4">{product.description}</p>
-            <button
-              onClick={addToCart}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Add to Cart
-            </button>
           </div>
-        </div>
-        <div className="mt-8 p-4">
-          <h3 className="text-xl font-semibold mb-2">Comments</h3>
-          {/* Hiển thị danh sách comment */}
-          {/* Form thêm comment */}
+          <div className="mt-8 p-4">
+            <h3 className="text-xl font-semibold mb-2">Comments</h3>
+            {/* Hiển thị danh sách comment */}
+            {/* Form thêm comment */}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 };
 
 

@@ -145,10 +145,10 @@ const Signup = () => {
                         ]}
                       >
                         <Input.Password
-                          id="confirmPassword"
+                          id="password"
                           placeholder="Xác Nhận Mật khẩu"
                           prefix={<LockOutlined />}
-                          className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                          className="appearance-none rounded-none relative w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
                           autoComplete="on"
                         />
                       </Form.Item>
@@ -157,37 +157,6 @@ const Signup = () => {
                       </p>
                     </div>
 
-                  </div>
-                  <div className="rounded-md shadow-sm -space-y-px">
-                    {/* Existing email and password fields */}
-                    {/* ... */}
-
-
-
-
-                    <div className="mb-4">
-                      <label htmlFor="confirmPassword" className="py-2">
-                        Confirm Password
-                      </label>
-                      <Form.Item
-                        name="confirmPassword"
-                        rules={[
-                          { required: true, message: 'Vui lòng xác nhận Password' },
-                          // You can add additional validation rules for phone numbers if needed
-                        ]}
-                      >
-                        <Input
-                          id="confirmPassword"
-                          type="text"
-                          placeholder="Xác nhận password"
-                          prefix={<LockOutlined />}
-                          className="appearance-none rounded-none relative  w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
-                        />
-                      </Form.Item>
-                      <p className="text-red-400 text-xs">
-                        {errors.confirmPassword?.message}
-                      </p>
-                    </div>
                   </div>
                   <div>
                     <Button
@@ -214,9 +183,9 @@ const Signup = () => {
               </div>
             </div>
           </section>
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 };
 

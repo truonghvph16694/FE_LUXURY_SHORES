@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdminPage = () => {
     return (
-        <div>AdminPage, hello world</div>
+        <div>Hello đây là dự án của mình</div>
     )
 }
 
