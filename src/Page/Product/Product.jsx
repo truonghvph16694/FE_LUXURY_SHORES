@@ -18,9 +18,9 @@ const Product = () => {
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [showPriceRangeDropdown, setShowPriceRangeDropdown] = useState(false);
-    // const [showCategories, setShowCategories] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [pfromc, setPfromC] = useState([])
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
     const priceRangeOptions = [
         { label: 'Dưới 500,000đ', min: '0', max: '500000' },
         { label: 'Từ 500,000đ - 1,000,000đ', min: '500000', max: '1000000' },
@@ -28,17 +28,16 @@ const Product = () => {
         { label: 'Trên 2,000,000đ', min: '2000000', max: '' },
     ];
 
-
-
     const fetchPfromC = async (_id) => {
         try {
-            const respose = await categoryApi.GetProducts(_id);
-            console.log("p", respose);
-            setPfromC(respose)
+            const response = await categoryApi.GetProducts(_id);
+            console.log("p", response);
+            setPfromC(response);
+            setSelectedCategoryId(_id); // Set the selected category ID
         } catch (error) {
             console.log('Lỗi khi lấy danh sách sản phẩm danh mục', error);
         }
-    }
+    };
 
     const fetchCategoryList = async () => {
         try {
@@ -52,8 +51,13 @@ const Product = () => {
     const fetchProductList = async () => {
         try {
             const response = await productApi.GetAll();
-            console.log('response', response)
-            setProductList(response);
+
+            // Filter products based on the selected category, if any
+            const filteredList = selectedCategoryId
+                ? response.filter((item) => item.categoryId === selectedCategoryId)
+                : response;
+
+            setProductList(filteredList);
         } catch (error) {
             console.log('Lỗi khi lấy danh sách sản phẩm', error);
         }
@@ -63,7 +67,7 @@ const Product = () => {
         fetchProductList();
         fetchCategoryList();
         fetchPfromC(_id);
-    }, [_id]);
+    }, [_id, selectedCategoryId]);
 
     useEffect(() => {
         // Lọc danh sách sản phẩm dựa trên từ khóa tìm kiếm và khoảng giá
@@ -74,13 +78,19 @@ const Product = () => {
         );
         setFilteredProductList(filteredList);
     }, [productList, searchTerm, minPrice, maxPrice]);
+
+    const handleCategoryClick = (categoryId) => {
+        setSelectedCategoryId(categoryId);
+        // Clear any active price filters when a category is clicked
+        setMinPrice('');
+        setMaxPrice('');
+    };
+
     const handlePriceFilter = () => {
-        // Toggle sự hiển thị của dropdown khoảng giá khi click vào nút "Lọc"
         setShowPriceRangeDropdown(!showPriceRangeDropdown);
     };
 
     const handlePriceCheckboxChange = (min, max) => {
-        // Toggle chọn các checkbox theo khoảng giá
         if (min === minPrice && max === maxPrice) {
             setMinPrice('');
             setMaxPrice('');
@@ -97,7 +107,6 @@ const Product = () => {
                 <span>  Sản phẩm</span>
             </div>
             <div className="flex">
-                {/* Sidebar */}
                 <div className="w-1/4 mr-4 min-h-[450px] sidebar1">
                     <div className='categories ' >
                         <div className='flex '>
@@ -108,18 +117,18 @@ const Product = () => {
                             <ul className="mb-0 ">
                                 {categories.map((category) => (
                                     <li key={category.id} className='font-Roboto Mono  hover:text-blue-500 '>
-                                        <Link className="ml-[45px] pt-8">{category.name.toUpperCase()}</Link>
+                                        <Link
+                                            to="#"
+                                            className="ml-[45px] pt-8"
+                                            onClick={() => handleCategoryClick(category._id)}
+                                        >
+                                            {category.name.toUpperCase()}
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-
                     </div>
-                    {/* <button
-                        className="ml-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded"
-                       
-                    > */}
-                    {/* </button> */}
                     <div className='flex '>
                         <div className='pt-[28px] text-xl'>
                             <FiFilter />
@@ -138,11 +147,7 @@ const Product = () => {
                             </div>
                         ))}
                     </div>
-
                 </div>
-
-
-                {/* Danh sách sản phẩm */}
                 <div className="w-3/4">
                     <div className="filter-section mb-4 flex justify-end relative" style={{ marginTop: '20px' }}>
                         <input
@@ -152,7 +157,6 @@ const Product = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-
                     </div>
                     <div className="grid grid-cols-3 gap-3 mt-8 m-[0px,10px]">
                         {filteredProductList.map((item, index) => (
@@ -160,11 +164,10 @@ const Product = () => {
                                 <Link to={`/product/${item._id}`}>
                                     <div className="w-full h-60 mb-4">
                                         {item.product_images.length > 0 ? (
-                                            // Display the first image in the product_images array
                                             <img src={item.product_images[0].path} alt={item.name} className="w-full h-full object-cover rounded-lg" />
                                         ) : (
                                             <img src={giay} alt={item.name} className="w-full h-full object-cover rounded-lg" />
-          )}
+                                        )}
                                     </div>
                                     <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
                                     <div className="flex items-center justify-between">
@@ -174,9 +177,6 @@ const Product = () => {
                             </div>
                         ))}
                     </div>
-
-
-
                 </div>
             </div>
         </div>
