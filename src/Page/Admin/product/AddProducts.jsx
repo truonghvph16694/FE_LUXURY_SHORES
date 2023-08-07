@@ -294,24 +294,7 @@ const AddProducts = () => {
                       ))}
                     </Select>
                   </Form.Item>
-                  {/* <Form.Item
-                    {...restField}
-                    name={[name, 'colorId']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Missing color',
-                      },
-                    ]}
-                  >
-                    <Select placeholder="Color">
-                      {productColor.map((item) => (
-                        <Option key={item._id} value={item._id}>
-                          {item.value}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item> */}
+
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}

@@ -68,13 +68,12 @@ const Product = () => {
     useEffect(() => {
         // Lọc danh sách sản phẩm dựa trên từ khóa tìm kiếm và khoảng giá
         const filteredList = productList.filter(item =>
-            item.name ? item.name.toLowerCase().includes(searchTerm.toLowerCase()) : null &&
-                (minPrice === '' || item.price >= parseFloat(minPrice)) &&
-                (maxPrice === '' || item.price <= parseFloat(maxPrice))
+            (item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+            (minPrice === '' || item.price >= parseFloat(minPrice)) &&
+            (maxPrice === '' || item.price <= parseFloat(maxPrice))
         );
         setFilteredProductList(filteredList);
     }, [productList, searchTerm, minPrice, maxPrice]);
-
     const handlePriceFilter = () => {
         // Toggle sự hiển thị của dropdown khoảng giá khi click vào nút "Lọc"
         setShowPriceRangeDropdown(!showPriceRangeDropdown);
@@ -155,25 +154,28 @@ const Product = () => {
                         />
 
                     </div>
-
                     <div className="grid grid-cols-3 gap-3 mt-8 m-[0px,10px]">
-
                         {filteredProductList.map((item, index) => (
-
                             <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" key={index + 1}>
                                 <Link to={`/product/${item._id}`}>
-                                    <img src={giay} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
-
+                                    <div className="w-full h-60 mb-4">
+                                        {item.product_images.length > 0 ? (
+                                            // Display the first image in the product_images array
+                                            <img src={item.product_images[0].path} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+                                        ) : (
+                                            <img src={giay} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+          )}
+                                    </div>
                                     <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
                                     <div className="flex items-center justify-between">
                                         <span className="text-lg sm:text-xl font-bold text-red-600">{item.price ? formatCurrency(item.price) : null}</span>
                                     </div>
                                 </Link>
                             </div>
-
                         ))}
-
                     </div>
+
+
 
                 </div>
             </div>

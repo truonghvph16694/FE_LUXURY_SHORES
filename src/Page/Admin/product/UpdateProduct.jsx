@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Input, Button, message, Space, Select } from 'antd';
+import { Form, Input, Button, message, Space, Select, Upload } from 'antd';
 import productApi from '../../../api/products';
 import sizeApi from '../../../api/size';
 import colorApi from '../../../api/color';
@@ -14,6 +14,12 @@ const UpdateProduct = () => {
     const { id } = useParams();
     const [productColor, setProductColorList] = useState([]);
     const [productSize, setProductSizeList] = useState([]);
+    const [imageUrl, setImageUrl] = useState(null);
+  const [fileList, setFileList] = useState([])
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
+  const [fileOrigin, setFileOrigin] = useState([]);
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -32,6 +38,17 @@ const UpdateProduct = () => {
     }, [id, form]);
 
     const onFinish = async (values) => {
+        const a = [];
+        fileList.map(item => {
+          console.log('item', item)
+          a.push(item.thumbUrl)
+        })
+    
+    
+    
+    
+    
+        console.log('ògin', a)
         try {
 
             const response = await productApi.Update({ ...values, _id: id });
@@ -83,6 +100,41 @@ const UpdateProduct = () => {
             console.log('Failed to fetch ProductColorList', error);
         }
     };
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+          file.preview = await getBase64(file.originFileObj);
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+      };
+      const uploadButton = (
+        <div>
+          <PlusOutlined />
+          <div
+            style={{
+              marginTop: 8,
+            }}
+          >
+            Upload
+          </div>
+        </div>
+      );
+      const beforeUpload = (file) => {
+        console.log('file', file)
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+          message.error('You can only upload JPG/PNG file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          message.error('Image must be smaller than 2MB!');
+        }
+        return isJpgOrPng && isLt2M;
+      };
+    
+      const handleChange = ({ fileList: newFileList }) => { console.log(newFileList); setFileList(newFileList) };
+    
     return (
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
@@ -127,6 +179,27 @@ const UpdateProduct = () => {
                 </Select>
 
             </Form.Item>
+            
+            <Form.Item
+        name="upload"
+        label="File">
+        <Upload
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          listType="picture-card"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+        >
+          {fileList.length >= 8 ? null : uploadButton}
+        </Upload>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <img
+            alt="example" style={{
+              width: '100%',
+            }} src={previewImage} />
+        </Modal>
+
+      </Form.Item>
             <div >
                 <Form.List name="product_entrys" >
                     {(fields, { add, remove }) => (
@@ -152,7 +225,7 @@ const UpdateProduct = () => {
                                     >
                                         <Input placeholder="Quantity" />
                                     </Form.Item>
-                                    <Form.Item
+                                    {/* <Form.Item
                                         {...restField}
                                         name={[name, 'price']}
                                         rules={[
@@ -163,7 +236,7 @@ const UpdateProduct = () => {
                                         ]}
                                     >
                                         <Input placeholder="price" />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     <Form.Item
                                         {...restField}
                                         name={[name, 'sizeId']}
@@ -182,7 +255,7 @@ const UpdateProduct = () => {
                                             ))}
                                         </Select>
                                     </Form.Item>
-                                    <Form.Item
+                                    {/* <Form.Item
                                         {...restField}
                                         name={[name, 'colorId']}
                                         rules={[
@@ -199,7 +272,7 @@ const UpdateProduct = () => {
                                                 </Option>
                                             ))}
                                         </Select>
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     <MinusCircleOutlined onClick={() => remove(name)} />
                                 </Space>
                             ))}
