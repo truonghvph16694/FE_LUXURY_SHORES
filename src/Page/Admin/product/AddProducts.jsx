@@ -86,13 +86,7 @@ const AddProducts = () => {
       console.log('item', item)
       a.push(item.thumbUrl)
     })
-
-
-
-
-
     console.log('ògin', a)
-    // values.image = imageUrl;
     values.uploads = a;
     // const formData = new FormData();
     // formData.append("value", { value: values });
@@ -309,7 +303,7 @@ const AddProducts = () => {
       </div>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
           Add Products
         </Button>
       </Form.Item>

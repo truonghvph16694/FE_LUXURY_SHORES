@@ -7,6 +7,9 @@ const productApi = {
   Get: async (id) => {
     return await instance.get(`products/${id}`);
   },
+    GetEdit: async (id) => {
+    return await instance.get(`products-edit/${id}`);
+  },
 
   Add: async (data) => {
     return await instance.post("products", data);

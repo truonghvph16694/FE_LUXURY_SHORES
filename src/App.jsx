@@ -4,7 +4,6 @@ import AdminLayout from './Layout/AdminLayoutt';
 import ClientLayout from './Layout/ClientLayout';
 import AdminPage from './Page/Admin/HomePage/AdminPage';
 import Products from './Page/Admin/product/Products';
-import Demo from './Page/Admin/product/Demo';
 import AddProducts from './Page/Admin/product/AddProducts';
 import Categories from './Page/Admin/Category/Categories';
 import AddCategory from './Page/Admin/Category/AddCategory';
@@ -49,7 +48,6 @@ function App() {
         <Route path="bills" element={<Bills />} />
         <Route path="order-detail/:id" element={<Order_detail />} />
         <Route path="feedback" element={<Feedback />} />
-        <Route path="demo" element={<Demo />} />
       </Route>
 
 

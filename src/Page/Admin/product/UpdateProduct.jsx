@@ -21,16 +21,26 @@ const UpdateProduct = () => {
     const [previewImage, setPreviewImage] = useState('');
     const [fileOrigin, setFileOrigin] = useState([]);
     const handleCancel = () => setPreviewOpen(false);
-
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await productApi.Get(id);
-                console.log('product:', response);
-                form.setFieldsValue({ name: response.name, description: response.description, categoryId: response.categoryId }); // Đặt giá trị mặc định cho trường name trong Form
+                const response = await productApi.GetEdit(id);
+                console.log('product:', response[0]);
+                const e = [];
+                response[0].product_entries.map(item => {
+                    e.push({ quantity: item.path, sizeId: item.sizeId });
+                })
+
+                form.setFieldsValue({ name: response[0].name, description: response[0].description, categoryId: response[0].categoryId, price: response[0].price, fields: e }); // Đặt giá trị mặc định cho trường name trong Form
+                const i = [];
+                response[0].product_images.map(item => {
+                    i.push({ thumbUrl: item.path });
+                })
+                setFileList(i);
+
             } catch (error) {
                 console.log('Failed to fetch category', error);
             }
@@ -40,11 +50,17 @@ const UpdateProduct = () => {
     }, [id, form]);
 
     const onFinish = async (values) => {
+        // const a = [];
+        // fileList.map(item => {
+        //     console.log('item', item)
+        //     a.push(item.thumbUrl)
+        // })
         const a = [];
         fileList.map(item => {
             console.log('item', item)
             a.push(item.thumbUrl)
         })
+        values.uploads = a;
         try {
             const response = await productApi.Update({ ...values, _id: id });
             console.log('Update product response:', response);
@@ -156,7 +172,18 @@ const UpdateProduct = () => {
             >
                 <Input placeholder="Enter product description" />
             </Form.Item>
-
+            <Form.Item
+                name="price"
+                label="Price"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please enter price',
+                    },
+                ]}
+            >
+                <Input placeholder="Enter price" />
+            </Form.Item>
             <Form.Item
                 name="categoryId"
                 label="Category"
@@ -281,7 +308,7 @@ const UpdateProduct = () => {
                 </Form.List>
             </div>
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
                     Update Products
                 </Button>
             </Form.Item>
