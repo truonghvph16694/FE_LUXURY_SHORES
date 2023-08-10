@@ -164,7 +164,7 @@ const Product = () => {
                                 <Link to={`/product/${item._id}`}>
                                     <div className="w-full h-60 mb-4">
                                         {item.product_images.length > 0 ? (
-                                            <img src={item.product_images[0].path} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+                                            <img src={item.product_images[0].path} alt={item.name} className="w-full h-50 object-cover rounded-lg" />
                                         ) : (
                                             <img src={giay} alt={item.name} className="w-full h-full object-cover rounded-lg" />
                                         )}

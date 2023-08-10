@@ -24,6 +24,7 @@ import Tintuc from './Page/Tintuc/Tintuc';
 import Lienhe from './Page/Lienhe/Lienhe';
 import Product from './Page/Product/Product';
 import Product_detail from './Page/Detail/Product_detail';
+import Checkout from './Page/Checkout/Checkout';
 
 
 function App() {
@@ -64,9 +65,8 @@ function App() {
         <Route path='lienhe' element={<Lienhe />} />
         <Route path='product' element={<Product />} />
         <Route path='product/:id' element={<Product_detail />} />
-
-
         <Route path='cart' element={<Cart />} />
+        <Route path='checkout' element={<Checkout />} />
 
       </Route>
     </Routes >
