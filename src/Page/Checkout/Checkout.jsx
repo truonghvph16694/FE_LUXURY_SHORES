@@ -81,7 +81,7 @@ const LocationList = () => {
 
                     <section className="basis-4/6">
 
-                        <h4 className="text-2xl font-bold mb-10">THÔNG TIN GIAO HÀNG</h4>
+                        <h3 className="text-2xl font-bold mb-10">THÔNG TIN GIAO HÀNG</h3>
                         <table className="table-auto w-full ">
                             <label htmlFor="" className="font-semibold">
                                 Họ và Tên <span className="text-red-700">*</span>
@@ -156,6 +156,7 @@ const LocationList = () => {
                                                 </option>
                                             ))}
                                         </select>
+
                                     </td>
                                     <td>
                                         <br />
@@ -201,7 +202,7 @@ const LocationList = () => {
 
                             <table className="table-auto w-full ">
                                 <label htmlFor="" className="font-semibold">
-                                Ghi Chú <span className="text-red-700">*</span>                                </label>
+                                    Ghi Chú <span className="text-red-700">*</span>                                </label>
                                 <br />
                                 <input
                                     className="border w-8/12 py-3 px-2  mt-5 mb-5"
@@ -215,7 +216,9 @@ const LocationList = () => {
 
 
 
-                    <section>         </section>
+                    <section>                           <h3 className="text-2xl font-bold mb-10">ĐƠN HÀNG CỦA BẠN</h3>
+
+                              </section>
 
                 </section>
             </Form>
