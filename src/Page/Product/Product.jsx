@@ -13,6 +13,7 @@ const Product = () => {
     console.log("id", _id);
 
     const [productList, setProductList] = useState([]);
+    // console.log("object", productList)
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProductList, setFilteredProductList] = useState([]);
     const [minPrice, setMinPrice] = useState('');
@@ -162,7 +163,7 @@ const Product = () => {
 
                             <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" key={index + 1}>
                                 <Link to={`/product/${item._id}`}>
-                                    <img src={giay} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
+                                    <img src={item.product_images.length > 0 ? item.product_images[0].path : null} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
 
                                     <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
                                     <div className="flex items-center justify-between">
