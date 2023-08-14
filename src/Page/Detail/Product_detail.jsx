@@ -19,7 +19,6 @@ const Product_detail = () => {
   const fetchProductList = async (id) => {
     try {
       const response = await productApi.Get(id);
-
       setProductList(response[0]);
     } catch (error) {
       console.log('Lỗi khi lấy danh sách sản phẩm', error);
