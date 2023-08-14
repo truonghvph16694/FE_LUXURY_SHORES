@@ -4,7 +4,6 @@ import AdminLayout from './Layout/AdminLayoutt';
 import ClientLayout from './Layout/ClientLayout';
 import AdminPage from './Page/Admin/HomePage/AdminPage';
 import Products from './Page/Admin/product/Products';
-import Demo from './Page/Admin/product/Demo';
 import AddProducts from './Page/Admin/product/AddProducts';
 import Categories from './Page/Admin/Category/Categories';
 import AddCategory from './Page/Admin/Category/AddCategory';
@@ -26,6 +25,7 @@ import Lienhe from './Page/Lienhe/Lienhe';
 import Product from './Page/Product/Product';
 import Product_detail from './Page/Detail/Product_detail';
 import Dashboard from './Page/Admin/Dashboard/Dashboard';
+import Checkout from './Page/Checkout/Checkout';
 
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
         <Route path="bills" element={<Bills />} />
         <Route path="order-detail/:id" element={<Order_detail />} />
         <Route path="feedback" element={<Feedback />} />
-        <Route path="demo" element={<Demo />} />
+        {/* <Route path="demo" element={<Demo />} /> */}
         <Route path='dashboard' element={<Dashboard />} />
       </Route>
 
@@ -66,9 +66,8 @@ function App() {
         <Route path='lienhe' element={<Lienhe />} />
         <Route path='product' element={<Product />} />
         <Route path='product/:id' element={<Product_detail />} />
-
-
         <Route path='cart' element={<Cart />} />
+        <Route path='checkout' element={<Checkout />} />
 
       </Route>
     </Routes >
