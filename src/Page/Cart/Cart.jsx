@@ -33,7 +33,7 @@ const Cart = () => {
                 const objLogin = JSON.parse(userLogin);
 
                 const response = await cartApi.GetCartUser(objLogin._id);
-                console.log('cart', response);
+                console.log('cart', response)
                 setListCart(response);
             } catch (error) {
                 console.log('Lỗi khi lấy danh sách sản phẩm', error);
