@@ -13,6 +13,7 @@ const Product = () => {
     console.log("id", _id);
 
     const [productList, setProductList] = useState([]);
+    // console.log("object", productList)
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProductList, setFilteredProductList] = useState([]);
     const [minPrice, setMinPrice] = useState('');

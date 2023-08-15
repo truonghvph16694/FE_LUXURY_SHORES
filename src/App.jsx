@@ -24,6 +24,7 @@ import Tintuc from './Page/Tintuc/Tintuc';
 import Lienhe from './Page/Lienhe/Lienhe';
 import Product from './Page/Product/Product';
 import Product_detail from './Page/Detail/Product_detail';
+import Dashboard from './Page/Admin/Dashboard/Dashboard';
 import Checkout from './Page/Checkout/Checkout';
 
 
@@ -32,9 +33,7 @@ function App() {
     <Routes>
       <Route path="admin/"
         element={
-          // <PrivateLayout>
           <AdminLayout />
-          // </PrivateLayout>
         } >
         <Route index element={<AdminPage />} />
         <Route path="category" element={<Categories />} />
@@ -49,6 +48,8 @@ function App() {
         <Route path="bills" element={<Bills />} />
         <Route path="order-detail/:id" element={<Order_detail />} />
         <Route path="feedback" element={<Feedback />} />
+        {/* <Route path="demo" element={<Demo />} /> */}
+        <Route path='dashboard' element={<Dashboard />} />
       </Route>
 
 
