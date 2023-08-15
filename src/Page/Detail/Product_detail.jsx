@@ -8,7 +8,7 @@ import cartApi from '../../api/cart';
 
 const Product_detail = () => {
   // const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedProductEntry, setSelectedProductEntry] = useState('');
   const [product, setProductList] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,9 +26,8 @@ const Product_detail = () => {
   };
   const handleSizeChange = (event) => {
     const selectedValue = event.target.value;
-    setSelectedSize(selectedValue);
+    setSelectedProductEntry(selectedValue);
   };
-  console.log("objectttt", product)
   // const isOutOfStock = product.product_entries.quantity === 0;
 
   useEffect(() => {
@@ -43,7 +42,8 @@ const Product_detail = () => {
       const objLogin = JSON.parse(userLogin);
       const data = {
         'userId': objLogin._id,
-        'product': product,
+        'product_entry_Id': selectedProductEntry,
+        quantity: 1,
       };
       const response = await cartApi.Add(data);
       // Gửi data về backend để xử lí
@@ -68,7 +68,7 @@ const Product_detail = () => {
               <img
                 className="w-full"
               // src={product.product_images > 0 ? (product.product_images[0].length > 0 ? product.product_images[0][0].path : []) : ''}
-              // src={product.product_images[0][0].path}
+              // src={product.product_images[0][0].path}  
               />
             </div>
             <div className="w-1/2 pl-4">
@@ -82,7 +82,7 @@ const Product_detail = () => {
                     <option value="">Select size</option>
                     {product.product_entries &&
                       product.product_entries.map((item, i) => (
-                        <option key={i} value={item.product_sizes.value}>
+                        <option key={i} value={item._id}>
                           {item.product_sizes.value}
                         </option>
                       ))}
