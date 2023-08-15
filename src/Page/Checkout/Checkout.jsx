@@ -47,7 +47,6 @@ const LocationList = () => {
                 }
             }
         }
-
         fetchDistricts();
     }, [selectedProvince]);
 
