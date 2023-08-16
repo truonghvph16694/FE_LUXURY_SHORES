@@ -101,15 +101,6 @@ const Order_detail = () => {
                 },
             },
             {
-                title: 'Màu',
-                dataIndex: 'colorId',
-                key: 'color',
-                render: (colorId) => {
-                    const color = productColor.find((item) => item._id === colorId);
-                    return color ? color.value : '';
-                },
-            },
-            {
                 title: 'Size',
                 dataIndex: 'sizeId',
                 key: 'size',

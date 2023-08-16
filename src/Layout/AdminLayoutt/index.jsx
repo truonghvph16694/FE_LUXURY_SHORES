@@ -32,7 +32,7 @@ const AdminLayout = () => {
 
         setTimeout(() => {
             navigate("/signin");
-        }, 500)
+        }, 1000)
 
     };
 
