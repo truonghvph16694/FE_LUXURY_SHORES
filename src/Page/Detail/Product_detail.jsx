@@ -15,7 +15,6 @@ const Product_detail = () => {
   const { id } = useParams();
   // console.log("object", id)    const dataFromLocalStorage = localStorage.getItem('myData');
   const userLogin = localStorage.getItem('user');
-
   const fetchProductList = async (id) => {
     try {
       const response = await productApi.Get(id);
@@ -29,13 +28,10 @@ const Product_detail = () => {
     setSelectedProductEntry(selectedValue);
   };
   // const isOutOfStock = product.product_entries.quantity === 0;
-
   useEffect(() => {
     console.log('dataFromLocalStorage', JSON.parse(userLogin))
     fetchProductList(id);
   }, [id]);
-
-
   const addToCart = async () => {
     if (userLogin) {
       // Nếu tồn tại userLogin thì thêm vào giỏ hàng
@@ -47,14 +43,12 @@ const Product_detail = () => {
       };
       const response = await cartApi.Add(data);
       // Gửi data về backend để xử lí
-
     } else {
-      // Nếu không có thì bắt đăng nhập
+      // Nếu không có thì bắt đăng nhập  
       navigate('/signin');
     }
   };
   if (product != undefined) {
-
     return (
       <div className="flex justify-center p-8" >
         <div className="w-full max-w-3xl p-4 border rounded-lg shadow-lg">
@@ -70,7 +64,7 @@ const Product_detail = () => {
               // src={product.product_images > 0 ? (product.product_images[0].length > 0 ? product.product_images[0][0].path : []) : ''}
               // src={product.product_images[0][0].path}  
               />
-            </div>
+            </div>  
             <div className="w-1/2 pl-4">
               <h2 className="text-2xl font-semibold mb-2">{product.name?.toString()}</h2>
               <p className="text-gray-700 mb-2">{product.price ? formatCurrency(product.price) : null}</p>
