@@ -10,12 +10,28 @@ const instance = axios.create({
 
 // Thêm một bộ đón chặn request
 instance.interceptors.request.use(
+    // function (config) {
+    //   // Làm gì đó trước khi request dược gửi đi
+    //   return config;
+    // },
+    // function (error) {
+    //   // Làm gì đó với lỗi request
+    //   return Promise.reject(error);
+    // },
+    
     function (config) {
-      // Làm gì đó trước khi request dược gửi đi
+      const token  = JSON.parse(localStorage.getItem("token"));
+      console.log(token);
+      if (token) {
+        config.headers = {
+          Authorization: `Bearer ${token}`,
+        };
+      }
+  
+      // Do something before request is sent
       return config;
     },
     function (error) {
-      // Làm gì đó với lỗi request
       return Promise.reject(error);
     }
   );
@@ -36,5 +52,6 @@ instance.interceptors.request.use(
       return Promise.reject(error);
     }
   );
+  
 
 export default instance
