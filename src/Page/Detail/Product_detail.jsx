@@ -39,7 +39,6 @@ const ChiTietSanPham = () => {
     }
     // Reset the sizeNotSelected state when a size is selected
   };
-
   const addToCart = async () => {
 
     // return;
