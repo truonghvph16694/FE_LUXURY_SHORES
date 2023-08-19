@@ -8,7 +8,7 @@ import { formatCurrency } from '../../../utils';
 const Cart = () => {
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
-    let sum = 0;
+    // let sum = 0;
     const userLogin = localStorage.getItem('user');
     const callbackFunction = () => {
         fetchCard()
@@ -42,7 +42,7 @@ const Cart = () => {
     };
     useEffect(() => {
         fetchCard();
-    }, [userLogin,]);
+    }, [userLogin]);
     return (
         <div>
             <section className="flex gap-8 w-10/12 m-auto py-20">

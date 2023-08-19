@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaPray } from "react-icons/fa";
 import cartApi from "../../api/cart";
 import { formatCurrency } from "../../../utils";
+import { useForm } from "react-hook-form";
 
 const LocationList = () => {
     const [provinces, setProvinces] = useState([]);
@@ -13,7 +14,13 @@ const LocationList = () => {
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
     let ship = 20000
-    let sum = 0;
+    // let sum = 0 const {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
     const totalFinal = (ship, totalSum) => {
         return ship + totalSum
     }
@@ -100,10 +107,14 @@ const LocationList = () => {
     useEffect(() => {
         fetchCard();
     }, [userLogin]);
+
+    const onAdd = () => {
+
+    }
     return (
 
         <div>
-            <Form>
+            <Form onSubmit={handleSubmit(onAdd)}>
                 <section className="flex gap-8 w-10/12 m-auto py-20">
 
                     <section className="basis-4/6">
@@ -130,16 +141,16 @@ const LocationList = () => {
                                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                 type="text"
                                 placeholder="Số Điện Thoại"
-                            // {...register("phonenumber", {
-                            //   required: true,
-                            //   pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
-                            // })}
+                                {...register("phonenumber", {
+                                    required: true,
+                                    pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
+                                })}
                             />
-                            {/* {errors?.phonenumber && (
-                <span className="ml-[5px] font-bold text-red-500">
-                  Vui lòng nhập đúng định dạng sđt{" "}
-                </span>
-              )} */}
+                            {errors?.phonenumber && (
+                                <span className="ml-[5px] font-bold text-red-500">
+                                    Vui lòng nhập đúng định dạng số điện thoại{" "}
+                                </span>
+                            )}
 
 
                             <table className="table-auto w-full flex pb-[30px] ">
@@ -214,17 +225,17 @@ const LocationList = () => {
                                     className="border w-8/12 py-3 px-2 mt-5 mb-5"
                                     type="text"
                                     placeholder="Email"
-                                // {...register("email", {
-                                //     required: true,
-                                //     pattern:
-                                //         /^[a-zA-Z0-9?:\.?:\_]+@[a-zA-Z0-9-]+\.+([a-zA-Z]{2,5})$/,
-                                // })}
+                                    {...register("email", {
+                                        required: true,
+                                        pattern:
+                                            /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+                                    })}
                                 />
-                                {/* {errors?.email && (
-                        <span className="ml-[5px] font-bold text-red-500">
-                            Vui lòng viết đúng định dạng email
-                        </span>
-                    )} */}
+                                {errors?.email && (
+                                    <span className="ml-[5px] font-bold text-red-500">
+                                        Vui lòng viết đúng định dạng email
+                                    </span>
+                                )}
                             </table>
 
                             <table className="table-auto w-full ">
@@ -235,7 +246,7 @@ const LocationList = () => {
                                     className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                     type="text"
                                     placeholder="Ghi chú"
-                                // {...register("note")}
+                                    {...register("note")}
                                 />
                             </table>
                         </table>
@@ -290,7 +301,7 @@ const LocationList = () => {
                                     <span className="grow font-semibold">Tổng tiền</span>
                                     <span className="text-right ">
                                         {/* {fee ? formatCurrency(total + fee) : formatCurrency(total)} */}
-                                        {totalFinal(ship, totalSum)}
+                                        {formatCurrency(totalFinal(ship, totalSum))}
                                     </span>
                                 </div>
 

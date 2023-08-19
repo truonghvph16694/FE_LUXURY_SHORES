@@ -1,19 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { AiOutlineUnorderedList } from "react-icons/ai";
-import { CiSearch } from 'react-icons/ci';
+// import { CiSearch } from 'react-icons/ci';
 // import { IoSearchOutline } from 'react-icons/io';
 import { CiUser, CiShoppingCart } from 'react-icons/ci';
 import styles from "./Header.module.css";
 import logo from "../../../../public/logo5.png"
+import cartApi from "../../../api/cart";
 
 
 const ClientHeader = () => {
-    // const navBar = useRef(null);
     const boxUser = useRef(null);
-    // const cart = useSelector((state) => state.carts);
-    // const navigate = useNavigate();
-    // const [showNav, setShowNav] = useState(false);
+    const [listCart, setListCart] = useState();
     const [showModelUser, setShowModelUser] = useState(false);
 
     const nav = useNavigate();
@@ -21,15 +19,6 @@ const ClientHeader = () => {
     const userlocal = localStorage.getItem('user')
     const localtoken = localStorage.getItem('token')
     const user = JSON.parse(userlocal);
-    // console.log("object", user)
-    // useEffect(() => {
-    //     const navBarElement = navBar.current;
-    //     if (showNav) {
-    //         navBarElement.style.left = "0px";
-    //     } else {
-    //         navBarElement.style.left = "-100%";
-    //     }
-    // }, [showNav]);
 
     const handleSignout = () => {
         localStorage.removeItem('token')
@@ -38,15 +27,21 @@ const ClientHeader = () => {
             nav('/signin')
         }, 500)
     }
+    const userLogin = localStorage.getItem('user');
+    const fetchCard = async () => {
+        try {
+            const objLogin = JSON.parse(userLogin);
 
-    // useEffect(() => {
-    //     const boxUserElement = boxUser.current;
-    //     if (showModelUser) {
-    //         boxUserElement.style.display = "block";
-    //     } else {
-    //         boxUserElement.style.display = "none";
-    //     }
-    // }, [showModelUser])
+            const response = await cartApi.GetCartUser(objLogin._id);
+            console.log('cart', response)
+            setListCart(response);
+        } catch (error) {
+            console.log('Lỗi khi lấy danh sách sản phẩm', error);
+        }
+    };
+    useEffect(() => {
+        fetchCard();
+    }, []);
 
     return (
         <header>
@@ -164,16 +159,23 @@ const ClientHeader = () => {
                             )}
                         </div>
                     </div>
-                    <div className={styles.box_cart}>
-                        <Link to={"/cart"}>
-                            <div className={styles.icon2}>
-                                <CiShoppingCart />
+                    {localtoken && userlocal ?
+                        <div className={styles.box_cart}>
+
+                            <Link to={"/cart"}>
+                                <div className={styles.icon2}>
+                                    <CiShoppingCart />
+                                </div>
+                            </Link>
+                            <div className={styles.count_cart}>
+                                {listCart ? listCart.length : 0}
                             </div>
-                        </Link>
-                        <div className={styles.count_cart}>
-                            {/* {cart?.carts?.products ? cart.carts.products.length : 0} */}
+
                         </div>
-                    </div>
+                        : (
+                            ""
+                        )
+                    }
                 </div>
 
 
