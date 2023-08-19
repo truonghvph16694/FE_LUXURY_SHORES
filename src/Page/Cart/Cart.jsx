@@ -20,7 +20,8 @@ const Cart = () => {
         } catch (error) {
             console.error('Error removing item:', error);
         }
-    }; const fetchCard = async () => {
+    };
+    const fetchCard = async () => {
         try {
             const objLogin = JSON.parse(userLogin);
 
@@ -40,15 +41,6 @@ const Cart = () => {
         }
     };
     useEffect(() => {
-        // if (listCart) {
-        //     let newTotalSum = 0;
-        //     listCart.forEach(item => {
-        //         newTotalSum += (item.quantity) * item.product.price;
-        //         console.log("first", newTotalSum)
-        //     });
-        //     setTotalSum(newTotalSum);
-        // }
-
         fetchCard();
     }, [userLogin,]);
     return (
