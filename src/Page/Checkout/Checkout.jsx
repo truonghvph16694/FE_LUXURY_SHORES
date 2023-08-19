@@ -31,14 +31,14 @@ const LocationList = () => {
         async function fetchDistricts() {
             if (selectedProvince) {
                 try {
-                    const response = await fetch(`https://provinces.open-api.vn/api/d/`);
+                    const response = await fetch(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`);
                     if (response.ok) {
                         const data = await response.json();
                         // Lọc danh sách huyện dựa trên mã tỉnh được chọn
-                        const filteredDistricts = data.filter(
-                            (district) => district.parent_code === selectedProvince
-                        );
-                        setDistricts(filteredDistricts);
+                        // const filteredDistricts = data.districts.filter(
+                        //     (district) => district.parent_code === selectedProvince
+                        // );
+                        setDistricts(data.districts);
                     } else {
                         console.error("Error fetching districts:", response.statusText);
                     }
@@ -55,11 +55,11 @@ const LocationList = () => {
             if (selectedDistrict) {
                 try {
                     const response = await fetch(
-                        `https://provinces.open-api.vn/api/d/${selectedDistrict}/w`
+                        `https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`
                     );
                     if (response.ok) {
                         const data = await response.json();
-                        setCommunes(data);
+                        setCommunes(data.wards);
                     } else {
                         console.error("Error fetching communes:", response.statusText);
                     }
@@ -102,16 +102,16 @@ const LocationList = () => {
                                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                 type="text"
                                 placeholder="Số Điện Thoại"
-                            // {...register("phonenumber", {
-                            //   required: true,
-                            //   pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
-                            // })}
+                            {...register("phonenumber", {
+                              required: true,
+                              pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
+                            })}
                             />
-                            {/* {errors?.phonenumber && (
+                            {errors?.phonenumber && (
                 <span className="ml-[5px] font-bold text-red-500">
                   Vui lòng nhập đúng định dạng sđt{" "}
                 </span>
-              )} */}
+              )}
 
 
                             <table className="table-auto w-full flex pb-[30px] ">
@@ -179,24 +179,22 @@ const LocationList = () => {
                             </table>
                             <table className="table-auto w-full ">
                                 <label htmlFor="" className="font-semibold">
-                                    Email <span className="text-red-700">*</span>
+                                    Address Detail <span className="text-red-700">*</span>
                                 </label>
                                 <br />
                                 <input
                                     className="border w-8/12 py-3 px-2 mt-5 mb-5"
                                     type="text"
-                                    placeholder="Email"
-                                // {...register("email", {
-                                //     required: true,
-                                //     pattern:
-                                //         /^[a-zA-Z0-9?:\.?:\_]+@[a-zA-Z0-9-]+\.+([a-zA-Z]{2,5})$/,
-                                // })}
+                                    placeholder="Address Detail"
+                                    {...register("detail_address", {
+                                        required: true,
+                                    })}
                                 />
-                                {/* {errors?.email && (
-                        <span className="ml-[5px] font-bold text-red-500">
-                            Vui lòng viết đúng định dạng email
-                        </span>
-                    )} */}
+                                {errors?.detail_address && (
+                                    <span className="ml-[5px] font-bold text-red-500">
+                                        Vui lòng không bỏ trống
+                                    </span>
+                                )}
                             </table>
 
                             <table className="table-auto w-full ">
@@ -207,9 +205,11 @@ const LocationList = () => {
                                     className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                     type="text"
                                     placeholder="Ghi chú"
-                                // {...register("note")}
+                                    {...register("note")}
                                 />
                             </table>
+
+                            
                         </table>
                     </section>
 
@@ -217,7 +217,7 @@ const LocationList = () => {
 
                     <section>                           <h3 className="text-2xl font-bold mb-10">ĐƠN HÀNG CỦA BẠN</h3>
 
-                              </section>
+                    </section>
 
                 </section>
             </Form>

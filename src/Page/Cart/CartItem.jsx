@@ -1,32 +1,53 @@
 import React, { useState } from 'react'
 import { formatCurrency } from '../../../utils';
-import { useDispatch } from "react-redux";
-
+import { AiTwotoneDelete } from 'react-icons/ai'
+import cartApi from '../../api/cart';
+import { toastError, toastSuccess } from '../../components/toast/Toast';
 
 const CartItem = (item) => {
+    const sendData = () => {
+        item.parentCallback();
+    }
     console.log('item', item)
     const [quantity, setQuantity] = useState(item.item.quantity);
 
-    const handleDecrease = () => {
+    const handleDecrease = async () => {
         if (quantity > 1) {
-            setQuantity(quantity - 1);
+            await setQuantity(quantity - 1);
+            await changeQuantityAPI(quantity - 1)
+            await sendData()
         }
     };
-
-    const handleIncrease = () => {
+    const changeQuantityAPI = async (quantity) => {
+        await cartApi.ChangeQuantity({ quantity: quantity, _id: item.item._id });
+    }
+    const handleIncrease = async () => {
         setQuantity(quantity + 1);
+        await changeQuantityAPI(quantity + 1)
+        sendData()
+    };
+    const handleRemove = async () => {
+        try {
+            await cartApi.Remove(item.item._id); // Sử dụng item.id
+            sendData()
+            // onRemove(item.item._id); // Gọi hàm onRemove ở component cha để cập nhật danh sách giỏ hàng 
+            toastSuccess('Delete success');
+        } catch (error) {
+            toastError("Delete Fail");
+        }
     };
     return (
         <tr className="border-t-2">
-            <td className="flex py-10  gap-8">
-                {/* <img src={item.image} className="w-20"></img> */}
-                <div className="pt-7">
+            <td className="flex py-10  gap-4">
+                <img src={item.item.images ? item.item.images[0].path : null} className="w-20"></img>
+                <div className="pt-7 w-[300px]">
                     <p>{item.item.product.name}</p>
 
                 </div>
             </td>
+
             <td className="w-40">
-                <div className="font-bold flex">
+                <div className="font-bold flex text-center">
 
                     {item.item.size.value}
                 </div>
@@ -59,8 +80,11 @@ const CartItem = (item) => {
                     </button>
                 </div>
             </td>
-            <td className="font-bold">
-                {formatCurrency(item.item.quantity * item.item.product.price)}
+            <td className="font-bold w-[150px] text-center">
+                {formatCurrency(quantity * item.item.product.price)}
+            </td>
+            <td className="text-slate-400 text-base">
+                <div> <AiTwotoneDelete onClick={handleRemove} /></div>
             </td>
         </tr>
 

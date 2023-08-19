@@ -14,6 +14,9 @@ const cartApi = {
   Update: async (data) => {
     return await instance.put(`carts/${data._id}`, data);
   },
+  ChangeQuantity: async (data) => {
+    return await instance.patch(`carts/change-quantity/${data._id}`, data);
+  },
   Remove: async (id) => {
     return await instance.delete(`carts/${id}`);
   },
