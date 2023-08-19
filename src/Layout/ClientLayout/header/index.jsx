@@ -94,7 +94,7 @@ const ClientHeader = () => {
 
 
                 <div className={styles.box_icon}>
-                    <div className={styles.search}>
+                    {/* <div className={styles.search}>
                         <div className={styles.icon}>
                             <CiSearch />
                         </div>
@@ -110,7 +110,7 @@ const ClientHeader = () => {
                                 </button>
                             </form>
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.box_user}>
                         <div className={styles.icon}>
                             <CiUser />
@@ -144,16 +144,17 @@ const ClientHeader = () => {
 
                                 <div className={styles.user}
                                     onClick={() => setShowModelUser(!showModelUser)}>
-                                    <Link to="/signin">
+                                    <Link to="/signin" className="flex pb-4">
                                         {/* Hiển thị đường dẫn đến trang đăng nhập nếu chưa đăng nhập */}
-                                        <CiUser />
+                                        <CiUser /> <span className="ml-2 font-bold">Đăng nhập</span>
                                     </Link>
                                     <div ref={boxUser} className={styles.box}>
                                         <ul>
                                             <li>
-                                                <Link to="/signin">
+                                                <Link to="/signup" className="flex">
                                                     {/* Hiển thị đường dẫn đến trang đăng nhập nếu chưa đăng nhập */}
                                                     <CiUser />
+                                                    <span className="ml-2 font-bold">Đăng kí</span>
                                                 </Link>
                                             </li>
                                         </ul>

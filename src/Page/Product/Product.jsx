@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import giay from '../../../public/giay.jpg';
 import productApi from '../../api/products';
 import { formatCurrency } from '../../../utils';
 import './styles.css'
@@ -163,13 +162,7 @@ const Product = () => {
                         {filteredProductList.map((item, index) => (
                             <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" key={index + 1}>
                                 <Link to={`/product/${item._id}`}>
-                                    <div className="w-full h-60 mb-4">
-                                        {item.product_images.length > 0 ? (
-                                            <img src={item.product_images[0].path} alt={item.name} className="w-full h-50 object-cover rounded-lg" />
-                                        ) : (
-                                            <img src={giay} alt={item.name} className="w-full h-full object-cover rounded-lg" />
-                                        )}
-                                    </div>
+                                    <img src={item.product_images.length > 0 ? item.product_images[0].path : null} alt="Hình ảnh giày" className="w-full h-80 object-cover rounded-lg mb-4" />
                                     <h1 className="name text-lg sm:text-xl mb-2 text-left">{item.name}</h1>
                                     <div className="flex items-center justify-between">
                                         <span className="text-lg sm:text-xl font-bold text-red-600">{item.price ? formatCurrency(item.price) : null}</span>
