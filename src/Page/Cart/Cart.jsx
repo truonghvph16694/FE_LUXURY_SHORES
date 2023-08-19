@@ -1,7 +1,56 @@
-import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
+import cartApi from '../../api/cart';
+import CartItem from './CartItem';
+import { formatCurrency } from '../../../utils';
+
 
 const Cart = () => {
+    const [listCart, setListCart] = useState();
+    const [totalSum, setTotalSum] = useState(0);
+    let sum = 0;
+    const userLogin = localStorage.getItem('user');
+    const callbackFunction = () => {
+        fetchCard()
+    };
+    const handleItemRemove = async (id) => {
+        try {
+            await cartApi.Remove(id);
+            fetchCard()
+        } catch (error) {
+            console.error('Error removing item:', error);
+        }
+    }; const fetchCard = async () => {
+        try {
+            const objLogin = JSON.parse(userLogin);
+
+            const response = await cartApi.GetCartUser(objLogin._id);
+            // console.log('cart', response)
+            setListCart(response);
+            if (response) {
+                let newTotalSum = 0;
+                response.forEach(item => {
+                    newTotalSum += (item.quantity) * item.product.price;
+                    console.log("first", newTotalSum)
+                });
+                setTotalSum(newTotalSum);
+            }
+        } catch (error) {
+            console.log('Lỗi khi lấy danh sách sản phẩm', error);
+        }
+    };
+    useEffect(() => {
+        // if (listCart) {
+        //     let newTotalSum = 0;
+        //     listCart.forEach(item => {
+        //         newTotalSum += (item.quantity) * item.product.price;
+        //         console.log("first", newTotalSum)
+        //     });
+        //     setTotalSum(newTotalSum);
+        // }
+
+        fetchCard();
+    }, [userLogin,]);
     return (
         <div>
             <section className="flex gap-8 w-10/12 m-auto py-20">
@@ -11,21 +60,22 @@ const Cart = () => {
                             <tr className="text-left ">
                                 <th className=" font-semibold pb-10">Sản phẩm</th>
                                 <th className=" font-semibold pb-10">Kích cỡ </th>
-                                <th className="font-semibold pb-10">Số lượng</th>
-                                <th className="font-semibold pb-10">Tổng tiền</th>
+                                <th className=" font-semibold pb-10">Giá tiền</th>
+                                <th className="font-semibold pb-10 text-center">Số lượng</th>
+                                <th className="font-semibold pb-10 text-center">Tổng tiền</th>
                             </tr>
                         </thead>
-                        {/* <tbody className="w-full ">
-                  {carts?.carts?.products ? carts?.carts?.products?.map((item: any, index: number) => {
-                    {
-                      sum += item.quantity * item.price;
-                      
-                    }
-                   
-                    return <CartItem key={index} item={item} id={Id} />;
-                  }
-                  ) : <h1 className="font-bold text-[30px]"> Không có sản phẩm </h1>}
-                </tbody> */}
+                        <tbody className="w-full ">
+                            {listCart ? listCart.map((item, index) => {
+                                <span className="text-right font-bold text-2xl">
+                                    {totalSum} VNĐ
+                                </span>
+                                return <CartItem key={index} item={item} userLogin={userLogin ? JSON.parse(userLogin) : {}} onRemove={handleItemRemove} parentCallback={callbackFunction} />
+                            }) : <h1 className="font-bold text-[30px]"> Không có sản phẩm </h1>}
+                        </tbody>
+
+
+
                     </table>
                     <div className="border-t-2 flex justify-between">
                         <button className="border-2 bg-blue-500 text-white font-semibold p-3 px-5 mt-10">
@@ -43,16 +93,12 @@ const Cart = () => {
                             <div className=" pt-5 flex">
                                 {" "}
                                 <span className="grow">Tổng tiền</span>
-                                {/* <span className="text-right font-bold">
-                      {" "}
-                      <NumberFormat
-                        value={sum}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        prefix={""}
-                      />{" "}
-                      VNĐ
-                    </span> */}
+                                <span className="text-right font-bold text-2xl">
+                                    {" "}
+                                    {formatCurrency(totalSum)}
+                                    {" "}
+
+                                </span>
                             </div>
                             <div className="pt-5 flex ">
                                 {" "}
