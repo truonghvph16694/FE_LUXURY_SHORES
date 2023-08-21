@@ -127,8 +127,8 @@ const LocationList = () => {
         const response = await ordersApi.Add(order);
         console.log("order1", response);
 
-        if (response.status === 0) {
-            toastSuccess('Thêm vào giỏ hàng thành công!');
+        if (response.status === 200) {
+            toastSuccess('Bạn đã đặt hàng thành công!');
         }
 
 

@@ -127,7 +127,7 @@ const ClientHeader = () => {
                                             <div className={styles.item_user}>Trang quản trị</div>
                                         </Link>
                                     ) : null}
-                                    <Link to={"/order"}>
+                                    <Link to={"/orders"}>
                                         <div className={styles.item_user}>Đơn hàng</div>
                                     </Link>
                                     <div className={styles.item_user} onClick={() => handleSignout()}>
