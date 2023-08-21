@@ -17,7 +17,7 @@ const LocationList = () => {
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
     console.log("province", selectedProvince)
-    let ship = 20000
+    let ship = 30000
     // let sum = 0 const {
     const {
         register,
@@ -112,23 +112,26 @@ const LocationList = () => {
     }, [userLogin]);
 
     const onAdd = async (data) => {
-        // let product = [];
-        // product = listCart;
+        let product = [];
+        product = listCart;
         let order = {
             user_id: objLogin._id,
-            // product,
+            product,
             ...data,
-            province_id: selectedProvince,
-            district_id: selectedDistrict,
-            ward_id: selectedWard,
-            totalPrice: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+            province_id: Number(selectedProvince),
+            district_id: Number(selectedDistrict),
+            ward_id: Number(selectedWard),
+            total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
         }
+        console.log("order", order);
         const response = await ordersApi.Add(order);
-        if (response.code === 200) {
+        console.log("order1", response);
+
+        if (response.status === 0) {
             toastSuccess('Thêm vào giỏ hàng thành công!');
         }
 
-        console.log("order", order);
+
 
     }
     return (
