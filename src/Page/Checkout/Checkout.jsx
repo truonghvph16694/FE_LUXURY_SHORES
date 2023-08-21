@@ -298,7 +298,7 @@ const LocationList = () => {
                                     </span>
                                 </div>
                                 <div className=" pt-5 flex">
-                                    <span className="grow font-semibold">Tổng tiền</span>
+                                    <span className="grow font-semibold text-xl">Tổng tiền</span>
                                     <span className="text-right ">
                                         {/* {fee ? formatCurrency(total + fee) : formatCurrency(total)} */}
                                         {formatCurrency(totalFinal(ship, totalSum))}

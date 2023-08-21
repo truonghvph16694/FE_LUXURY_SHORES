@@ -241,7 +241,7 @@ const Dashboard = () => {
                   {tableExample.map((item, index) => (
                     <CTableRow key={index}>
                       <CTableDataCell className="text-center">
-\                      </CTableDataCell>
+                     </CTableDataCell>
                       <CTableDataCell>
                         <div>{item.user.name}</div>
                         <div className="small text-medium-emphasis">
