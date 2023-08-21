@@ -2,7 +2,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom';
 import AdminLayout from './Layout/AdminLayoutt';
 import ClientLayout from './Layout/ClientLayout';
-import AdminPage from './Page/Admin/HomePage/AdminPage';
+// import AdminPage from './Page/Admin/HomePage/AdminPage';
 import Products from './Page/Admin/product/Products';
 import AddProducts from './Page/Admin/product/AddProducts';
 import Categories from './Page/Admin/Category/Categories';
@@ -35,7 +35,7 @@ function App() {
         element={
           <AdminLayout />
         } >
-        <Route index element={<AdminPage />} />
+        <Route index element={<Dashboard />} />
         <Route path="category" element={<Categories />} />
         <Route path="category/add" element={<AddCategory />} />
         <Route path="category/edit/:id" element={<UpdateCategory />} />
@@ -49,7 +49,7 @@ function App() {
         <Route path="order-detail/:id" element={<Order_detail />} />
         <Route path="feedback" element={<Feedback />} />
         {/* <Route path="demo" element={<Demo />} /> */}
-        <Route path='dashboard' element={<Dashboard />} />
+        {/* <Route path='dashboard' element={<Dashboard />} /> */}
       </Route>
 
 

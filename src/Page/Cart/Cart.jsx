@@ -8,7 +8,7 @@ import { formatCurrency } from '../../../utils';
 const Cart = () => {
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
-    let sum = 0;
+    // let sum = 0;
     const userLogin = localStorage.getItem('user');
     const callbackFunction = () => {
         fetchCard()
@@ -20,7 +20,8 @@ const Cart = () => {
         } catch (error) {
             console.error('Error removing item:', error);
         }
-    }; const fetchCard = async () => {
+    };
+    const fetchCard = async () => {
         try {
             const objLogin = JSON.parse(userLogin);
 
@@ -40,17 +41,8 @@ const Cart = () => {
         }
     };
     useEffect(() => {
-        // if (listCart) {
-        //     let newTotalSum = 0;
-        //     listCart.forEach(item => {
-        //         newTotalSum += (item.quantity) * item.product.price;
-        //         console.log("first", newTotalSum)
-        //     });
-        //     setTotalSum(newTotalSum);
-        // }
-
         fetchCard();
-    }, [userLogin,]);
+    }, [userLogin]);
     return (
         <div>
             <section className="flex gap-8 w-10/12 m-auto py-20">
