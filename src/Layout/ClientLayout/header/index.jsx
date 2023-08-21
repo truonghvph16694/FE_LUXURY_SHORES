@@ -41,7 +41,7 @@ const ClientHeader = () => {
     };
     useEffect(() => {
         fetchCard();
-    }, []);
+    }, [userLogin]);
 
     return (
         <header>
