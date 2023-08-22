@@ -4,16 +4,20 @@ import { FaPray } from "react-icons/fa";
 import cartApi from "../../api/cart";
 import { formatCurrency } from "../../../utils";
 import { useForm } from "react-hook-form";
+import ordersApi from "../../api/orders";
+import { toastSuccess } from "../../components/toast/Toast";
 
 const LocationList = () => {
     const [provinces, setProvinces] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState("");
     const [districts, setDistricts] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [selectedWard, setSelectedWard] = useState("");
     const [communes, setCommunes] = useState([]);
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
-    let ship = 20000
+    console.log("province", selectedProvince)
+    let ship = 30000
     // let sum = 0 const {
     const {
         register,
@@ -25,10 +29,13 @@ const LocationList = () => {
         return ship + totalSum
     }
     const userLogin = localStorage.getItem('user');
+    const objLogin = JSON.parse(userLogin);
+    // console.log(userLogin);
     useEffect(() => {
         async function fetchProvinces() {
             try {
                 const response = await fetch("https://provinces.open-api.vn/api/p/");
+
                 if (response.ok) {
                     const data = await response.json();
                     setProvinces(data);
@@ -50,10 +57,6 @@ const LocationList = () => {
                     const response = await fetch(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`);
                     if (response.ok) {
                         const data = await response.json();
-                        // Lọc danh sách huyện dựa trên mã tỉnh được chọn
-                        // const filteredDistricts = data.districts.filter(
-                        //     (district) => district.parent_code === selectedProvince
-                        // );
                         setDistricts(data.districts);
                     } else {
                         console.error("Error fetching districts:", response.statusText);
@@ -108,8 +111,28 @@ const LocationList = () => {
         fetchCard();
     }, [userLogin]);
 
-    const onAdd = (data) => {
-        console.log('data', data);
+    const onAdd = async (data) => {
+        let product = [];
+        product = listCart;
+        let order = {
+            user_id: objLogin._id,
+            product,
+            ...data,
+            province_id: Number(selectedProvince),
+            district_id: Number(selectedDistrict),
+            ward_id: Number(selectedWard),
+            total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+        }
+        console.log("order", order);
+        const response = await ordersApi.Add(order);
+        console.log("order1", response);
+
+        if (response.status === 200) {
+            toastSuccess('Bạn đã đặt hàng thành công!');
+        }
+
+
+
     }
     return (
 
@@ -129,8 +152,15 @@ const LocationList = () => {
                                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                 type="text"
                                 placeholder="Họ và Tên"
-                                {...register("fullname")}
+                                {...register("fullName", {
+                                    required: true,
+                                })}
                             />
+                            {errors?.fullName && (
+                                <span className="ml-[5px] font-bold text-red-500">
+                                    Vui lòng không bỏ trống
+                                </span>
+                            )}
                         </table>
 
                         <table className="table-auto w-full ">
@@ -142,14 +172,14 @@ const LocationList = () => {
                                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                 type="text"
                                 placeholder="Số Điện Thoại"
-                                {...register("phonenumber", {
+                                {...register("phone", {
                                     required: true,
                                     pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
                                 })}
                             />
-                            {errors?.phonenumber && (
+                            {errors?.phone && (
                                 <span className="ml-[5px] font-bold text-red-500">
-                                    Vui lòng nhập đúng định dạng số điện thoại{" "}
+                                    Vui lòng nhập đúng định dạng số điện thoại!{" "}
                                 </span>
                             )}
 
@@ -201,7 +231,7 @@ const LocationList = () => {
                                         <br />
 
                                         <select
-                                            // onChange={(e) => onWard(e)}
+                                            onChange={(e) => setSelectedWard(e.target.value)}
                                             className="py-[12px]  border-[1px]"
                                             name=""
                                             id=""
@@ -247,6 +277,11 @@ const LocationList = () => {
                                     placeholder="Ghi chú"
                                     {...register("note")}
                                 />
+                                {errors?.note && (
+                                    <span className="ml-[5px] font-bold text-red-500">
+                                        Vui lòng không bỏ trống
+                                    </span>
+                                )}
                             </table>
 
 

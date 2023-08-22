@@ -8,7 +8,7 @@ const CartItem = (item) => {
     const sendData = () => {
         item.parentCallback();
     }
-    console.log('item', item)
+    // console.log('item', item)
     const [quantity, setQuantity] = useState(item.item.quantity);
 
     const handleDecrease = async () => {

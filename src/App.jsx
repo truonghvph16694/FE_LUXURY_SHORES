@@ -26,6 +26,7 @@ import Product from './Page/Product/Product';
 import Product_detail from './Page/Detail/Product_detail';
 import Dashboard from './Page/Admin/Dashboard/Dashboard';
 import Checkout from './Page/Checkout/Checkout';
+import OrdersClient from './Page/Orders';
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
         <Route path='product/:id' element={<Product_detail />} />
         <Route path='cart' element={<Cart />} />
         <Route path='checkout' element={<Checkout />} />
+        <Route path='orders' element={<OrdersClient />} />
 
       </Route>
     </Routes >
