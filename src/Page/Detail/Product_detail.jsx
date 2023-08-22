@@ -19,18 +19,20 @@ const ChiTietSanPham = () => {
   const fetchProduct = async (id) => {
     try {
       const response = await productApi.Get(id);
+      console.log('rp:', response);
       setProduct(response[0]);
       if (response[0].product_images) {
         if (response[0].product_images[0]) {
           setProductImg(response[0].product_images[0][0])
 
         }
+        // setProductImg(response[0].product_images)
+
       }
     } catch (error) {
       console.log('Lỗi khi lấy danh sách sản phẩm', error);
     }
   };
-
   const handleSizeChange = (event) => {
     if (event.target.value) {
       const selectedValue = event.target.value;
@@ -86,6 +88,19 @@ const ChiTietSanPham = () => {
         <div className="flex">
           <div className="w-1/2 pr-4">
             <img className="w-full" src={productImg.path} alt={product.name} />
+
+            {/* {productImg.map((item, index) => {
+              productImg[index]
+              console.log("");
+              if (item[0]) {
+                return (
+                  <div key={index}>
+                    <img src={item[0].path} />
+                  </div>
+                )
+              }
+            })} */}
+
           </div>
           <div className="w-1/2 pl-4 " >
             <h2 className="text-2xl font-semibold mb-2">{product.name}</h2>

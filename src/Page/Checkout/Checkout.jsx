@@ -108,13 +108,13 @@ const LocationList = () => {
         fetchCard();
     }, [userLogin]);
 
-    const onAdd = () => {
-
+    const onAdd = (data) => {
+        console.log('data', data);
     }
     return (
 
         <div>
-            <Form onSubmit={handleSubmit(onAdd)}>
+            <form onSubmit={handleSubmit(onAdd)}>
                 <section className="flex gap-8 w-10/12 m-auto py-20">
 
                     <section className="basis-4/6">
@@ -129,6 +129,7 @@ const LocationList = () => {
                                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                                 type="text"
                                 placeholder="Họ và Tên"
+                                {...register("fullname")}
                             />
                         </table>
 
@@ -172,7 +173,7 @@ const LocationList = () => {
                                             <option value="">Tỉnh</option>
                                             {provinces.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name}
+                                                    {item.name} 
                                                 </option>
                                             ))}
                                         </select>
@@ -190,7 +191,7 @@ const LocationList = () => {
                                             <option value="">Huyện</option>
                                             {districts.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name}
+                                                    {item.name} 
                                                 </option>
                                             ))}
                                         </select>
@@ -209,7 +210,7 @@ const LocationList = () => {
                                             <option value="">Xã</option>
                                             {communes.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name}
+                                                    {item.name} 
                                                 </option>
                                             ))}
                                         </select>
@@ -352,7 +353,7 @@ const LocationList = () => {
                     </section>
 
                 </section>
-            </Form>
+            </form>
         </div>
     );
 };
