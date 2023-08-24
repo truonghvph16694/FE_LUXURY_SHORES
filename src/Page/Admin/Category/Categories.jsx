@@ -4,6 +4,7 @@ import { Button, Popconfirm, Space, Table, Modal, message } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
+import Loading from '../../../components/Loading/Loading';
 
 const { Column } = Table;
 
@@ -11,13 +12,14 @@ const Categories = () => {
     const [categoryList, setCategoryList] = useState([]);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const fetchCategoryList = async () => {
         try {
             const response = await categoryApi.GetAll();
             console.log('response', response);
             setCategoryList(response);
+            setLoading(false)
             console.log('categoryList', categoryList)
 
         } catch (error) {
@@ -92,7 +94,7 @@ const Categories = () => {
                     </Button>
                 </Link>
             </div>
-            <Table dataSource={categoryList}>
+            {!loading ? (<Table dataSource={categoryList}>
                 <Column title="Category" dataIndex="name" key="name" />
                 <Column
                     title="Action"
@@ -115,7 +117,7 @@ const Categories = () => {
                         </Space>
                     )}
                 />
-            </Table>
+            </Table>) : <Loading />}
 
             <Modal
                 visible={confirmDelete}

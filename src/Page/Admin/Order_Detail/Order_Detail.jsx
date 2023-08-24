@@ -147,6 +147,7 @@ import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
 import productApi from '../../../api/products';
 import ordersApi from '../../../api/orders';
+import Loading from '../../../components/Loading/Loading';
 
 const { Column } = Table;
 
@@ -161,9 +162,10 @@ const Order_detail = () => {
 
     const fetchOrder_detail = async (id) => {
         try {
+
             const response = await ordersApi.GetAll();
-            const details = response.filter(item => item.order_id === id);
-            setOrder_detail(details);
+            setOrder_detail(response);
+            console.log('details:', order_detail);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Order_detail', error);
@@ -252,7 +254,7 @@ const Order_detail = () => {
             key: 'order_id',
         },
         {
-            title: 'Quantity',
+            title: 'Số lượng',
             dataIndex: 'quantity',
             key: 'quantity',
         },
@@ -276,7 +278,7 @@ const Order_detail = () => {
                     defaultExpandAllRows={true} // This line will expand all rows by default
                 />
             ) : (
-                <p>Loading...</p>
+                <p><Loading /></p>
             )}
         </div>
     );

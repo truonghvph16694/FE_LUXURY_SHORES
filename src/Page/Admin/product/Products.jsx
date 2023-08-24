@@ -7,7 +7,8 @@ import { Badge, Dropdown, Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
-import { Image as CloudinaryImage } from 'cloudinary-react';
+// import { Image as CloudinaryImage } from 'cloudinary-react';
+import Loading from '../../../components/Loading/Loading';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -191,7 +192,7 @@ const App = () => {
           dataSource={productList.map((product) => ({ ...product, key: product._id }))}
         />
       ) : (
-        <p>Loading...</p>
+        <p><Loading /></p>
       )}
     </>
   );

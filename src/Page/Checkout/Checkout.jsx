@@ -124,11 +124,13 @@ const LocationList = () => {
             total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
         }
         console.log("order", order);
+        
         const response = await ordersApi.Add(order);
         console.log("order1", response);
 
         if (response.status === 200) {
             toastSuccess('Bạn đã đặt hàng thành công!');
+
         }
 
 
