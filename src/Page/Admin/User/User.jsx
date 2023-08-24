@@ -4,17 +4,20 @@ import userApi from '../../../api/user';
 import { Table, Switch } from 'antd';
 // import { FileAddTwoTone } from '@ant-design/icons';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
+import Loading from '../../../components/Loading/Loading';
 
 const { Column } = Table;
 
 const User = () => {
     const [userList, setUserList] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     const fetchUserList = async () => {
         try {
             const response = await userApi.GetAll();
             console.log('response', response);
             setUserList(response);
+            setLoading(false)
         } catch (error) {
             console.log('Failed to fetch UserList', error);
         }
@@ -39,7 +42,7 @@ const User = () => {
         <>
             <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
             </div>
-            <Table dataSource={userList}>
+            {!loading ? (<Table dataSource={userList}>
                 <Column title="FullName" dataIndex="fullname" key="fullname" />
                 <Column title="Số điện thoại" dataIndex="phone" key="phone" />
                 <Column title="Email" dataIndex="email" key="email" />
@@ -51,7 +54,7 @@ const User = () => {
                         <Switch checked={status} onChange={(checked) => onChange(checked, record)} />
                     )}
                 />
-            </Table>
+            </Table>) : <Loading /> }
         </>
     );
 };

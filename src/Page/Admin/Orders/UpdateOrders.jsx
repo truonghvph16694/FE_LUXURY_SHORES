@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Input, Button, message, Select } from 'antd';
+import { Form, Input, Button, message, Select, Modal } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 
@@ -10,6 +10,9 @@ const UpdateOrders = () => {
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const [confirmVisible, setConfirmVisible] = useState(false);
+
+
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -42,6 +45,33 @@ const UpdateOrders = () => {
             }
             toastError("Cập nhật không thành công!")
         }
+    };
+
+    const showConfirm = () => {
+        setConfirmVisible(true);
+    };
+
+
+    const handleConfirm = async () => {
+        setConfirmVisible(false);
+        try {
+            const response = await ordersApi.Update({ status: 3, _id: id }); // Update status to 3 (Hoàn Thành)
+            if (response.status === 200) {
+                message.success('Orders updated successfully');
+            }
+            toastSuccess("Cập nhật thành công!")
+            navigate("/admin/orders");
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                const errorData = error.response.data;
+                message.error(errorData.message);
+            }
+            toastError("Cập nhật không thành công!")
+        }
+    };
+
+    const handleCancel = () => {
+        setConfirmVisible(false);
     };
 
 
@@ -128,10 +158,21 @@ const UpdateOrders = () => {
                     <Select.Option value={0}>Đơn hàng mới</Select.Option>
                     <Select.Option value={1}>Đang xử lí</Select.Option>
                     <Select.Option value={2}>Đang giao hàng</Select.Option>
-                    <Select.Option value={3}>Hoàn Thành</Select.Option>
+                    <Select.Option value={3} onClick={showConfirm}>Hoàn Thành</Select.Option>
+                    <Select.Option value={4} onClick={showConfirm}>Hủy đơn hàng</Select.Option>
 
                 </Select>
             </Form.Item>
+
+            {/* Confirmation Modal */}
+            <Modal
+                title="Confirm Action"
+                visible={confirmVisible}
+                onOk={handleConfirm}
+                onCancel={handleCancel}
+            >
+                <p>Are you sure you want to mark this order as "Hoàn Thành"?</p>
+            </Modal>
 
             <Form.Item
                 name="created_at"
@@ -208,7 +249,7 @@ const UpdateOrders = () => {
                     },
                 ]}
             >
-                <Select placeholder="Select Payment">
+                <Select placeholder="Select Payment" disabled>
 
                     <Select.Option value={0}>Thanh toán bằng tiền mặt</Select.Option>
                     <Select.Option value={1}>Chuyển khoản</Select.Option>

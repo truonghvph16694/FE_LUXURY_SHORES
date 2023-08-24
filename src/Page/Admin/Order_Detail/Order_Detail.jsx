@@ -55,7 +55,7 @@
 //             console.log('Failed to fetch ProductColorList', error);
 //         }
 //     };
-    
+
 //     useEffect(() => {
 //         fetchOrder_detail(id);
 //         fetchProductSizeList();
@@ -138,13 +138,16 @@
 // export default Order_detail;
 
 
+
 import React, { useEffect, useState } from 'react';
-import order_detail_api from '../../../api/order-detail-Api';
+// import order_detail_api from '../../../api/order-detail-Api';
 import sizeApi from '../../../api/size';
 import colorApi from '../../../api/color';
 import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
 import productApi from '../../../api/products';
+import ordersApi from '../../../api/orders';
+import Loading from '../../../components/Loading/Loading';
 
 const { Column } = Table;
 
@@ -159,9 +162,10 @@ const Order_detail = () => {
 
     const fetchOrder_detail = async (id) => {
         try {
-            const response = await order_detail_api.GetAll();
-            const details = response.filter(item => item.order_id === id);
-            setOrder_detail(details);
+
+            const response = await ordersApi.GetAll();
+            setOrder_detail(response);
+            console.log('details:', order_detail);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Order_detail', error);
@@ -195,7 +199,7 @@ const Order_detail = () => {
             console.log('Failed to fetch ProductColorList', error);
         }
     };
-    
+
     useEffect(() => {
         fetchOrder_detail(id);
         fetchProductSizeList();
@@ -204,39 +208,39 @@ const Order_detail = () => {
     }, [id]);
 
     const expandedRowRender = (record) => {
-        const columns = [                            {
-                                title: 'Sản phẩm',
-                                dataIndex: 'productId',
-                                key: 'product',
-                                render: (productId) => {
-                                    const product = products.find((item) => item._id === productId);
-                                    return product ? product.name : '';
-                                },
-                            },
-                            {
-                                title: 'Màu',
-                                dataIndex: 'colorId',
-                                key: 'color',
-                                render: (colorId) => {
-                                    const color = productColor.find((item) => item._id === colorId);
-                                    return color ? color.value : '';
-                                },
-                            },
-                            {
-                                title: 'Size',
-                                dataIndex: 'sizeId',
-                                key: 'size',
-                                render: (sizeId) => {
-                                    const size = productSize.find((item) => item._id === sizeId);
-                                    return size ? size.value : '';
-                                },
-                            },
-                            {
-                                title: 'Giá',
-                                dataIndex: 'price',
-                                key: 'price',
-                            },
-                        ];
+        const columns = [{
+            title: 'Sản phẩm',
+            dataIndex: 'productId',
+            key: 'product',
+            render: (productId) => {
+                const product = products.find((item) => item._id === productId);
+                return product ? product.name : '';
+            },
+        },
+        {
+            title: 'Màu',
+            dataIndex: 'colorId',
+            key: 'color',
+            render: (colorId) => {
+                const color = productColor.find((item) => item._id === colorId);
+                return color ? color.value : '';
+            },
+        },
+        {
+            title: 'Size',
+            dataIndex: 'sizeId',
+            key: 'size',
+            render: (sizeId) => {
+                const size = productSize.find((item) => item._id === sizeId);
+                return size ? size.value : '';
+            },
+        },
+            // {
+            //     title: 'Giá',
+            //     dataIndex: 'price',
+            //     key: 'price',
+            // },
+        ];
 
         return (
             <Table columns={columns} dataSource={record.product_entries} pagination={false} />
@@ -250,9 +254,14 @@ const Order_detail = () => {
             key: 'order_id',
         },
         {
-            title: 'Quantity',
+            title: 'Số lượng',
             dataIndex: 'quantity',
             key: 'quantity',
+        },
+        {
+            title: 'Giá',
+            dataIndex: 'price',
+            key: 'price',
         },
         // Other fields you want to display in the main table
     ];
@@ -269,7 +278,7 @@ const Order_detail = () => {
                     defaultExpandAllRows={true} // This line will expand all rows by default
                 />
             ) : (
-                <p>Loading...</p>
+                <p><Loading /></p>
             )}
         </div>
     );
