@@ -1,0 +1,23 @@
+/* YourCartItemStyles.css */
+
+/* Style for the confirmation modal within the custom wrapper */
+.custom-modal-wrapper .custom-modal {
+    /* Set background color */
+    .ant-modal-content {
+        background-color: #00FF00; /* Green color */
+    }
+
+    /* Customize other styles as needed */
+    .ant-modal-header {
+        /* Customize modal header styles here */
+    }
+    .ant-modal-title {
+        /* Customize modal title styles here */
+    }
+    .ant-modal-body {
+        /* Customize modal body styles here */
+    }
+    .ant-modal-footer {
+        /* Customize modal footer styles here */
+    }
+}

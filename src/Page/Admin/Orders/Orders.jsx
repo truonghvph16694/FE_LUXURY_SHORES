@@ -11,7 +11,7 @@ const { Column } = Table;
 
 const Orders = () => {
     const [ordersList, setOrdersList] = useState([]);
-    
+
     const fetchOrdersList = async () => {
         try {
             const response = await ordersApi.GetAll();
@@ -22,7 +22,7 @@ const Orders = () => {
         }
     };
 
-    
+
 
     const convertStatus = (status) => {
         switch (status) {
@@ -65,12 +65,12 @@ const Orders = () => {
 
     useEffect(() => {
         fetchOrdersList();
-        
+
     }, []);
 
     const total_price_after = () => {
         const orderDetailMap = new Map();
-    
+
         ordersList.forEach((order) => {
             order.detail.forEach((item) => {
                 const orderId = order._id;
@@ -80,17 +80,17 @@ const Orders = () => {
                 orderDetailMap.set(orderId, orderDetailMap.get(orderId) + item.quantity * item.price);
             });
         });
-    
+
         let total_price_all = 0;
-    
+
         for (const [orderId, totalPrice] of orderDetailMap) {
             total_price_all += totalPrice;
         }
-    
+
         return total_price_all;
     };
-    
-    
+
+
 
     return (
         <div>
@@ -116,7 +116,7 @@ const Orders = () => {
                 <Column title="Province ID" dataIndex="province_id" key="province_id" />
                 <Column title="District ID" dataIndex="district_id" key="district_id" />
                 <Column title="Ward ID" dataIndex="ward_id" key="ward_id" />
-                <Column title="Detail Address" dataIndex="detail_address" key="detail_address"  />
+                <Column title="Detail Address" dataIndex="detail_address" key="detail_address" />
                 <Column
                     title="Created At"
                     dataIndex="created_at"
@@ -125,7 +125,7 @@ const Orders = () => {
                 />
                 <Column title="Note" dataIndex="note" key="note" />
                 <Column title="Ships" dataIndex="ships" key="ships" />
-                <Column title="Total Price"  key="total_price" render={() => <span>{total_price_after()}</span> } />
+                <Column title="Total Price" key="total_price" render={() => <span>{total_price_after()}</span>} />
                 <Column
                     title="Payment"
                     dataIndex="payment"
