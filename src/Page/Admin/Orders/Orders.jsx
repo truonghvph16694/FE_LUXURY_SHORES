@@ -30,10 +30,10 @@ const Orders = () => {
             const ordersWithData = await Promise.all(
                 response.map(async (order) => {
                     const provinceName = await onProvince(order.province_id);
-                const districtName = await onDistrict(order.district_id);
-                const wardName = await onWard(order.ward_id);
-                return { ...order, provinceName, districtName, wardName };
-            })
+                    const districtName = await onDistrict(order.district_id);
+                    const wardName = await onWard(order.ward_id);
+                    return { ...order, provinceName, districtName, wardName };
+                })
             );
             setOrdersList(ordersWithData);
             setLoading(false);
@@ -103,7 +103,7 @@ const Orders = () => {
             return null;
         }
     };
-    
+
     const onWard = async (id) => {
         try {
             const response = await fetch(`https://provinces.open-api.vn/api/w/${id}`);

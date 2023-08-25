@@ -13,7 +13,7 @@ const UpdateCategory = () => {
         const fetchCategory = async () => {
             try {
                 const response = await categoryApi.Get(id);
-                console.log('Category:', response);
+                // console.log('Category:', response);
                 form.setFieldsValue({ name: response.name }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
                 console.log('Failed to fetch category', error);
@@ -27,7 +27,7 @@ const UpdateCategory = () => {
         try {
 
             const response = await categoryApi.Update({ ...values, _id: id });
-            console.log('Update Category response:', response);
+            // console.log('Update Category response:', response);
             if (response.status === 200) {
                 message.success('Category updated successfully');
             }

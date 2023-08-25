@@ -1,11 +1,12 @@
-import { Form } from "antd";
 import React, { useState, useEffect } from "react";
-import { FaPray } from "react-icons/fa";
+// import { FaPray } from "react-icons/fa";
 import cartApi from "../../api/cart";
 import { formatCurrency } from "../../../utils";
 import { useForm } from "react-hook-form";
 import ordersApi from "../../api/orders";
-import { toastSuccess } from "../../components/toast/Toast";
+import { toastError, toastSuccess } from "../../components/toast/Toast";
+import paymentApi from "../../api/payment";
+import { useNavigate } from "react-router-dom";
 
 const LocationList = () => {
     const [provinces, setProvinces] = useState([]);
@@ -16,15 +17,17 @@ const LocationList = () => {
     const [communes, setCommunes] = useState([]);
     const [listCart, setListCart] = useState();
     const [totalSum, setTotalSum] = useState(0);
-    console.log("province", selectedProvince)
+    const [Payment, setPayment] = useState(0);
+    // console.log("province", selectedProvince)
     let ship = 30000
     // let sum = 0 const {
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-
+    const navigate = useNavigate();
     const totalFinal = (ship, totalSum) => {
         return ship + totalSum
     }
@@ -112,25 +115,72 @@ const LocationList = () => {
     }, [userLogin]);
 
     const onAdd = async (data) => {
+
         let product = [];
         product = listCart;
-        let order = {
-            user_id: objLogin._id,
-            product,
-            ...data,
-            province_id: Number(selectedProvince),
-            district_id: Number(selectedDistrict),
-            ward_id: Number(selectedWard),
-            total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+        // let order = {
+        //     user_id: objLogin._id,
+        //     product,
+        //     ...data,
+        //     province_id: Number(selectedProvince),
+        //     district_id: Number(selectedDistrict),
+        //     ward_id: Number(selectedWard),
+        //     total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+        // }
+        const payment = {
+            amount: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+            orderDescription: "Thanh toán đơn hàng ",
+            orderType: 200000,
+            bankCode: "",
+            language: "vn",
+            orderid: 12348
+        };
+        console.log("object", listCart)
+        let linkpay = "";
+        if (Payment == 1) {
+            const res = await paymentApi.createUrlPayment(payment);
+            console.log(res);
+            if (res?.code == 200) {
+                linkpay = res.vnpUrl;
+                window.open(res.vnpUrl, "_blank");
+            } else {
+                return toastError("Lỗi, Vui lòng thử lại");
+            }
         }
-        console.log("order", order);
-        
-        const response = await ordersApi.Add(order);
+        let products = {}
+        if (Payment == 1) {
+            products = {
+                user_id: objLogin._id,
+                product,
+                ...data,
+                province_id: Number(selectedProvince),
+                district_id: Number(selectedDistrict),
+                ward_id: Number(selectedWard),
+                total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+                payment: Payment,
+                linkpay
+            };
+        } else {
+            products = {
+                user_id: objLogin._id,
+                product,
+                ...data,
+                province_id: Number(selectedProvince),
+                district_id: Number(selectedDistrict),
+                ward_id: Number(selectedWard),
+                total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+                payment: Payment,
+                // linkpay
+            }
+        }
+        const response = await ordersApi.Add(products);
         console.log("order1", response);
 
         if (response.status === 200) {
             toastSuccess('Bạn đã đặt hàng thành công!');
-
+            navigate("/thanks");
+        } else {
+            navigate('/carts')
         }
 
 
@@ -205,7 +255,7 @@ const LocationList = () => {
                                             <option value="">Tỉnh</option>
                                             {provinces.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name} 
+                                                    {item.name}
                                                 </option>
                                             ))}
                                         </select>
@@ -223,7 +273,7 @@ const LocationList = () => {
                                             <option value="">Huyện</option>
                                             {districts.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name} 
+                                                    {item.name}
                                                 </option>
                                             ))}
                                         </select>
@@ -242,7 +292,7 @@ const LocationList = () => {
                                             <option value="">Xã</option>
                                             {communes.map((item) => (
                                                 <option key={item.code} value={item.code}>
-                                                    {item.name} 
+                                                    {item.name}
                                                 </option>
                                             ))}
                                         </select>
@@ -349,7 +399,7 @@ const LocationList = () => {
                                             defaultChecked
                                             id="inline-radio"
                                             type="radio"
-                                            // onClick={() => setPayment(0)}
+                                            onClick={() => setPayment(0)}
                                             name="inline-radio-group"
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                         />
@@ -364,7 +414,7 @@ const LocationList = () => {
                                         <input
                                             id="inline-2-radio"
                                             type="radio"
-                                            // onClick={() => setPayment(1)}
+                                            onClick={() => setPayment(1)}
                                             name="inline-radio-group"
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                         />
