@@ -4,8 +4,9 @@ import ordersApi from '../../api/orders';
 
 import { Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone, EyeOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toastSuccess } from '../../components/toast/Toast';
+import Loading from "../../components/Loading/Loading"
 
 const { Column } = Table;
 
@@ -18,14 +19,28 @@ const Orders = () => {
             const userlocal = localStorage.getItem('user')
             const user = JSON.parse(userlocal)
             const response = await ordersApi.GetAll();
-            const data = await response.filter(item => item.user_id === user._id)
-            console.log('data', data);
-            setOrdersList(data);
-            setLoading(false)
+            const data = response.filter(item => item.user_id === user._id);
+            
+            const ordersWithData = await Promise.all(data.map(async (order) => {
+                const provinceName = await onProvince(order.province_id);
+                const districtName = await onDistrict(order.district_id);
+                const wardName = await onWard(order.ward_id);
+                return {
+                    ...order,
+                    provinceName,
+                    districtName,
+                    wardName
+                };
+            }));
+            
+            console.log('ordersWithData', ordersWithData);
+            setOrdersList(ordersWithData);
+            setLoading(false);
         } catch (error) {
             console.log('Failed to fetch OrdersList', error);
         }
     };
+    
 
 
 
@@ -39,6 +54,8 @@ const Orders = () => {
                 return 'Đang giao hàng';
             case 3:
                 return 'Hoàn thành';
+            case 4:
+                return 'Đã hủy';
             default:
                 return 'Đang xử lý';
         }
@@ -68,14 +85,82 @@ const Orders = () => {
         }
     };
 
+    const cancel_Orders = async (id, record) => {
+        console.log('Hủy đơn hàng:', id);
+    
+        try {
+            const status = 4;
+            const updatedRecord = { ...record, status };
+            const response = await ordersApi.Update(updatedRecord, id);
+    
+            console.log('Phản hồi:', response);
+    
+            if (response.status === 200) {
+                message.success('Cập nhật đơn hàng thành công');
+                toastSuccess("Cập nhật thành công!");
+    
+                // Cập nhật ordersList sau khi hủy thành công
+                setOrdersList(prevOrders =>
+                    prevOrders.map(order => order._id === id ? updatedRecord : order)
+                );
+                
+            }
+        } catch (error) {
+            console.error('Lỗi khi hủy đơn hàng:', error);
+    
+            if (error.response && error.response.status === 400) {
+                // Xử lý lỗi từ phía máy chủ
+                const errorData = error.response.data;
+                message.error(errorData.message);
+            }
+            toastError("Cập nhật không thành công!");
+        }
+    };
+
+    const onProvince = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/p/${id}`);
+            const data = await response.json(); // Parse JSON response
+            console.log('Data:', data); // Log the data for debugging
+            return data.name; // Return the 'name' property from the data
+        } catch (error) {
+            console.error('Error:', error);
+            return null; // Return null in case of an error
+        }
+    };
+    const onDistrict = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/d/${id}`);
+            const data = await response.json();
+            return data.name;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
+    
+    const onWard = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/w/${id}`);
+            const data = await response.json();
+            return data.name;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
+
+
     useEffect(() => {
         fetchOrdersList();
-
+        cancel_Orders();
+        
     }, []);
+    
 
 
     const expandedRowRender = (record, index) => {
-        console.log('record:', record)
+        // console.log('record:', record)
 
         const columns = [{
             title: 'Tên sản phẩm',
@@ -123,18 +208,18 @@ const Orders = () => {
         },
         {
             title: "Tỉnh/Thành phố",
-            dataIndex: "province_id",
-            key: "province_id"
+            dataIndex: "provinceName", // Use the provinceName field instead of province_id
+            key: "provinceName"
         },
         {
-            title: "Quận/Huyện",
-            dataIndex: "district_id",
-            key: "district_id"
+            title: "Huyện/Quận",
+            dataIndex: "districtName",
+            key: "districtName"
         },
         {
             title: "Xã/Phường",
-            dataIndex: "ward_id",
-            key: "ward_id"
+            dataIndex: "wardName",
+            key: "wardName"
         },
         {
             title: "Địa chỉ cụ thể",
@@ -171,11 +256,18 @@ const Orders = () => {
         },
         {
             title: "Action",
-            render: (record) => (
-                <Space size="middle">
-                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>
-                </Space>
-            )
+            render: (record) =>  
+            <Popconfirm
+    title="Bạn có chắc muốn huỷ đơn hàng?"
+    onConfirm={() => cancel_Orders(record._id, record)}
+    okText="Có"
+    cancelText="Không"
+    disabled={record.status === 4}
+>
+    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>
+        {record.status !== 4 ? "Huỷ đơn hàng" : "Đã hủy"}
+    </button>
+</Popconfirm>
         }
         // Other fields you want to display in the main table
     ];
@@ -195,7 +287,7 @@ const Orders = () => {
                     // defaultExpandAllRows={true} 
                     />
                 ) : (
-                    <p>Loading...</p>
+                    <p> <Loading /> </p>
                 )}
             </div>
 
