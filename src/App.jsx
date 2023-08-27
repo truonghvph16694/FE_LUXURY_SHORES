@@ -71,7 +71,7 @@ function App() {
         <Route path='cart' element={<Cart />} />
         <Route path='checkout' element={<Checkout />} />
         <Route path='orders' element={<OrdersClient />} />
-        <Route path='thanks' element={<Thanks />} />
+        <Route path='thanks/:id' element={<Thanks />} />
 
       </Route>
     </Routes >
