@@ -175,10 +175,11 @@ const LocationList = () => {
         }
         const response = await ordersApi.Add(products);
         console.log("order1", response);
+        console.log("id: ", response.data._id)
 
         if (response.status === 200) {
             toastSuccess('Bạn đã đặt hàng thành công!');
-            navigate("/thanks");
+            navigate(`/thanks/${response.data._id}`);
         } else {
             navigate('/carts')
         }
