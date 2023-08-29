@@ -20,6 +20,7 @@ const Orders = () => {
             const user = JSON.parse(userlocal)
             const response = await ordersApi.GetAll();
             const data = response.filter(item => item.user_id === user._id);
+            console.log("object", data)
 
             const ordersWithData = await Promise.all(data.map(async (order) => {
                 const provinceName = await onProvince(order.province_id);
@@ -94,7 +95,7 @@ const Orders = () => {
             const response = await ordersApi.Update(updatedRecord, id);
 
             console.log('Phản hồi:', response);
-
+            fetchOrdersList()
             if (response.status === 200) {
                 toastSuccess("Cập nhật thành công!");
 
@@ -105,13 +106,8 @@ const Orders = () => {
 
             }
         } catch (error) {
-            console.error('Lỗi khi hủy đơn hàng:', error);
-
-            if (error.response && error.response.status === 400) {
-                // Xử lý lỗi từ phía máy chủ
-                const errorData = error.response.data;
-            }
             toastError("Cập nhật không thành công!");
+
         }
     };
 
@@ -151,15 +147,14 @@ const Orders = () => {
 
     useEffect(() => {
         fetchOrdersList();
-        cancel_Orders();
+        // cancel_Orders();
 
     }, []);
 
 
 
-    const expandedRowRender = (record, index) => {
+    const expandedRowRender = (record) => {
         // console.log('record:', record)
-
         const columns = [{
             title: 'Tên sản phẩm',
             render: (record) => {

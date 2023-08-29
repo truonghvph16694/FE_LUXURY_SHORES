@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Input, Button, message, Select, Modal } from 'antd';
+import { Form, Input, Button, message, Select } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 
 
 const UpdateOrders = () => {
     const { id } = useParams();
-    // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const [confirmVisible, setConfirmVisible] = useState(false);
+    const [status, setStatus] = useState(0);
+    console.log("Selected status:", status);
 
-
+    const handleStatusChange = (value) => {
+        console.log("Selected status:", value);
+        setStatus(value);
+    };
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const response = await ordersApi.Get(id);
                 console.log('order:', response);
+                setStatus(response.status);
                 form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note, ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
                 console.log('Failed to fetch category', error);
@@ -46,35 +50,6 @@ const UpdateOrders = () => {
             toastError("Cập nhật không thành công!")
         }
     };
-
-    const showConfirm = () => {
-        setConfirmVisible(true);
-    };
-
-
-    const handleConfirm = async () => {
-        setConfirmVisible(false);
-        try {
-            const response = await ordersApi.Update({ status: 3, _id: id }); // Update status to 3 (Hoàn Thành)
-            if (response.status === 200) {
-                message.success('Orders updated successfully');
-            }
-            toastSuccess("Cập nhật thành công!")
-            navigate("/admin/orders");
-        } catch (error) {
-            if (error.response && error.response.status === 400) {
-                const errorData = error.response.data;
-                message.error(errorData.message);
-            }
-            toastError("Cập nhật không thành công!")
-        }
-    };
-
-    const handleCancel = () => {
-        setConfirmVisible(false);
-    };
-
-
     return (
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
@@ -135,7 +110,7 @@ const UpdateOrders = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please enter detail_address' ,
+                        message: 'Please enter detail_address',
                     },
                 ]}
             >
@@ -153,26 +128,18 @@ const UpdateOrders = () => {
                     },
                 ]}
             >
-                <Select placeholder="Select category">
-
-                    <Select.Option value={0}>Đơn hàng mới</Select.Option>
-                    <Select.Option value={1}>Đang xử lí</Select.Option>
-                    <Select.Option value={2}>Đang giao hàng</Select.Option>
-                    <Select.Option value={3} onClick={showConfirm}>Hoàn Thành</Select.Option>
-                    <Select.Option value={4} onClick={showConfirm}>Hủy đơn hàng</Select.Option>
-
+                <Select
+                    placeholder="Select category"
+                    onChange={handleStatusChange}
+                    value={status}
+                >
+                    <Select.Option value={0} disabled={status >= 0}>Đơn hàng mới</Select.Option>
+                    <Select.Option value={1} disabled={status >= 1}>Đang xử lý</Select.Option>
+                    <Select.Option value={2} disabled={status >= 2}>Đang giao hàng</Select.Option>
+                    <Select.Option value={3} disabled={status >= 3}>Hoàn thành</Select.Option>
+                    <Select.Option value={4} disabled={true}>Đã hủy</Select.Option>
                 </Select>
             </Form.Item>
-
-            {/* Confirmation Modal */}
-            <Modal
-                title="Confirm Action"
-                visible={confirmVisible}
-                onOk={handleConfirm}
-                onCancel={handleCancel}
-            >
-                <p>Are you sure you want to mark this order as "Hoàn Thành"?</p>
-            </Modal>
 
             <Form.Item
                 name="created_at"
@@ -197,21 +164,8 @@ const UpdateOrders = () => {
                     },
                 ]}
             >
-                <Input placeholder="Enter note" />
+                <Input placeholder="Enter note" disabled />
             </Form.Item>
-
-            {/* <Form.Item
-                name="finish_date"
-                label="finish_date"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter finish_date',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter finish_date" disabled />
-            </Form.Item> */}
 
             <Form.Item
                 name="ships"
@@ -258,16 +212,12 @@ const UpdateOrders = () => {
                 </Select>
             </Form.Item>
 
-
-
-
-
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button htmlType="submit">
                     Update Orders
                 </Button>
             </Form.Item>
-        </Form>
+        </Form >
     );
 };
 
