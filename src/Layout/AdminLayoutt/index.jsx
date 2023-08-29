@@ -96,7 +96,7 @@ const AdminLayout = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/admin/dashboard">
+                            <Link to="/admin">
                                 <span className={styles.icon}>
                                     <IoHomeOutline className={styles.io} />
                                 </span>
