@@ -50,7 +50,7 @@ const CartItem = (item) => {
     const handleCancel = () => {
         setConfirmVisible(false);
     };
-
+    console.log("first:", item)
     return (
         <tr className="border-t-2">
             <td className="flex py-10  gap-4">

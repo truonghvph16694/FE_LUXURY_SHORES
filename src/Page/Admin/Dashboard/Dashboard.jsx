@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CAvatar,
   CCard,
@@ -15,7 +15,7 @@ import {
 } from '@coreui/react';
 import { CChartLine } from '@coreui/react-chartjs';
 import { hexToRgba } from '@coreui/utils';
-import CIcon from '@coreui/icons-react';    
+import CIcon from '@coreui/icons-react';
 import {
   cibCcAmex,
   cibCcApplePay,
@@ -32,6 +32,9 @@ import {
   cilPeople,
 } from '@coreui/icons';
 
+import ordersApi from '../../../api/orders';
+import productApi from '../../../api/products';
+
 const Dashboard = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -42,6 +45,144 @@ const Dashboard = () => {
     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
   ]
+
+
+  const [totalPriceSum, setTotalPriceSum] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [quantityOut, setQuantityOut] = useState(0);
+  const [priceInventory, setPriceInventory] = useState(0);
+  const [monthlyData, setMonthlyData] = useState([]);
+
+
+  const fetchTotal_price = async () => {
+    try {
+      const list = await ordersApi.GetAll(); // Assuming this returns an array of objects
+
+      const filteredList = list.filter(order => order.status === 3);
+
+      const sum = filteredList.reduce((acc, order) => {
+        return acc + order.total_price;
+      }, 0);
+
+      setTotalPriceSum(sum);
+    } catch (error) {
+      console.error('Error fetching total price:', error);
+    }
+  };
+
+  const fetch_quantity_out = async () => {
+    try {
+      const ordersData = await ordersApi.GetAll(); // Assuming this returns an array of objects with product arrays
+      console.log('ordersData: ', ordersData);
+
+      const filteredOrders = ordersData.filter(order => order.status === 3);
+
+      const sum = filteredOrders.reduce((acc, order) => {
+        const orderQuantities = order.product.map(product => product.quantity);
+        const orderSum = orderQuantities.reduce((orderAcc, orderQuantity) => orderAcc + orderQuantity, 0);
+        return acc + orderSum;
+      }, 0);
+
+      setQuantityOut(sum);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
+
+  const total_quantity = async () => {
+    try {
+      const data = await productApi.GetAll(); // Assuming this returns an array of objects with product_entries
+      console.log("data-entry: ", data);
+
+      const sum = data.reduce((acc, record) => {
+        const entryQuantities = record.product_entries.map(entry => entry.quantity);
+        const entrySum = entryQuantities.reduce((entryAcc, entryQuantity) => entryAcc + entryQuantity, 0);
+        return acc + entrySum;
+      }, 0);
+
+      setQuantity(sum);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const fetch_price_inventory = async () => {
+    try {
+      const productsData = await productApi.GetAll(); // Assuming this returns an array of objects
+      console.log('productsData: ', productsData);
+
+      const sum = productsData.reduce((acc, product) => {
+        const productTotalPrice = product.product_entries.reduce((entryAcc, entry) => {
+          return entryAcc + entry.quantity * product.price;
+        }, 0);
+        return acc + productTotalPrice;
+      }, 0);
+
+      setPriceInventory(sum);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
+  const fetchOrdersByMonth = async () => {
+    try {
+      const ordersData = await ordersApi.GetAll(); // Assuming this returns an array of objects
+
+      const ordersByMonth = {};
+
+      ordersData.forEach(order => {
+        if (order.status === 3) {
+          const createdAt = new Date(order.created_at);
+          const yearMonth = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
+
+          if (!ordersByMonth[yearMonth]) {
+            ordersByMonth[yearMonth] = 0;
+          }
+
+          ordersByMonth[yearMonth] += order.total_price;
+        }
+      });
+
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+
+      // Create an array of data for the chart
+      const chartData = months.map(month => {
+        const yearMonth = `${new Date().getFullYear()}-${months.indexOf(month) + 1}`;
+        return ordersByMonth[yearMonth] || 0; // If data doesn't exist for the month, set it to 0
+      });
+
+      setMonthlyData(chartData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchTotal_price();
+    total_quantity();
+    fetch_quantity_out();
+    fetch_price_inventory();
+    fetchOrdersByMonth();
+  }, []);
+
+  const formattedTotalPrice = totalPriceSum.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  });
+
+  const formattedPriceInventory = priceInventory.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  });
+
+
+
 
   const tableExample = [
     {
@@ -143,7 +284,7 @@ const Dashboard = () => {
               <h4 id="traffic" className="card-title mb-0">
                 Traffic
               </h4>
-              <div className="small text-medium-emphasis">January - July 2021</div>
+              <div className="small text-medium-emphasis">January - August 2021</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
               {/* <CButton color="primary" className="float-end">
@@ -154,34 +295,26 @@ const Dashboard = () => {
           <CChartLine
             style={{ height: '300px', marginTop: '40px' }}
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'],
               datasets: [
                 {
-                  label: 'My First dataset',
+                  label: 'Monthly Sales',
                   backgroundColor: hexToRgba('#63c2de', 10),
                   borderColor: '#63c2de',
                   pointHoverBackgroundColor: '#63c2de',
                   borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                  ],
+                  data: monthlyData, // Use the fetched monthly data here
                   fill: true,
                 },
-                {
-                  label: 'My Third dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: '#f86c6b',
-                  pointHoverBackgroundColor: '#f86c6b',
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
-                },
+                // {
+                //   label: 'My Third dataset',
+                //   backgroundColor: 'transparent',
+                //   borderColor: '#f86c6b',
+                //   pointHoverBackgroundColor: '#f86c6b',
+                //   borderWidth: 1,
+                //   borderDash: [8, 5],
+                //   data: [65, 65, 65, 65, 65, 65, 65, 65],
+                // },
               ],
             }}
             options={{
@@ -221,7 +354,7 @@ const Dashboard = () => {
           />
         </CCardBody>
       </CCard>
-      <CRow>
+      {/* <CRow>
         <CCol xs>
           <CCard className="mb-4">
             <CCardBody>
@@ -241,7 +374,7 @@ const Dashboard = () => {
                   {tableExample.map((item, index) => (
                     <CTableRow key={index}>
                       <CTableDataCell className="text-center">
-\                      </CTableDataCell>
+                        \                      </CTableDataCell>
                       <CTableDataCell>
                         <div>{item.user.name}</div>
                         <div className="small text-medium-emphasis">
@@ -270,7 +403,14 @@ const Dashboard = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      </CRow>
+      </CRow> */}
+
+      <div>
+        <h2>Tổng giá trị tồn kho: {formattedPriceInventory}</h2>
+        <h2>Doanh thu: {formattedTotalPrice}</h2>
+        <h2>Tổng sản phẩm đã nhập vào: {quantity} Đôi</h2>
+        <h2>Số sản phẩm đã bán ra: {quantityOut} Đôi</h2>
+      </div>
     </>
   );
 };
