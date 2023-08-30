@@ -152,7 +152,7 @@ const UpdateOrders = () => {
                     },
                 ]}
             >
-                <Input placeholder="Enter created_at"  />
+                <Input placeholder="Enter created_at" disabled />
             </Form.Item>
 
             <Form.Item
