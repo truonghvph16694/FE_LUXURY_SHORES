@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Table } from 'antd';
 import moment from 'moment';
+import queryString from "query-string";
+
 import ordersApi from '../../api/orders';
+import paymentApi from '../../api/payment';
 
 const Thanks = () => {
     const { id } = useParams();
@@ -11,30 +14,36 @@ const Thanks = () => {
 
     const userlocal = localStorage.getItem('user');
     const user = JSON.parse(userlocal);
+    const currentUrl = window.location.href;
 
+    const queryParams = queryString.parse(currentUrl.split("?")[1]);
     const fetchOrders = async () => {
-        try {
-            const response = await ordersApi.GetAll();
-            const data = response.filter(item => item.user_id === user._id && item._id === id);
+        // try {
 
-            const ordersWithData = await Promise.all(data.map(async (order) => {
-                const provinceName = await onProvince(order.province_id);
-                const districtName = await onDistrict(order.district_id);
-                const wardName = await onWard(order.ward_id);
-                return {
-                    ...order,
-                    provinceName,
-                    districtName,
-                    wardName
-                };
-            }));
-
-            setOrdersList(ordersWithData);
-            console.log("item:", data)
-            // setLoading(false);
-        } catch (error) {
-            console.log('Failed to fetch OrdersList', error);
+        if (queryParams.vnp_SecureHash) {
+            await paymentApi.changStatusPayment({ id: id, vnp_ResponseCode: queryParams.vnp_ResponseCode });
         }
+        const response = await ordersApi.GetAll();
+        const data = response.filter(item => item.user_id === user._id && item._id === id);
+
+        const ordersWithData = await Promise.all(data.map(async (order) => {
+            const provinceName = await onProvince(order.province_id);
+            const districtName = await onDistrict(order.district_id);
+            const wardName = await onWard(order.ward_id);
+            return {
+                ...order,
+                provinceName,
+                districtName,
+                wardName
+            };
+        }));
+
+        setOrdersList(ordersWithData);
+        console.log("item:", data)
+        // setLoading(false);
+        // } catch (error) {
+        //     console.log('Failed to fetch OrdersList', error);
+        // }
     };
 
     const onProvince = async (id) => {
@@ -58,7 +67,7 @@ const Thanks = () => {
             return null;
         }
     };
-    
+
     const onWard = async (id) => {
         try {
             const response = await fetch(`https://provinces.open-api.vn/api/w/${id}`);
@@ -99,8 +108,8 @@ const Thanks = () => {
     }, []);
 
     const leftContent = (
-        <div>
-            <div className="flex items-center justify-center mb-4">
+        <div className='w-[95%] ml-4'>
+            <div className="flex items-center justify-center mb-4 ">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-24 w-24 text-green-600"
@@ -187,7 +196,7 @@ const Thanks = () => {
             dataIndex: "product",
             key: "product",
             render: (product) => {
-                return product.map(item => <div>{item.product.name}</div>);
+                return product.map((item, i) => <div key={i}>{item.product.name}</div>);
             }
         },
         {
@@ -195,7 +204,7 @@ const Thanks = () => {
             dataIndex: "product",
             key: "product",
             render: (product) => {
-                return product.map(item => <div>{item.size.value}</div>);
+                return product.map((item, i) => <div key={i}>{item.size.value}</div>);
             }
         },
         {
@@ -203,7 +212,7 @@ const Thanks = () => {
             dataIndex: "product",
             key: "product",
             render: (product) => {
-                return product.map(item => <div>{item.quantity}</div>);
+                return product.map((item, i) => <div key={i}>{item.quantity}</div>);
             }
         },
         {
@@ -211,7 +220,7 @@ const Thanks = () => {
             dataIndex: "product",
             key: "product",
             render: (product) => {
-                return product.map(item => <div>{item.product.price} VNĐ</div>);
+                return product.map((item, i) => <div key={i}>{item.product.price} VNĐ</div>);
             }
         }
     ];

@@ -54,7 +54,7 @@ const CartItem = (item) => {
     return (
         <tr className="border-t-2">
             <td className="flex py-10  gap-4">
-                <img src={item.item.images ? item.item.images[0].path : null} className="w-20"></img>
+                <img src={item.item.images ? item.item.images[0]?.path : null} className="w-20"></img>
                 <div className="pt-7 w-[300px]">
                     <p>{item.item.product.name}</p>
                 </div>

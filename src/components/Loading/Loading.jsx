@@ -7,7 +7,7 @@ import './styles.css';
 
 const Loading = () => {
     return (
-        <div className='container'>
+        <div className='container flex justify-center items-center'>
             <div>
                 <Vortex
                     visible={true}

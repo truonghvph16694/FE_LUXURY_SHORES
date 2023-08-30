@@ -20,6 +20,7 @@ const Product = () => {
     const [showPriceRangeDropdown, setShowPriceRangeDropdown] = useState(false);
     const [categories, setCategories] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const priceRangeOptions = [
         { label: 'Dưới 500,000đ', min: '0', max: '500000' },
@@ -28,16 +29,16 @@ const Product = () => {
         { label: 'Trên 2,000,000đ', min: '2000000', max: '' },
     ];
 
-    const fetchPfromC = async (_id) => {
-        try {
-            const response = await categoryApi.GetProducts(_id);
-            console.log("p", response);
-            setPfromC(response);
-            setSelectedCategoryId(_id); // Set the selected category ID
-        } catch (error) {
-            console.log('Lỗi khi lấy danh sách sản phẩm danh mục', error);
-        }
-    };
+    // const fetchPfromC = async (_id) => {
+    //     try {
+    //         const response = await categoryApi.GetProducts(_id);
+    //         console.log("p", response);
+    //         setPfromC(response);
+    //         setSelectedCategoryId(_id); // Set the selected category ID
+    //     } catch (error) {
+    //         console.log('Lỗi khi lấy danh sách sản phẩm danh mục', error);
+    //     }
+    // };
 
     const fetchCategoryList = async () => {
         try {
@@ -66,7 +67,7 @@ const Product = () => {
     useEffect(() => {
         fetchProductList();
         fetchCategoryList();
-        fetchPfromC(_id);
+        // fetchPfromC(_id);
     }, [_id, selectedCategoryId]);
 
     useEffect(() => {
@@ -81,6 +82,7 @@ const Product = () => {
 
     const handleCategoryClick = (categoryId) => {
         setSelectedCategoryId(categoryId);
+        setSelectedCategory(categoryId);
         // Clear any active price filters when a category is clicked
         setMinPrice('');
         setMaxPrice('');
@@ -101,13 +103,14 @@ const Product = () => {
     };
 
     return (
-        <div className="container mx-auto py-4">
-            <div className='flex mt-8'>
-                <Link to={'/'}> <h6>Trang Chủ/</h6></Link>
-                <span>  Sản phẩm</span>
-            </div>
+        <div className="container mx-auto py-4 h-auto">
+
             <div className="flex">
-                <div className="w-1/4 mr-4 min-h-[450px] sidebar1">
+                <div className="w-1/4 mr-4 min-h-[850px] sidebar1">
+                    {/* <div className='mt-8 flex'>
+                        <Link to={'/'}> <h6>Trang Chủ/</h6></Link>
+                        <span>  Sản phẩm</span>
+                    </div> */}
                     <div className='categories ' >
                         <div className='flex '>
                             <AiOutlineUnorderedList />
@@ -116,7 +119,10 @@ const Product = () => {
                         <div className='categories'>
                             <ul className="mb-0 ">
                                 {categories.map((category) => (
-                                    <li key={category.id} className='font-Roboto Mono  hover:text-blue-500 '>
+                                    <li
+                                        key={category.id}
+                                        className={`font-Roboto Mono hover:text-blue-500 ${selectedCategory === category._id ? 'text-xl text-red-500 m-2' : ''}`}
+                                    >
                                         <Link
                                             to="#"
                                             className="ml-[45px] pt-8"
@@ -133,7 +139,7 @@ const Product = () => {
                         <div className='pt-[28px] text-xl'>
                             <FiFilter />
                         </div>
-                        <h2 className='mt-[22px] ml-4 font-bold text-2xl ' onClick={handlePriceFilter}>Lọc Theo Giá</h2>
+                        <h2 className='mt-[22px] ml-4 font-bold text-2xl pt-2 ' onClick={handlePriceFilter}>Lọc Theo Giá</h2>
                     </div>
                     <div className="ml-8  flex flex-col  rounded-md p-2 absolute bg-white w-60">
                         {priceRangeOptions.map(({ label, min, max }) => (

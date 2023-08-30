@@ -74,17 +74,7 @@ const App = () => {
   };
 
   const expandedRowRender = (record) => {
-    // console.log('record', record)
     const columns = [
-      // {
-      //   title: 'Màu',
-      //   dataIndex: 'colorId',
-      //   key: 'color',
-      //   render: (colorId) => {
-      //     const color = productColor.find((item) => item._id === colorId);
-      //     return color ? color.value : '';
-      //   },
-      // },
       {
         title: 'Size',
         dataIndex: 'sizeId',
@@ -199,3 +189,6 @@ const App = () => {
 };
 
 export default App;
+
+
+

@@ -281,8 +281,8 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
+              <h4 id="charts" className="card-title mb-0">
+                Charts
               </h4>
               <div className="small text-medium-emphasis">January - August 2021</div>
             </CCol>
@@ -329,29 +329,38 @@ const Dashboard = () => {
                   grid: {
                     drawOnChartArea: false,
                   },
-                },
-                y: {
-                  ticks: {
-                    beginAtZero: true,
-                    maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
-                    max: 250,
+                }}
+              />
+            </CCol>
+            <CCol sm={6}>
+              <CChartBar
+                style={{ height: '300px', marginTop: '40px' }}
+                data={barData}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: 'bottom',
+                    },
                   },
-                },
-              },
-              elements: {
-                line: {
-                  tension: 0.4,
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
-            }}
-          />
+                  scales: {
+                    x: {
+                      grid: {
+                        drawOnChartArea: false,
+                      },
+                    },
+                    y: {
+                      beginAtZero: true,
+                      maxTicksLimit: 5,
+                      stepSize: Math.ceil(Math.max(...barData.datasets[0].data) / 5),
+                      max: Math.max(...barData.datasets[0].data),
+                    },
+                  },
+                }}
+              />
+            </CCol>
+          </CRow>
         </CCardBody>
       </CCard>
       {/* <CRow>
@@ -416,3 +425,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+ 

@@ -54,7 +54,7 @@ const Orders = () => {
             case 3:
                 return 'Hoàn thành';
             case 4:
-                return 'Đã hủy đơn';
+                return 'Đã hủy';
             default:
                 return 'Đang xử lý';
         }
@@ -88,7 +88,7 @@ const Orders = () => {
         try {
             const response = await fetch(`https://provinces.open-api.vn/api/p/${id}`);
             const data = await response.json(); // Parse JSON response
-            console.log('Data:', data); // Log the data for debugging
+            // console.log('Data:', data); // Log the data for debugging
             return data.name; // Return the 'name' property from the data
         } catch (error) {
             console.error('Error:', error);
@@ -124,7 +124,7 @@ const Orders = () => {
 
 
     const expandedRowRender = (record, index) => {
-        console.log('record:', record)
+        // console.log('record:', record)
 
         const columns = [{
             title: 'Tên sản phẩm',
@@ -139,7 +139,7 @@ const Orders = () => {
             },
         },
         {
-            title: 'Hình ảnh',
+            title: 'Số Lượng',
             render: (record) => {
                 return record.quantity
             },

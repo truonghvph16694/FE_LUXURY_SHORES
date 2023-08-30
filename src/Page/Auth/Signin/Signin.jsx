@@ -59,8 +59,8 @@ const Signin = () => {
   };
 
   return (
-    <div className="pt-1">
-      <div className="xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
+    <div className="pt-8 ">
+      <div className="xl:w-[1600px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
         <div className="content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg">
           <img
             className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
