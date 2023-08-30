@@ -139,7 +139,7 @@ const Orders = () => {
             },
         },
         {
-            title: 'Hình ảnh',
+            title: 'Số Lượng',
             render: (record) => {
                 return record.quantity
             },

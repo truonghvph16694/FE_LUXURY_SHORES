@@ -51,6 +51,7 @@ const UpdateOrders = () => {
         }
     };
     return (
+        <div >
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="user_id"
@@ -218,6 +219,7 @@ const UpdateOrders = () => {
                 </Button>
             </Form.Item>
         </Form >
+        </div>
     );
 };
 
