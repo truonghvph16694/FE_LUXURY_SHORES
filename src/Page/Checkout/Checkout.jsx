@@ -118,35 +118,6 @@ const LocationList = () => {
 
         let product = [];
         product = listCart;
-        // let order = {
-        //     user_id: objLogin._id,
-        //     product,
-        //     ...data,
-        //     province_id: Number(selectedProvince),
-        //     district_id: Number(selectedDistrict),
-        //     ward_id: Number(selectedWard),
-        //     total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
-        // }
-        const payment = {
-            amount: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
-            orderDescription: "Thanh toán đơn hàng ",
-            orderType: 200000,
-            bankCode: "",
-            language: "vn",
-            orderid: 12348
-        };
-        console.log("object", listCart)
-        let linkpay = "";
-        if (Payment == 1) {
-            const res = await paymentApi.createUrlPayment(payment);
-            console.log(res);
-            if (res?.code == 200) {
-                linkpay = res.vnpUrl;
-                window.open(res.vnpUrl, "_blank");
-            } else {
-                return toastError("Lỗi, Vui lòng thử lại");
-            }
-        }
         let products = {}
         if (Payment == 1) {
             products = {
@@ -158,7 +129,7 @@ const LocationList = () => {
                 ward_id: Number(selectedWard),
                 total_price: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
                 payment: Payment,
-                linkpay
+                // linkpay
             };
         } else {
             products = {
@@ -174,11 +145,37 @@ const LocationList = () => {
             }
         }
         const response = await ordersApi.Add(products);
+
+        const payment = {
+            amount: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),
+            orderDescription: "Thanh toán đơn hàng ",
+            orderType: 200000,
+            bankCode: "",
+            language: "vn",
+            // orderid: "A1128"
+            orderid: response.data._id
+        };
+        console.log("object", listCart)
+        // let linkpay = "";
+        if (Payment == 1) {
+            const res = await paymentApi.createUrlPayment(payment);
+            console.log('res', res);
+            if (res?.code == 200) {
+                // linkpay = res.vnpUrl;
+                // const res = await paymentApi.changStatusPayment(response.data._id);
+
+                window.open(res.vnpUrl, "_blank");
+            } else {
+                return toastError("Lỗi, Vui lòng thử lại");
+            }
+        }
+
         console.log("order1", response);
+        console.log("id: ", response.data._id)
 
         if (response.status === 200) {
             toastSuccess('Bạn đã đặt hàng thành công!');
-            navigate("/thanks");
+            navigate(`/thanks/${response.data._id}`);
         } else {
             navigate('/carts')
         }
