@@ -281,8 +281,8 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <CCol sm={5}>
-              <h4 id="charts" className="card-title mb-0">
-                Charts
+              <h4 id="traffic" className="card-title mb-0">
+                Traffic
               </h4>
               <div className="small text-medium-emphasis">January - August 2021</div>
             </CCol>
@@ -329,90 +329,33 @@ const Dashboard = () => {
                   grid: {
                     drawOnChartArea: false,
                   },
-                }}
-              />
-            </CCol>
-            <CCol sm={6}>
-              <CChartBar
-                style={{ height: '300px', marginTop: '40px' }}
-                data={barData}
-                options={{
-                  maintainAspectRatio: false,
-                  plugins: {
-                    legend: {
-                      display: true,
-                      position: 'bottom',
-                    },
+                },
+                y: {
+                  ticks: {
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    stepSize: Math.ceil(250 / 5),
+                    max: 250,
                   },
-                  scales: {
-                    x: {
-                      grid: {
-                        drawOnChartArea: false,
-                      },
-                    },
-                    y: {
-                      beginAtZero: true,
-                      maxTicksLimit: 5,
-                      stepSize: Math.ceil(Math.max(...barData.datasets[0].data) / 5),
-                      max: Math.max(...barData.datasets[0].data),
-                    },
-                  },
-                }}
-              />
-            </CCol>
-          </CRow>
+                },
+              },
+              elements: {
+                line: {
+                  tension: 0.4,
+                },
+                point: {
+                  radius: 0,
+                  hitRadius: 10,
+                  hoverRadius: 4,
+                  hoverBorderWidth: 3,
+                },
+              },
+            }}
+          />
         </CCardBody>
       </CCard>
-      {/* <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardBody>
-              <br />
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>User</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow key={index}>
-                      <CTableDataCell className="text-center">
-                        \                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-medium-emphasis">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="clearfix">
-                          <div className="float-start">
-                            <strong>{item.usage.value}%</strong>
-                          </div>
-                          <div className="float-end">
-                            <small className="text-medium-emphasis">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
-              </CTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow> */}
+
+      
 
       <div>
         <h2>Tổng giá trị tồn kho: {formattedPriceInventory}</h2>
@@ -425,4 +368,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
- 
