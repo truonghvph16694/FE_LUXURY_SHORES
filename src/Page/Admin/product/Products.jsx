@@ -103,6 +103,13 @@ const App = () => {
 
   const columns = [
     {
+      title: 'No', // Serial Number
+      dataIndex: 'stt',
+      key: 'stt',
+      render: (text, record, index) => index + 1,
+      width: 70,
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -179,8 +186,7 @@ const App = () => {
             expandedRowKeys: expandedRowKeys,
             onExpand: handleExpand,
           }}
-          dataSource={productList.map((product) => ({ ...product, key: product._id }))}
-        />
+          dataSource={productList.map((product, index) => ({ ...product, key: product._id, stt: index + 1 }))}        />
       ) : (
         <p><Loading /></p>
       )}

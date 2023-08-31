@@ -17,16 +17,14 @@ const Categories = () => {
     const fetchCategoryList = async () => {
         try {
             const response = await categoryApi.GetAll();
-            console.log('response', response);
-            setCategoryList(response);
-            setLoading(false)
-            console.log('categoryList', categoryList)
-
+            // Thêm trường "stt" vào dữ liệu
+            const categoryListWithStt = response.map((category, index) => ({ ...category, stt: index + 1 }));
+            setCategoryList(categoryListWithStt);
+            setLoading(false);
         } catch (error) {
             console.log('Failed to fetch CategoryList', error);
         }
     };
-
     const onHandleDelete = async (id) => {
         try {
             const response = await categoryApi.GetProducts(id);
@@ -95,6 +93,8 @@ const Categories = () => {
                 </Link>
             </div>
             {!loading ? (<Table dataSource={categoryList}>
+                <Column title="No" dataIndex="stt" key="stt" />
+
                 <Column title="Category" dataIndex="name" key="name" />
                 <Column
                     title="Action"
