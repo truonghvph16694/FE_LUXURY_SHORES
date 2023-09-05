@@ -140,11 +140,11 @@ const Thanks = () => {
     const columns_4 = [
         {
             title: "Mã đơn hàng",
-            dataIndex: "",
-            key: "",
-            render: () => {
-                return "12345"
-            }
+            dataIndex: "_id",
+            key: "_id",
+            // render: () => {
+            //     // return ""
+            // }
         }
     ]
 
