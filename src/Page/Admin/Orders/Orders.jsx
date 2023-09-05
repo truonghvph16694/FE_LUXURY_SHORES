@@ -48,7 +48,7 @@ const Orders = () => {
             case 0:
                 return 'Đơn hàng mới';
             case 1:
-                return 'Đang xử lý';
+                return 'Đang đã nhận đơn';
             case 2:
                 return 'Đang giao hàng';
             case 3:
@@ -157,6 +157,8 @@ const Orders = () => {
 
         );
     };
+
+
 
     const columns = [
         {
