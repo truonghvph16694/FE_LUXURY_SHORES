@@ -103,6 +103,13 @@ const App = () => {
 
   const columns = [
     {
+      title: 'No', // Serial Number
+      dataIndex: 'stt',
+      key: 'stt',
+      render: (text, record, index) => index + 1,
+      width: 70,
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -147,11 +154,12 @@ const App = () => {
           </Link>
           <Popconfirm
             title="Delete the task"
-            description="Are you sure to delete this task?"
+            description="Trong danh mục có sản phẩm bạn có chắc chắn muốn xóa!"
             onConfirm={() => handleDelete(record._id)}
-            okText="Yes"
+            okText={<span style={{ color: 'white' }}>Yes</span>}
             cancelText="No"
-            okButtonProps={{ className: 'text-light bg-primary' }}
+            okButtonProps={{ style: { background: 'green' } }}
+            disabled={loading}
           >
             <DeleteTwoTone style={{ fontSize: '18px' }} />
           </Popconfirm>
@@ -179,8 +187,7 @@ const App = () => {
             expandedRowKeys: expandedRowKeys,
             onExpand: handleExpand,
           }}
-          dataSource={productList.map((product) => ({ ...product, key: product._id }))}
-        />
+          dataSource={productList.map((product, index) => ({ ...product, key: product._id, stt: index + 1 }))} />
       ) : (
         <p><Loading /></p>
       )}

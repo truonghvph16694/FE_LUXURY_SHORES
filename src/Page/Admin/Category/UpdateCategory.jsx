@@ -58,7 +58,7 @@ const UpdateCategory = () => {
             </Form.Item>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" className='bg-blue-500'>
                     Update Category
                 </Button>
             </Form.Item>
