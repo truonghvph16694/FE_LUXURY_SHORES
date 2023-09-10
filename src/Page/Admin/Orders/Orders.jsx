@@ -73,16 +73,16 @@ const Orders = () => {
         }
     };
 
-    const convert_status_Payment = (payment) => {
-        switch (payment) {
-            case 0:
-                return 'Chưa thanh toán';
-            case 1:
-                return 'Đã thanh toán'
-            default:
-                return 'Đang xử lý';
-        }
-    };
+    // const convert_status_Payment = (payment) => {
+    //     switch (payment) {
+    //         case 0:
+    //             return 'Chưa thanh toán';
+    //         case 1:
+    //             return 'Đã thanh toán'
+    //         default:
+    //             return 'Đang xử lý';
+    //     }
+    // };
 
     const onProvince = async (id) => {
         try {
@@ -214,12 +214,12 @@ const Orders = () => {
             key: "payment",
             render: (payment) => convertPayment(payment)
         },
-        {
-            title: "Trạng thái thanh toán",
-            dataIndex: "status_payment",
-            key: "status_payment",
-            render: (payment) => convert_status_Payment(payment)
-        },
+        // {
+        //     title: "Trạng thái thanh toán",
+        //     dataIndex: "status_payment",
+        //     key: "status_payment",
+        //     render: (payment) => convert_status_Payment(payment)
+        // },
         {
             title: "Action",
             render: (record) => (
@@ -241,9 +241,9 @@ const Orders = () => {
                 {!loading ? (
                     <Table
                         columns={columns}
-                        expandable={{
-                            expandedRowRender: expandedRowRender,
-                        }}
+                        // expandable={{
+                        //     expandedRowRender: expandedRowRender,
+                        // }}
                         dataSource={ordersList.map(order => ({ ...order, key: order._id }))}
                     // defaultExpandAllRows={true} 
                     />

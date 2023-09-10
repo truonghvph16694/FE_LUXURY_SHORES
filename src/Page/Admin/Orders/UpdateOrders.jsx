@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Input, Button, message, Select } from 'antd';
+import { Form, Input, Button, message, Select, Table } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
+import Loading from '../../../components/Loading/Loading';
 
 
 const UpdateOrders = () => {
@@ -11,6 +12,10 @@ const UpdateOrders = () => {
     const navigate = useNavigate();
     const [status, setStatus] = useState(0);
     const [previousStatus, setPreviousStatus] = useState(status);
+
+    const [ordersList, setOrdersList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     console.log("Selected status:", status);
 
     // const handleStatusChange = (value) => {
@@ -23,6 +28,8 @@ const UpdateOrders = () => {
                 const response = await ordersApi.Get(id);
                 console.log('order:', response);
                 setStatus(response.status);
+                setOrdersList(response);
+                setLoading(false);
                 form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note, ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
                 console.log('Failed to fetch category', error);
@@ -71,10 +78,39 @@ const UpdateOrders = () => {
             toastError("Cập nhật không thành công!")
         }
     };
+
+
+    const columns = [
+        {
+            title: "Sản phẩm",
+            render: (record) => {
+                return record.product.name
+            }
+        },
+        {
+            title: "Ảnh",
+            render: (record) => {
+                return <img src={record.images[0].path} width="25%" alt="" />
+            }
+        },
+        {
+            title: "Số lượng",
+            dataIndex: "quantity"
+        },
+        {
+            title: "Giá",
+            render: (record) => {
+                return record.product.price
+            }
+        },
+    ];
+
+
+
     return (
         <div >
             <Form form={form} onFinish={onFinish} layout="vertical">
-                <Form.Item
+                {/* <Form.Item
                     name="user_id"
                     label="User_ID"
                     rules={[
@@ -85,9 +121,9 @@ const UpdateOrders = () => {
                     ]}
                 >
                     <Input placeholder="User_ID" disabled />
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item
+                {/* <Form.Item
                     name="province_id"
                     label="Province_id"
                     rules={[
@@ -137,7 +173,7 @@ const UpdateOrders = () => {
                     ]}
                 >
                     <Input placeholder="Enter detail_address" disabled />
-                </Form.Item>
+                </Form.Item> */}
 
 
                 <Form.Item
@@ -241,6 +277,17 @@ const UpdateOrders = () => {
                     </Button>
                 </Form.Item>
             </Form >
+
+            <div>
+                {!loading ? (
+                    <Table
+                        columns={columns}
+                        dataSource={ordersList.product}
+                    />
+                ) : (
+                    <p><Loading /></p>
+                )}
+            </div>
         </div>
     );
 };
