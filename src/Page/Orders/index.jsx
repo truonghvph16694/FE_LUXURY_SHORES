@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ordersApi from '../../api/orders';
-
+import { Link } from 'react-router-dom'
 import { Space, Table, Popconfirm, Button } from 'antd';
 // import { DeleteTwoTone, EditTwoTone, FileAddTwoTone, EyeOutlined } from '@ant-design/icons';
 // import { Link, useParams } from 'react-router-dom';
@@ -256,17 +256,25 @@ const Orders = () => {
         {
             title: "Action",
             render: (record) =>
-                <Popconfirm
-                    title="Bạn có chắc muốn huỷ đơn hàng?"
-                    onConfirm={() => cancel_Orders(record._id, record)}
-                    okText="Có"
-                    cancelText="Không"
-                    disabled={record.status === 4}
-                >
-                    <button className='max-w-[180px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>
-                        {record.status !== 4 ? "Huỷ đơn hàng" : "Đã hủy"}
-                    </button>
-                </Popconfirm>
+                <div>
+                    <Popconfirm
+                        title="Bạn có chắc muốn huỷ đơn hàng?"
+                        onConfirm={() => cancel_Orders(record._id, record)}
+                        okText="Có"
+                        cancelText="Không"
+                        disabled={record.status === 4}
+                    >
+                        <button className='max-w-[180px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>
+                            {record.status !== 4 ? "Huỷ đơn hàng" : "Đã hủy"}
+                        </button>
+
+                    </Popconfirm>
+                    <Link to={`/feedback/${record._id}`}>
+                        <button>
+                        Viết đánh giá
+                        </button>
+                    </Link>
+                </div>
         }
     ];
 

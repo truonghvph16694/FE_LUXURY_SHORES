@@ -28,6 +28,7 @@ import Dashboard from './Page/Admin/Dashboard/Dashboard';
 import Checkout from './Page/Checkout/Checkout';
 import OrdersClient from './Page/Orders';
 import Thanks from './Page/Thanks/Thanks';
+import Feedback_client from './Page/Feedback/Feedback_client';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
       <Route path="signin" element={<Signin />} />
       <Route path="signup" element={<Signup />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="feedback/:id" element={<Feedback_client />} />
 
 
       {/* Frontend Route */}
