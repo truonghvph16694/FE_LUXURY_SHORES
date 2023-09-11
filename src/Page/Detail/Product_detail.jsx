@@ -41,39 +41,36 @@ const ChiTietSanPham = () => {
     }
     // Reset the sizeNotSelected state when a size is selected
   };
-  const addToCart = async () => {
 
-    // return;
-    console.log('selectedProductEntry', selectedProductEntry)
+  const addToCart = async () => {
     if (userLogin) {
       if (selectedProductEntry) {
-        const objLogin = JSON.parse(userLogin);
-        const data = {
-          userId: objLogin._id,
-          product_entry_Id: selectedProductEntry,
-          quantity: 1,
-        };
-        const response = await cartApi.Add(data);
+        // Check if the selected size is available
+        const selectedSize = product.product_entries.find(item => item._id === selectedProductEntry);
+        if (selectedSize && selectedSize.quantity > 0) {
+          const objLogin = JSON.parse(userLogin);
+          const data = {
+            userId: objLogin._id,
+            product_entry_Id: selectedProductEntry,
+            quantity: 1,
+          };
+          const response = await cartApi.Add(data);
 
-        if (response.code === 200) {
-          toastSuccess('Thêm vào giỏ hàng thành công!');
+          if (response.code === 200) {
+            toastSuccess('Thêm vào giỏ hàng thành công!');
+          }
+
+          navigate('/cart');
+        } else {
+          toastError("Kích thước đã chọn không còn hàng");
         }
-        // setTimeout(() => {
-        // }, 1000);
-        navigate('/cart');
-
-
       } else {
-        toastError("Hay chon size")
+        toastError("Hãy chọn kích thước");
       }
-
     } else {
       navigate('/signin');
     }
-
-  }
-
-
+  };
   useEffect(() => {
     fetchProduct(id);
   }, [id]);
@@ -88,19 +85,6 @@ const ChiTietSanPham = () => {
         <div className="flex">
           <div className="w-1/2 pr-4">
             <img className="w-full" src={productImg.path} alt={product.name} />
-
-            {/* {productImg.map((item, index) => {
-              productImg[index]
-              console.log("");
-              if (item[0]) {
-                return (
-                  <div key={index}>
-                    <img src={item[0].path} />
-                  </div>
-                )
-              }
-            })} */}
-
           </div>
           <div className="w-1/2 pl-4 " >
             <h2 className="text-2xl font-semibold mb-2">{product.name}</h2>
@@ -113,14 +97,13 @@ const ChiTietSanPham = () => {
                   <option hidden >Chọn kích thước</option>
                   {product.product_entries &&
                     product.product_entries.map((item, i) => (
+
                       <option key={i} value={item._id} className='p-4'>
                         {item.product_sizes.value}
                       </option>
+
                     ))}
                 </select>
-                {/* {!sizeNotSelected && (
-                  <p className="text-red-500 flex">Vui lòng chọn kích thước trước khi thêm vào giỏ hàng</p>
-                )} */}
               </div>
             </div>
             <hr className='py-2' />

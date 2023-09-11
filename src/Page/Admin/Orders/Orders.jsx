@@ -18,7 +18,7 @@ const { Column } = Table;
 const Orders = () => {
   const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  console.log("img", ordersList)
   // const fetchOrdersList = async () => {
   //     try {
   //         const response = await ordersApi.GetAll();
@@ -50,7 +50,7 @@ const Orders = () => {
   const convertStatus = (status) => {
     const statusStyle = {
       display: "inline-block",
-      padding: "4px 10px",
+      padding: "2px 6px",
       borderRadius: "4px",
       fontWeight: "bold",
       color: "white", // Màu chữ trắng
@@ -59,37 +59,37 @@ const Orders = () => {
     switch (status) {
       case 0:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "blue" }}>
-            Đơn hàng mới
+          <span style={{ ...statusStyle, backgroundColor: "Yellow" }}>
+            Đang xử lí
           </span>
         );
       case 1:
         return (
           <span style={{ ...statusStyle, backgroundColor: "orange" }}>
-            Đang xử lý
+            Xác nhận
           </span>
         );
       case 2:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "green" }}>
-            Đang giao hàng
+          <span style={{ ...statusStyle, backgroundColor: "Green" }}>
+            Đang Giao Hàng
           </span>
         );
       case 3:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "blue" }}>
-            Hoàn thành
+          <span style={{ ...statusStyle, backgroundColor: "Gray" }}>
+            Hoàn Thành
           </span>
         );
       case 4:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "gray" }}>
-            Đã hủy
+          <span style={{ ...statusStyle, backgroundColor: "Red" }}>
+            Đã Hủy
           </span>
         );
       default:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "black" }}>
+          <span style={{ ...statusStyle, backgroundColor: "Yellow" }}>
             Đang xử lý
           </span>
         );
@@ -238,18 +238,20 @@ const Orders = () => {
       dataIndex: "stt",
       key: "stt",
       render: (text, record, index) => index + 1,
-      width: 70,
+      width: 30,
     },
     {
       title: "Trạng thái đơn hàng",
       dataIndex: "status",
       key: "status",
       render: (status) => convertStatus(status),
+      width: 160,
     },
     {
       title: "Tên khách hàng",
-      dataIndex: ["user", "fullname"],
+      dataIndex: ["fullName"],
       key: "fullname",
+      width: 150,
     },
     {
       title: "Tỉnh/Thành phố",
@@ -308,6 +310,7 @@ const Orders = () => {
           </Link>
         </Space>
       ),
+      width: 10,
     },
     // Other fields you want to display in the main table
   ];
