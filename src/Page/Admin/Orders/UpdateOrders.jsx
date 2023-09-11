@@ -90,7 +90,7 @@ const UpdateOrders = () => {
         {
             title: "Ảnh",
             render: (record) => {
-                return <img src={record.images[0].path} width="25%" alt="" />
+                return <img src={record.images.path} width="25%" alt="" />
             }
         },
         {
@@ -272,7 +272,7 @@ const UpdateOrders = () => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button htmlType="submit">
+                    <Button htmlType="submit" className='bg-blue-400'>
                         Update Orders
                     </Button>
                 </Form.Item>
