@@ -13,7 +13,7 @@ const Categories = () => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    console.log("first", categoryList)
     const fetchCategoryList = async () => {
         try {
             const response = await categoryApi.GetAll();
@@ -93,9 +93,16 @@ const Categories = () => {
                 </Link>
             </div>
             {!loading ? (<Table dataSource={categoryList}>
-                <Column title="No" dataIndex="stt" key="stt" />
+                <Column title="STT" dataIndex="stt" key="stt" />
 
-                <Column title="Category" dataIndex="name" key="name" />
+                <Column title="Name" dataIndex="name" key="name" />
+                <Column
+                    title="Quantity-Product"
+                    key="products.length"
+                    render={(record) => (
+                        <span>{record.products.length} </span>
+                    )}
+                />
                 <Column
                     title="Action"
                     render={(record) => (
@@ -105,11 +112,11 @@ const Categories = () => {
                             </Link>
                             <Popconfirm
                                 title="Delete the task"
-                                description="Are you sure to delete this task?"
+                                description="Trong danh mục có sản phẩm bạn có chắc chắn muốn xóa!"
                                 onConfirm={() => onHandleDelete(record._id)}
-                                okText="Yes"
+                                okText={<span style={{ color: 'white' }}>Yes</span>}
                                 cancelText="No"
-                                okButtonProps={{ className: 'text-light bg-primary' }}
+                                okButtonProps={{ style: { background: 'green' } }}
                                 disabled={loading}
                             >
                                 <DeleteTwoTone style={{ fontSize: '18px' }} />

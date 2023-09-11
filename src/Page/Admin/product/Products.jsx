@@ -154,11 +154,12 @@ const App = () => {
           </Link>
           <Popconfirm
             title="Delete the task"
-            description="Are you sure to delete this task?"
+            description="Trong danh mục có sản phẩm bạn có chắc chắn muốn xóa!"
             onConfirm={() => handleDelete(record._id)}
-            okText="Yes"
+            okText={<span style={{ color: 'white' }}>Yes</span>}
             cancelText="No"
-            okButtonProps={{ className: 'text-light bg-primary' }}
+            okButtonProps={{ style: { background: 'green' } }}
+            disabled={loading}
           >
             <DeleteTwoTone style={{ fontSize: '18px' }} />
           </Popconfirm>
@@ -186,7 +187,7 @@ const App = () => {
             expandedRowKeys: expandedRowKeys,
             onExpand: handleExpand,
           }}
-          dataSource={productList.map((product, index) => ({ ...product, key: product._id, stt: index + 1 }))}        />
+          dataSource={productList.map((product, index) => ({ ...product, key: product._id, stt: index + 1 }))} />
       ) : (
         <p><Loading /></p>
       )}
