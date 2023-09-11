@@ -13,18 +13,33 @@ const Categories = () => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+
+
     console.log("first", categoryList)
+
     const fetchCategoryList = async () => {
         try {
             const response = await categoryApi.GetAll();
-            // Thêm trường "stt" vào dữ liệu
-            const categoryListWithStt = response.map((category, index) => ({ ...category, stt: index + 1 }));
-            setCategoryList(categoryListWithStt);
+            // Thêm trường "stt" và "key" vào dữ liệu danh mục
+            const categoryListWithSttAndKey = response.map((category, index) => ({ ...category, stt: index + 1, key: category._id }));
+
+            // Thêm key cho mỗi sản phẩm trong danh sách sản phẩm của từng danh mục
+            const updatedCategoryList = categoryListWithSttAndKey.map((category) => {
+                if (category.products && category.products.length > 0) {
+                    category.products = category.products.map((product) => ({ ...product, key: product._id }));
+                }
+                return category;
+            });
+
+            setCategoryList(updatedCategoryList);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch CategoryList', error);
         }
     };
+
+
     const onHandleDelete = async (id) => {
         try {
             const response = await categoryApi.GetProducts(id);
@@ -92,9 +107,18 @@ const Categories = () => {
                     </Button>
                 </Link>
             </div>
-            {!loading ? (<Table dataSource={categoryList}>
+            {!loading ? (<Table
+                dataSource={categoryList}
+                expandedRowKeys={expandedRowKeys}
+                onExpand={(expanded, record) => {
+                    if (expanded) {
+                        setExpandedRowKeys([...expandedRowKeys, record.key]);
+                    } else {
+                        setExpandedRowKeys(expandedRowKeys.filter((key) => key !== record.key));
+                    }
+                }}
+            >
                 <Column title="STT" dataIndex="stt" key="stt" />
-
                 <Column title="Name" dataIndex="name" key="name" />
                 <Column
                     title="Quantity-Product"
@@ -124,7 +148,20 @@ const Categories = () => {
                         </Space>
                     )}
                 />
-            </Table>) : <Loading />}
+                <Column
+                    title="Products"
+                    key="products"
+                    dataIndex="products"
+                    render={(products) => (
+                        <ul>
+                            {products.map((product) => (
+                                <li key={product.key}>{product.name}</li>
+                            ))}
+                        </ul>
+                    )}
+                />
+            </Table>
+            ) : <Loading />}
 
             <Modal
                 visible={confirmDelete}
