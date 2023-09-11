@@ -10,12 +10,13 @@ const UpdateOrders = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [status, setStatus] = useState(0);
+    const [previousStatus, setPreviousStatus] = useState(status);
     console.log("Selected status:", status);
 
-    const handleStatusChange = (value) => {
-        console.log("Selected status:", value);
-        setStatus(value);
-    };
+    // const handleStatusChange = (value) => {
+    //     console.log("Selected status:", value);
+    //     setStatus(value);
+    // };
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -30,6 +31,26 @@ const UpdateOrders = () => {
 
         fetchOrders();
     }, [id, form]);
+    const handleStatusChange = (value) => {
+        let newStatus = value;
+
+        if (newStatus === 3) {
+            const confirm = window.confirm("Are you sure you want to set the status to Completed?");
+            if (!confirm) {
+                // User clicked cancel, so reset status to the previous value
+                newStatus = previousStatus;
+            } else {
+                // User confirmed, update previousStatus to the new value
+                setPreviousStatus(newStatus);
+            }
+        } else {
+            // Update previousStatus for other status changes
+            setPreviousStatus(newStatus);
+        }
+
+        setStatus(newStatus);
+    };
+
 
     const onFinish = async (values) => {
         try {
@@ -52,173 +73,174 @@ const UpdateOrders = () => {
     };
     return (
         <div >
-        <Form form={form} onFinish={onFinish} layout="vertical">
-            <Form.Item
-                name="user_id"
-                label="User_ID"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter User ID',
-                    },
-                ]}
-            >
-                <Input placeholder="User_ID" disabled />
-            </Form.Item>
-
-            <Form.Item
-                name="province_id"
-                label="Province_id"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter Province_id',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter province id" disabled />
-            </Form.Item>
-
-            <Form.Item
-                name="district_id"
-                label="district_id"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter district_id',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter district_id" disabled />
-            </Form.Item>
-
-            <Form.Item
-                name="ward_id"
-                label="ward_id"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter ward_id',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter ward_id" disabled />
-            </Form.Item>
-
-            <Form.Item
-                name="detail_address"
-                label="detail_address"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter detail_address',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter detail_address" disabled />
-            </Form.Item>
-
-
-            <Form.Item
-                name="status"
-                label="Status"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter Status',
-                    },
-                ]}
-            >
-                <Select
-                    placeholder="Select category"
-                    onChange={handleStatusChange}
-                    value={status}
+            <Form form={form} onFinish={onFinish} layout="vertical">
+                <Form.Item
+                    name="user_id"
+                    label="User_ID"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter User ID',
+                        },
+                    ]}
                 >
-                    <Select.Option value={0} disabled={status >= 0}>Đơn hàng mới</Select.Option>
-                    <Select.Option value={1} disabled={status >= 1}>Đang xử lý</Select.Option>
-                    <Select.Option value={2} disabled={status >= 2}>Đang giao hàng</Select.Option>
-                    <Select.Option value={3} disabled={status >= 3}>Hoàn thành</Select.Option>
-                    <Select.Option value={4} disabled={true}>Đã hủy</Select.Option>
-                </Select>
-            </Form.Item>
+                    <Input placeholder="User_ID" disabled />
+                </Form.Item>
 
-            <Form.Item
-                name="created_at"
-                label="created_at"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter created_at',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter created_at" disabled />
-            </Form.Item>
+                <Form.Item
+                    name="province_id"
+                    label="Province_id"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter Province_id',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter province id" disabled />
+                </Form.Item>
 
-            <Form.Item
-                name="note"
-                label="note"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter note',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter note" disabled />
-            </Form.Item>
+                <Form.Item
+                    name="district_id"
+                    label="district_id"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter district_id',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter district_id" disabled />
+                </Form.Item>
 
-            <Form.Item
-                name="ships"
-                label="ships"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter ships',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter ships" disabled />
-            </Form.Item>
+                <Form.Item
+                    name="ward_id"
+                    label="ward_id"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter ward_id',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter ward_id" disabled />
+                </Form.Item>
 
-            <Form.Item
-                name="total_price"
-                label="total_price"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter total_price',
-                    },
-                ]}
-            >
-                <Input placeholder="Enter total_price" disabled />
-            </Form.Item>
+                <Form.Item
+                    name="detail_address"
+                    label="detail_address"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter detail_address',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter detail_address" disabled />
+                </Form.Item>
 
-            <Form.Item
-                name="payment"
-                label="payment"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter payment',
-                    },
-                ]}
-            >
-                <Select placeholder="Select Payment" disabled>
 
-                    <Select.Option value={0}>Thanh toán bằng tiền mặt</Select.Option>
-                    <Select.Option value={1}>Chuyển khoản</Select.Option>
-                    <Select.Option value={2}>Thanh toán khi nhận hàng</Select.Option>
+                <Form.Item
+                    name="status"
+                    label="Status"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter Status',
+                        },
+                    ]}
+                >
+                    <Select
+                        placeholder="Select Status"
+                        onChange={handleStatusChange}
+                        value={status}
+                        disabled={status === 3}
+                    >
+                        <Select.Option value={0} disabled={status >= 0}>Đơn hàng mới</Select.Option>
+                        <Select.Option value={1} disabled={status >= 1}>Đang xử lý</Select.Option>
+                        <Select.Option value={2} disabled={status >= 2}>Đang giao hàng</Select.Option>
+                        <Select.Option value={3} disabled={status >= 3}>Hoàn thành</Select.Option>
+                        <Select.Option value={4} disabled={true}>Đã hủy</Select.Option>
+                    </Select>
+                </Form.Item>
 
-                </Select>
-            </Form.Item>
+                <Form.Item
+                    name="created_at"
+                    label="created_at"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter created_at',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter created_at" disabled />
+                </Form.Item>
 
-            <Form.Item>
-                <Button htmlType="submit">
-                    Update Orders
-                </Button>
-            </Form.Item>
-        </Form >
+                <Form.Item
+                    name="note"
+                    label="note"
+                    rules={[
+                        {
+                            // required: true,
+                            message: 'Please enter note',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Note" disabled />
+                </Form.Item>
+
+                <Form.Item
+                    name="ships"
+                    label="ships"
+                    rules={[
+                        {
+                            required: false,
+                            message: 'Please enter ships',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter ships" disabled />
+                </Form.Item>
+
+                <Form.Item
+                    name="total_price"
+                    label="total_price"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter total_price',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter total_price" disabled />
+                </Form.Item>
+
+                <Form.Item
+                    name="payment"
+                    label="payment"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter payment',
+                        },
+                    ]}
+                >
+                    <Select placeholder="Select Payment" disabled>
+
+                        <Select.Option value={0}>Thanh toán bằng tiền mặt</Select.Option>
+                        <Select.Option value={1}>Chuyển khoản</Select.Option>
+                        <Select.Option value={2}>Thanh toán khi nhận hàng</Select.Option>
+
+                    </Select>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button htmlType="submit">
+                        Update Orders
+                    </Button>
+                </Form.Item>
+            </Form >
         </div>
     );
 };

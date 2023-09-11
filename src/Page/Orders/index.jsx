@@ -3,12 +3,12 @@ import moment from 'moment';
 import ordersApi from '../../api/orders';
 
 import { Space, Table, Popconfirm, Button } from 'antd';
-import { DeleteTwoTone, EditTwoTone, FileAddTwoTone, EyeOutlined } from '@ant-design/icons';
-import { Link, useParams } from 'react-router-dom';
+// import { DeleteTwoTone, EditTwoTone, FileAddTwoTone, EyeOutlined } from '@ant-design/icons';
+// import { Link, useParams } from 'react-router-dom';
 import { toastError, toastSuccess } from '../../components/toast/Toast';
 import Loading from "../../components/Loading/Loading"
 
-const { Column } = Table;
+// const { Column } = Table;
 
 const Orders = () => {
     const [ordersList, setOrdersList] = useState([]);
@@ -87,7 +87,13 @@ const Orders = () => {
     };
 
     const cancel_Orders = async (id, record) => {
-        console.log('Hủy đơn hàng:', id);
+        if (record.status === 2 || record.status === 3) {
+            // Đơn hàng đang giao hàng hoặc đã hoàn thành, hiển thị thông báo
+            toastError("Đơn hàng của bạn đang được giao hoặc đã hoàn thành.");
+            return;
+        }
+
+        // console.log('Hủy đơn hàng:', id);
 
         try {
             const status = 4;
@@ -262,7 +268,6 @@ const Orders = () => {
                     </button>
                 </Popconfirm>
         }
-        // Other fields you want to display in the main table
     ];
 
 
@@ -272,6 +277,7 @@ const Orders = () => {
             <div>
                 {!loading ? (
                     <Table
+                        className='pt-6'
                         columns={columns}
                         expandable={{
                             expandedRowRender: expandedRowRender,
@@ -283,53 +289,6 @@ const Orders = () => {
                     <div className=' flex justify-center items-center'> <Loading /> </div>
                 )}
             </div>
-
-
-            {/* <Table dataSource={ordersList}>
-            <Column
-                title="Trạng thái đơn hàng"
-                dataIndex="status"
-                key="status"
-                render={(status) => convertStatus(status)}
-            />
-            <Column
-                title="Tên khách hàng"
-                dataIndex={['user', 'fullname']}
-                key="fullname"
-            />
-            <Column title="Tỉnh/Thành phố" dataIndex="province_id" key="province_id" />
-            <Column title="Quận/Huyện" dataIndex="district_id" key="district_id" />
-            <Column title="Xã/Phường" dataIndex="ward_id" key="ward_id" />
-            <Column title="Địa chỉ cụ thể" dataIndex="detail_address" key="detail_address" />
-            <Column
-                title="Thời gian đặt"
-                dataIndex="created_at"
-                key="created_at"
-                render={(created_at) => moment(created_at).format('DD/MM/YYYY')}
-            />
-            <Column title="Ghi chú" dataIndex="note" key="note" />
-            <Column title="Total Price" dataIndex="total_price" key="total_price" />
-            <Column
-                title="Phương thức thanh toán"
-                dataIndex="payment"
-                key="payment"
-                render={(payment) => convertPayment(payment)}
-            />
-            <Column
-                title="Trạng thái thanh toán"
-                dataIndex="status_payment"
-                key="status_payment"
-                render={(payment) => convert_status_Payment(payment)}
-            />
-            <Column
-                title="Action"
-                render={(record) => (
-                    <Space size="middle">
-                        <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>
-                    </Space>
-                )}
-            />
-        </Table> */}
         </div>
     );
 };

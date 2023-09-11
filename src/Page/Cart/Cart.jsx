@@ -27,6 +27,7 @@ const Cart = () => {
             const objLogin = JSON.parse(userLogin);
 
             const response = await cartApi.GetCartUser(objLogin._id);
+            
             setListCart(response);
 
             if (response) {

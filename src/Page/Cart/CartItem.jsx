@@ -3,7 +3,6 @@ import { formatCurrency } from '../../../utils';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import cartApi from '../../api/cart';
 import { toastError, toastSuccess } from '../../components/toast/Toast';
-import { Modal } from 'antd';
 
 const CartItem = (item) => {
     const sendData = () => {
@@ -50,11 +49,10 @@ const CartItem = (item) => {
     const handleCancel = () => {
         setConfirmVisible(false);
     };
-
     return (
         <tr className="border-t-2">
             <td className="flex py-10  gap-4">
-                <img src={item.item.images ? item.item.images[0]?.path : null} className="w-20"></img>
+                <img src={item.item.images ? item.item.images?.path : null} className="w-20"></img>
                 <div className="pt-7 w-[300px]">
                     <p>{item.item.product.name}</p>
                 </div>

@@ -22,11 +22,11 @@ const Orders = () => {
   // const fetchOrdersList = async () => {
   //     try {
   //         const response = await ordersApi.GetAll();
-  //         console.log('response', response);
+  //         // console.log('response', response);
   //         setOrdersList(response);
   //         setLoading(false)
   //     } catch (error) {
-  //         console.log('Failed to fetch OrdersList', error);
+  //         // console.log('Failed to fetch OrdersList', error);
   //     }
   // };
   const fetchOrdersList = async () => {
@@ -43,7 +43,7 @@ const Orders = () => {
       setOrdersList(ordersWithData);
       setLoading(false);
     } catch (error) {
-      console.log("Failed to fetch OrdersList", error);
+      // console.log("Failed to fetch OrdersList", error);
     }
   };
 
@@ -164,7 +164,7 @@ const Orders = () => {
     try {
       const response = await fetch(`https://provinces.open-api.vn/api/p/${id}`);
       const data = await response.json(); // Parse JSON response
-      // console.log('Data:', data); // Log the data for debugging
+      // // console.log('Data:', data); // Log the data for debugging
       return data.name; // Return the 'name' property from the data
     } catch (error) {
       console.error("Error:", error);
@@ -198,7 +198,7 @@ const Orders = () => {
   }, []);
 
   const expandedRowRender = (record, index) => {
-    // console.log('record:', record)
+    // // console.log('record:', record)
 
     const columns = [
       {
@@ -210,7 +210,7 @@ const Orders = () => {
       {
         title: "Hình ảnh",
         render: (record) => {
-          return <img src={record.images[0].path} width="15%" alt="" />;
+          return <img src={record.images.path} width="15%" alt="" />;
         },
       },
       {
@@ -226,7 +226,7 @@ const Orders = () => {
         },
       },
     ];
-    // console.log('pr:',ordersList)
+    // // console.log('pr:',ordersList)
     return (
       <Table columns={columns} dataSource={record.product} pagination={false} />
     );
@@ -293,12 +293,12 @@ const Orders = () => {
       key: "payment",
       render: (payment) => convertPayment(payment),
     },
-    {
-      title: "Trạng thái thanh toán",
-      dataIndex: "status_payment",
-      key: "status_payment",
-      render: (payment) => convert_status_Payment(payment),
-    },
+    // {
+    //   title: "Trạng thái thanh toán",
+    //   dataIndex: "status_payment",
+    //   key: "status_payment",
+    //   render: (payment) => convert_status_Payment(payment),
+    // },
     {
       title: "Action",
       render: (record) => (
@@ -325,7 +325,7 @@ const Orders = () => {
               ...order,
               key: order._id,
             }))}
-            // defaultExpandAllRows={true}
+          // defaultExpandAllRows={true}
           />
         ) : (
           <p>
