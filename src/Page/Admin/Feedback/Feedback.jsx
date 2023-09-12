@@ -38,12 +38,6 @@ const Feedback = () => {
     return (
         <>
             <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                {/* <Link >
-                    <Button type="primary" icon={<FileAddTwoTone />}>
-                        Add New
-                    </Button>
-                </Link> */}
-
             </div>
             {!loading ?
                 (<Table dataSource={feedbackList}>

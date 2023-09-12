@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 const { Column } = Table;
 
 const User = () => {
-    const [userList, setUserList] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [userList, setUserList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
     const userlocal = localStorage.getItem('user')
     const userjson = JSON.parse(userlocal)
@@ -41,40 +41,53 @@ const User = () => {
         }
     }, []);
 
-    const onChange = async (checked, record) => {
-        try {
-            await userApi.editStatus(record._id, { status: checked });
-            fetchUserList();
-            toastSuccess('Thay đổi trạng thái thành công!');
-        } catch (error) {
-            toastError('Thay đổi trạng thái không thành công!');
-        }
-    };
+  const onChange = async (checked, record) => {
+    try {
+      await userApi.editStatus(record._id, { status: checked });
+      fetchUserList();
+      toastSuccess("Thay đổi trạng thái thành công!");
+    } catch (error) {
+      toastError("Thay đổi trạng thái không thành công!");
+    }
+  };
 
-    return (
-        <>
-            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-            </div>
-            {!loading ? (
-                <Table dataSource={userList}>
-                    <Column title="No" dataIndex="stt" key="stt" />
-                    <Column title="FullName" dataIndex="fullname" key="fullname" />
-                    <Column title="Số điện thoại" dataIndex="phone" key="phone" />
-                    <Column title="Email" dataIndex="email" key="email" />
-                    <Column
-                        title="Trạng thái"
-                        dataIndex="status"
-                        key="status"
-                        render={(status, record) => (
-                            <Switch checked={status} onChange={(checked) => onChange(checked, record)} />
-                        )}
-                    />
-                </Table>
-            ) : (
-                <Loading />
+  return (
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+          marginTop: 20,
+          marginRight: 20,
+        }}
+      >
+        <h1 className="text-2xl font-bold ml-10">Danh Sách Tài Khoản</h1>
+      </div>
+      {!loading ? (
+        <Table dataSource={userList}>
+          <Column title="No" dataIndex="stt" key="stt" />
+          <Column title="FullName" dataIndex="fullname" key="fullname" />
+          <Column title="Số điện thoại" dataIndex="phone" key="phone" />
+          <Column title="Email" dataIndex="email" key="email" />
+          <Column
+            title="Trạng thái"
+            dataIndex="status"
+            key="status"
+            render={(status, record) => (
+              <Switch
+                checked={status}
+                onChange={(checked) => onChange(checked, record)}
+              />
             )}
-        </>
-    );
+          />
+        </Table>
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 };
 
 export default User;

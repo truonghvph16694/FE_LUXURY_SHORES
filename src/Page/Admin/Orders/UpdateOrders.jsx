@@ -288,7 +288,7 @@ const UpdateOrders = () => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button htmlType="submit">
+                    <Button htmlType="submit" className='bg-blue-400'>
                         Update Orders
                     </Button>
                 </Form.Item>

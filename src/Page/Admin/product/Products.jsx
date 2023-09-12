@@ -185,13 +185,14 @@ const App = () => {
 
   return (
     <>
-      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end', marginTop: 20, marginRight: 20 }}>
-        <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
-          <Button type="primary" icon={<FileAddTwoTone />}>
-            Add New
-          </Button>
-        </Link>
-      </div>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginTop: 20, marginRight: 20 }}>
+  <h1 className='text-2xl font-bold ml-10 '>Tất Cả Sản Phẩm</h1>
+  <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
+    <Button type="primary" icon={<FileAddTwoTone />}>
+      Thêm
+    </Button>
+  </Link>
+</div>
 
       {/* Render the table after the API call is completed */}
       {!loading ? (

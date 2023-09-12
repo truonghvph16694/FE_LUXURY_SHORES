@@ -55,7 +55,7 @@ const Orders = () => {
   const convertStatus = (status) => {
     const statusStyle = {
       display: "inline-block",
-      padding: "4px 10px",
+      padding: "2px 6px",
       borderRadius: "4px",
       fontWeight: "bold",
       color: "white", // Màu chữ trắng
@@ -64,37 +64,37 @@ const Orders = () => {
     switch (status) {
       case 0:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "blue" }}>
-            Đơn hàng mới
+          <span style={{ ...statusStyle, backgroundColor: "Yellow" }}>
+            Đang xử lí
           </span>
         );
       case 1:
         return (
           <span style={{ ...statusStyle, backgroundColor: "orange" }}>
-            Đang xử lý
+            Xác nhận
           </span>
         );
       case 2:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "green" }}>
-            Đang giao hàng
+          <span style={{ ...statusStyle, backgroundColor: "Green" }}>
+            Đang Giao Hàng
           </span>
         );
       case 3:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "blue" }}>
-            Hoàn thành
+          <span style={{ ...statusStyle, backgroundColor: "Gray" }}>
+            Hoàn Thành
           </span>
         );
       case 4:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "gray" }}>
-            Đã hủy
+          <span style={{ ...statusStyle, backgroundColor: "Red" }}>
+            Đã Hủy
           </span>
         );
       default:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "black" }}>
+          <span style={{ ...statusStyle, backgroundColor: "Yellow" }}>
             Đang xử lý
           </span>
         );
@@ -212,59 +212,26 @@ const Orders = () => {
   }
   }, []);
 
-  const expandedRowRender = (record, index) => {
-    // // console.log('record:', record)
-
-    const columns = [
-      {
-        title: "Tên sản phẩm",
-        render: (record) => {
-          return record.product.name;
-        },
-      },
-      {
-        title: "Hình ảnh",
-        render: (record) => {
-          return <img src={record.images.path} width="15%" alt="" />;
-        },
-      },
-      {
-        title: "Số Lượng",
-        render: (record) => {
-          return record.quantity;
-        },
-      },
-      {
-        title: "Giá",
-        render: (record) => {
-          return record.product.price;
-        },
-      },
-    ];
-    // // console.log('pr:',ordersList)
-    return (
-      <Table columns={columns} dataSource={record.product} pagination={false} />
-    );
-  };
-
   const columns = [
     {
       title: "No", // Serial Number
       dataIndex: "stt",
       key: "stt",
       render: (text, record, index) => index + 1,
-      width: 70,
+      width: 30,
     },
     {
       title: "Trạng thái đơn hàng",
       dataIndex: "status",
       key: "status",
       render: (status) => convertStatus(status),
+      width: 160,
     },
     {
       title: "Tên khách hàng",
-      dataIndex: ["user", "fullname"],
+      dataIndex: ["fullName"],
       key: "fullname",
+      width: 150,
     },
     {
       title: "Tỉnh/Thành phố",
@@ -325,14 +292,28 @@ const Orders = () => {
           ) : null}
         </Space>
       ),
+      width: 10,
     },
     // Other fields you want to display in the main table
   ];
 
   return (
+    
     <div>
+         <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+          marginTop: 20,
+          marginRight: 20,
+        }}
+      >
+        <h1 className="text-2xl font-bold ml-10 ">Danh Sách Đơn Hàng</h1>
+      </div>
       <div>
-        {!loading ? (
+        {!loading ? ( 
           <Table
             columns={columns}
             

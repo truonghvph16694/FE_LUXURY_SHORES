@@ -60,7 +60,7 @@ const AddCategory = () => {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit">
-                    Add Category
+                   Thêm Danh Mục
                 </Button>
                 <Link to={`/admin/category`}><Button>Back</Button></Link>
             </Form.Item>

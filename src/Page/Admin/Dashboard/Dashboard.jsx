@@ -292,14 +292,41 @@ const Dashboard = () => {
 
   return (
     <>
-      <CCard className="mb-4">
+      <div className="grid grid-cols-4 gap-4 p-4">
+        <div className="border border-gray-300 p-4 bg-yellow-300">
+          <h2 className="text-xl">Tổng giá trị tồn kho
+            <br />
+            <span>  {formattedPriceInventory}</span>
+          </h2>
+        </div>
+        <div className="border border-gray-300 p-4 bg-blue-400">
+          <h2 className="text-xl">Doanh thu:
+            <br />
+            <span> {formattedTotalPrice}</span>
+          </h2>
+        </div>
+        <div className="border border-gray-300 p-4 bg-pink-300">
+          <h2 className="text-xl">Tổng sản phẩm đã nhập vào
+            <br />
+            <span> {quantity}</span> Đôi
+          </h2>
+        </div>
+        <div className="border border-gray-300 p-4 bg-green-400">
+          <h2 className="text-xl">Số sản phẩm đã bán ra
+            <br />
+            <span>{quantityOut}</span> Đôi
+          </h2>
+        </div>
+      </div>
+      <CCard className="mb-4 mt-8">
         <CCardBody>
           <CRow>
             <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-medium-emphasis">January - August 2021</div>
+              <h1 id="traffic" className="card-title mb-0 text-center font-bold text-2xl">
+                Doanh Thu
+              </h1>
+              <br />
+              <div className="small text-medium-emphasis">January - December 2023</div>
             </CCol>
             <CCol sm={7} className="d-none d-md-block">
               {/* <CButton color="primary" className="float-end">
@@ -308,12 +335,12 @@ const Dashboard = () => {
             </CCol>
           </CRow>
           <CChartLine
-            style={{ height: '300px', marginTop: '40px' }}
+            style={{ height: '300px', marginTop: '50px' }}
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'],
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
               datasets: [
                 {
-                  label: 'Monthly Sales',
+                  label: 'Doanh thu',
                   backgroundColor: hexToRgba('#63c2de', 10),
                   borderColor: '#63c2de',
                   pointHoverBackgroundColor: '#63c2de',
@@ -370,14 +397,9 @@ const Dashboard = () => {
         </CCardBody>
       </CCard>
 
-      
 
-      <div>
-        <h2>Tổng giá trị tồn kho: {formattedPriceInventory}</h2>
-        <h2>Doanh thu: {formattedTotalPrice}</h2>
-        <h2>Tổng sản phẩm đã nhập vào: {quantity} Đôi</h2>
-        <h2>Số sản phẩm đã bán ra: {quantityOut} Đôi</h2>
-      </div>
+
+
     </>
   );
 };

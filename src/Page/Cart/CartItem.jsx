@@ -82,6 +82,7 @@ const CartItem = (item) => {
                         readOnly
                     />
                     <button
+                        disabled={quantity >= item.item.product_entry.quantity}
                         onClick={handleIncrease}
                         className="bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black"
                     >

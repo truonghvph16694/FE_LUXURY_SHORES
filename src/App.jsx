@@ -34,7 +34,8 @@ import Feedback_client from './Page/Feedback/Feedback_client';
 function App() {
   return <div className="App">
     <Routes>
-      <Route path="admin/"
+      <Route path="admin/*"
+      caseSensitive
         element={
           <AdminLayout />
         } >
