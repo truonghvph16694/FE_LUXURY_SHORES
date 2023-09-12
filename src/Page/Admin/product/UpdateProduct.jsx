@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Form, Input, Button, message, Space, Select, Upload, Modal } from 'antd';
 import productApi from '../../../api/products';
 import sizeApi from '../../../api/size';
@@ -24,6 +24,12 @@ const UpdateProduct = () => {
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
+
+    const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+
+    const tokenlocal = localStorage.getItem('token')
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -47,6 +53,16 @@ const UpdateProduct = () => {
         };
 
         fetchProduct();
+
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
+                navigate(`/admin/products/edit/${id}`)
+            }, 500)
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        }
     }, [id, form]);
 
     const onFinish = async (values) => {
@@ -311,6 +327,7 @@ const UpdateProduct = () => {
                 <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
                     Update Products
                 </Button>
+                <Link to={`/admin/products`}><Button>Back</Button></Link>
             </Form.Item>
         </Form>
     );

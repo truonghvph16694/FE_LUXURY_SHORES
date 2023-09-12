@@ -39,7 +39,7 @@ function App() {
           <AdminLayout />
         } >
         <Route index element={<Dashboard />} />
-        <Route path='dashboard' element={<Dashboard />} />
+        {/* <Route path='dashboard' element={<Dashboard />} /> */}
         <Route path="category" element={<Categories />} />
         <Route path="category/add" element={<AddCategory />} />
         <Route path="category/edit/:id" element={<UpdateCategory />} />

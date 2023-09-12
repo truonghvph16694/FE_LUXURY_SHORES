@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import categoryApi from '../../../api/category';
 import { Button, Popconfirm, Space, Table, Modal, message } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
 import Loading from '../../../components/Loading/Loading';
 
@@ -15,6 +15,10 @@ const Categories = () => {
     const [loading, setLoading] = useState(true);
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
+    const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const navigate = useNavigate();
+    const tokenlocal = localStorage.getItem('token')
 
     console.log("first", categoryList)
 
@@ -96,6 +100,15 @@ const Categories = () => {
 
     useEffect(() => {
         fetchCategoryList();
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
+                navigate('/admin/category')
+            }, 500)
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        }
     }, []);
 
     return (

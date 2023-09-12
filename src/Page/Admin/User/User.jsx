@@ -3,12 +3,18 @@ import userApi from '../../../api/user';
 import { Table, Switch } from 'antd';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import Loading from '../../../components/Loading/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const { Column } = Table;
 
 const User = () => {
     const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const navigate = useNavigate();
+    const tokenlocal = localStorage.getItem('token')
 
     const fetchUserList = async () => {
         try {
@@ -24,6 +30,15 @@ const User = () => {
 
     useEffect(() => {
         fetchUserList();
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
+                navigate('/admin/user')
+            }, 100)
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 100)
+        }
     }, []);
 
     const onChange = async (checked, record) => {

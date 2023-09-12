@@ -34,9 +34,15 @@ import {
 
 import ordersApi from '../../../api/orders';
 import productApi from '../../../api/products';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+  const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const navigate = useNavigate();
+    const tokenlocal = localStorage.getItem('token')
 
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -169,6 +175,15 @@ const Dashboard = () => {
     fetch_quantity_out();
     fetch_price_inventory();
     fetchOrdersByMonth();
+    if (userlocal && userjson.type === "admin" && tokenlocal) {
+      setTimeout(() => {
+          navigate('/admin')
+      }, 100)
+  } else {
+      setTimeout(() => {
+          navigate('/')
+      }, 100)
+  }
   }, []);
 
   const formattedTotalPrice = totalPriceSum.toLocaleString('vi-VN', {

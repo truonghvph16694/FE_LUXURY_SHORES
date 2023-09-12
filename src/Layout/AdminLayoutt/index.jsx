@@ -39,16 +39,8 @@ const AdminLayout = () => {
     useEffect(() => {
         const navigationE = navigationElement.current;
         const mainE = mainElement.current;
+        
 
-        if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate('/admin')
-            }, 500)
-        } else {
-            setTimeout(() => {
-                navigate('/')
-            }, 500)
-        }
 
         if (toggle) {
             navigationE.classList.toggle(styles.active);

@@ -1,11 +1,18 @@
 import React, { } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import categoryApi from '../../../api/category';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
+import { useEffect } from 'react';
 const AddCategory = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
+
+    const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const tokenlocal = localStorage.getItem('token')
+
+
     const onFinish = async (values) => {
         try {
             const response = await categoryApi.Add(values);
@@ -23,6 +30,18 @@ const AddCategory = () => {
             }
         }
     };
+
+    useEffect(()=>{
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
+                navigate('/admin/category/add')
+            }, 500)
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        }
+    },[])
 
     return (
         <Form form={form} onFinish={onFinish} layout="vertical">
@@ -43,6 +62,7 @@ const AddCategory = () => {
                 <Button type="primary" htmlType="submit">
                     Add Category
                 </Button>
+                <Link to={`/admin/category`}><Button>Back</Button></Link>
             </Form.Item>
         </Form>
     );

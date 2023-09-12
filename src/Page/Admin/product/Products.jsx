@@ -5,7 +5,7 @@ import sizeApi from '../../../api/size';
 // import colorApi from '../../../api/color';
 import { Badge, Dropdown, Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
 // import { Image as CloudinaryImage } from 'cloudinary-react';
 import Loading from '../../../components/Loading/Loading';
@@ -17,6 +17,11 @@ const App = () => {
   // const [productColor, setProductColorList] = useState([]);
   const [productSize, setProductSizeList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+
+  const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const navigate = useNavigate();
+    const tokenlocal = localStorage.getItem('token')
 
   const fetchProductList = async () => {
     try {
@@ -61,6 +66,16 @@ const App = () => {
     fetchProductSizeList();
     // fetchProductColorList();
     fetchCategoryList();
+
+    if (userlocal && userjson.type === "admin" && tokenlocal) {
+      setTimeout(() => {
+          navigate('/admin/products')
+      }, 100)
+  } else {
+      setTimeout(() => {
+          navigate('/')
+      }, 100)
+  }
   }, []);
 
   const handleDelete = async (id) => {

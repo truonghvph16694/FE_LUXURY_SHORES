@@ -9,7 +9,7 @@ import {
   FileAddTwoTone,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toastSuccess } from "../../../components/toast/Toast";
 import Loading from "../../../components/Loading/Loading";
 
@@ -18,6 +18,11 @@ const { Column } = Table;
 const Orders = () => {
   const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+    const navigate = useNavigate();
+    const tokenlocal = localStorage.getItem('token')
 
   // const fetchOrdersList = async () => {
   //     try {
@@ -195,6 +200,16 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrdersList();
+
+    if (userlocal && userjson.type === "admin" && tokenlocal) {
+      setTimeout(() => {
+          navigate('/admin/orders')
+      }, 100)
+  } else {
+      setTimeout(() => {
+          navigate('/')
+      }, 100)
+  }
   }, []);
 
   const expandedRowRender = (record, index) => {
@@ -303,9 +318,11 @@ const Orders = () => {
       title: "Action",
       render: (record) => (
         <Space size="middle">
-          <Link to={`/admin/orders/edit/${record._id}`}>
-            <EditTwoTone style={{ fontSize: "20px", color: "#08c" }} />
-          </Link>
+          {record.status !== 3 ? (
+            <Link to={`/admin/orders/edit/${record._id}`}>
+              <EditTwoTone style={{ fontSize: "20px", color: "#08c" }} />
+            </Link>
+          ) : null}
         </Space>
       ),
     },
@@ -318,9 +335,7 @@ const Orders = () => {
         {!loading ? (
           <Table
             columns={columns}
-            expandable={{
-              expandedRowRender: expandedRowRender,
-            }}
+            
             dataSource={ordersList.map((order) => ({
               ...order,
               key: order._id,

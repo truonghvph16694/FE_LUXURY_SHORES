@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Form, Input, Button, message, Select, Table } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
@@ -15,6 +15,11 @@ const UpdateOrders = () => {
 
     const [ordersList, setOrdersList] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+
+    const tokenlocal = localStorage.getItem('token')
 
     console.log("Selected status:", status);
 
@@ -37,6 +42,17 @@ const UpdateOrders = () => {
         };
 
         fetchOrders();
+
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            setTimeout(() => {
+                navigate(`/admin/orders/edit/${id}`)
+            }, 500)
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        }
+
     }, [id, form]);
     const handleStatusChange = (value) => {
         let newStatus = value;
@@ -90,7 +106,7 @@ const UpdateOrders = () => {
         {
             title: "Ảnh",
             render: (record) => {
-                return <img src={record.images[0].path} width="25%" alt="" />
+                return <img src={record.images.path} width="25%" alt="" />
             }
         },
         {
@@ -276,8 +292,11 @@ const UpdateOrders = () => {
                         Update Orders
                     </Button>
                 </Form.Item>
+                
             </Form >
-
+            <Link to="/admin/orders"><Button>Back</Button></Link>
+            
+            
             <div>
                 {!loading ? (
                     <Table

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message, Space, Select, Upload, Modal } from 'antd';
 import { LoadingOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import productApi from '../../../api/products';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import categoryApi from '../../../api/category';
 import colorApi from '../../../api/color';
@@ -24,6 +24,11 @@ const AddProducts = () => {
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileOrigin, setFileOrigin] = useState([]);
+
+  const userlocal = localStorage.getItem('user')
+    const userjson = JSON.parse(userlocal)
+
+    const tokenlocal = localStorage.getItem('token')
 
   // Cấu hình thông tin Cloudinary của bạn
   const cloudName = 'datn2023';
@@ -61,6 +66,16 @@ const AddProducts = () => {
     fetchCategoryList();
     // fetchProductColorList();
     fetchProductSizeList();
+
+    if (userlocal && userjson.type === "admin" && tokenlocal) {
+      setTimeout(() => {
+          navigate('/admin/products/add')
+      }, 500)
+  } else {
+      setTimeout(() => {
+          navigate('/')
+      }, 500)
+  }
   }, []);
 
   const beforeUpload = (file) => {
@@ -306,6 +321,7 @@ const AddProducts = () => {
         <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
           Add Products
         </Button>
+        <Link to={`/admin/products`}><Button>Back</Button></Link>
       </Form.Item>
     </Form>
   );
