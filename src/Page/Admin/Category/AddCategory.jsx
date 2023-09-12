@@ -41,7 +41,7 @@ const AddCategory = () => {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit">
-                    Add Category
+                   Thêm Danh Mục
                 </Button>
             </Form.Item>
         </Form>

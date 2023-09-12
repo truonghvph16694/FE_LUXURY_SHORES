@@ -41,9 +41,7 @@ const AdminLayout = () => {
         const mainE = mainElement.current;
 
         if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate('/admin')
-            }, 500)
+            console.log("sửa lại")
         } else {
             setTimeout(() => {
                 navigate('/')

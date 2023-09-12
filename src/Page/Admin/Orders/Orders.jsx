@@ -197,41 +197,6 @@ const Orders = () => {
     fetchOrdersList();
   }, []);
 
-  const expandedRowRender = (record, index) => {
-    // // console.log('record:', record)
-
-    const columns = [
-      {
-        title: "Tên sản phẩm",
-        render: (record) => {
-          return record.product.name;
-        },
-      },
-      {
-        title: "Hình ảnh",
-        render: (record) => {
-          return <img src={record.images.path} width="15%" alt="" />;
-        },
-      },
-      {
-        title: "Số Lượng",
-        render: (record) => {
-          return record.quantity;
-        },
-      },
-      {
-        title: "Giá",
-        render: (record) => {
-          return record.product.price;
-        },
-      },
-    ];
-    // // console.log('pr:',ordersList)
-    return (
-      <Table columns={columns} dataSource={record.product} pagination={false} />
-    );
-  };
-
   const columns = [
     {
       title: "No", // Serial Number
@@ -316,14 +281,24 @@ const Orders = () => {
   ];
 
   return (
+    
     <div>
+         <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+          marginTop: 20,
+          marginRight: 20,
+        }}
+      >
+        <h1 className="text-2xl font-bold ml-10 ">Danh Sách Đơn Hàng</h1>
+      </div>
       <div>
-        {!loading ? (
+        {!loading ? ( 
           <Table
             columns={columns}
-            expandable={{
-              expandedRowRender: expandedRowRender,
-            }}
             dataSource={ordersList.map((order) => ({
               ...order,
               key: order._id,

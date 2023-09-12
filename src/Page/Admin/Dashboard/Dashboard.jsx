@@ -320,12 +320,12 @@ const Dashboard = () => {
             </CCol>
           </CRow>
           <CChartLine
-            style={{ height: '300px', marginTop: '40px' }}
+            style={{ height: '300px', marginTop: '50px' }}
             data={{
               labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
               datasets: [
                 {
-                  label: 'Monthly Sales',
+                  label: 'Doanh thu',
                   backgroundColor: hexToRgba('#63c2de', 10),
                   borderColor: '#63c2de',
                   pointHoverBackgroundColor: '#63c2de',
