@@ -20,7 +20,7 @@ const Loading = () => {
                 />
             </div>
 
-            <span>LUXURY SHOES</span><TiTick />
+            <span>LUXURY</span><TiTick />
         </div>
     )
 }

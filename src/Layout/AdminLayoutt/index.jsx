@@ -89,7 +89,7 @@ const AdminLayout = () => {
                                     />
                                 </span>
                                 <span className="text-[19px] font-[600] ml-[10px] mt-2 italic hover:text-red-600 ">
-                                    LUXURY STORE
+                                    LUXURY
                                 </span>
                             </Link>
                         </li>
