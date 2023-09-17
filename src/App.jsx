@@ -34,12 +34,12 @@ import Feedback_client from './Page/Feedback/Feedback_client';
 function App() {
   return <div className="App">
     <Routes>
-      <Route path="admin/"
+      <Route path="admin/*"
+      caseSensitive
         element={
           <AdminLayout />
         } >
         <Route index element={<Dashboard />} />
-        <Route path='dashboard' element={<Dashboard />} />
         <Route path="category" element={<Categories />} />
         <Route path="category/add" element={<AddCategory />} />
         <Route path="category/edit/:id" element={<UpdateCategory />} />

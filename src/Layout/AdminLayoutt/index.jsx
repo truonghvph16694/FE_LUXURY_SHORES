@@ -41,9 +41,7 @@ const AdminLayout = () => {
         const mainE = mainElement.current;
 
         if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate('/admin')
-            }, 500)
+            console.log("sửa lại")
         } else {
             setTimeout(() => {
                 navigate('/')
@@ -91,7 +89,7 @@ const AdminLayout = () => {
                                     />
                                 </span>
                                 <span className="text-[19px] font-[600] ml-[10px] mt-2 italic hover:text-red-600 ">
-                                    LUXURY STORE
+                                    LUXURY
                                 </span>
                             </Link>
                         </li>

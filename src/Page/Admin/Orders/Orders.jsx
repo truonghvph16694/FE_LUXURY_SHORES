@@ -16,19 +16,24 @@ import Loading from "../../../components/Loading/Loading";
 const { Column } = Table;
 
 const Orders = () => {
+  const handleSearch = () => {
+    const filtered = ordersList.filter((order) =>
+      order.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredOrders(filtered);
+  };
+
+  const handleClear = () => {
+    setSearchQuery("");
+    setFilteredOrders([]);
+  };
+
   const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log("img", ordersList)
-  // const fetchOrdersList = async () => {
-  //     try {
-  //         const response = await ordersApi.GetAll();
-  //         // console.log('response', response);
-  //         setOrdersList(response);
-  //         setLoading(false)
-  //     } catch (error) {
-  //         // console.log('Failed to fetch OrdersList', error);
-  //     }
-  // };
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+
+  console.log("img", ordersList);
   const fetchOrdersList = async () => {
     try {
       const response = await ordersApi.GetAll();
@@ -43,7 +48,7 @@ const Orders = () => {
       setOrdersList(ordersWithData);
       setLoading(false);
     } catch (error) {
-      // console.log("Failed to fetch OrdersList", error);
+      // Handle error
     }
   };
 
@@ -83,9 +88,7 @@ const Orders = () => {
         );
       case 4:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "Red" }}>
-            Đã Hủy
-          </span>
+          <span style={{ ...statusStyle, backgroundColor: "Red" }}>Đã Hủy</span>
         );
       default:
         return (
@@ -197,41 +200,6 @@ const Orders = () => {
     fetchOrdersList();
   }, []);
 
-  const expandedRowRender = (record, index) => {
-    // // console.log('record:', record)
-
-    const columns = [
-      {
-        title: "Tên sản phẩm",
-        render: (record) => {
-          return record.product.name;
-        },
-      },
-      {
-        title: "Hình ảnh",
-        render: (record) => {
-          return <img src={record.images.path} width="15%" alt="" />;
-        },
-      },
-      {
-        title: "Số Lượng",
-        render: (record) => {
-          return record.quantity;
-        },
-      },
-      {
-        title: "Giá",
-        render: (record) => {
-          return record.product.price;
-        },
-      },
-    ];
-    // // console.log('pr:',ordersList)
-    return (
-      <Table columns={columns} dataSource={record.product} pagination={false} />
-    );
-  };
-
   const columns = [
     {
       title: "No", // Serial Number
@@ -317,18 +285,44 @@ const Orders = () => {
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+          marginTop: 20,
+          marginRight: 20,
+        }}
+      >
+        <h1 className="text-2xl font-bold ml-10">Danh Sách Đơn Hàng</h1>
+      </div>
       <div>
+      <div className="mb-4 flex items-center justify-end">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-4 py-2 border rounded-l-md focus:outline-none focus:ring focus:border-blue-300"
+            style={{ marginRight: "10px" }}
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
+          >
+            Search
+          </button>
+        </div>
+
         {!loading ? (
           <Table
             columns={columns}
-            expandable={{
-              expandedRowRender: expandedRowRender,
-            }}
-            dataSource={ordersList.map((order) => ({
-              ...order,
-              key: order._id,
-            }))}
-          // defaultExpandAllRows={true}
+            dataSource={(searchQuery ? filteredOrders : ordersList).map(
+              (order) => ({
+                ...order,
+                key: order._id,
+              })
+            )}
           />
         ) : (
           <p>
@@ -336,52 +330,6 @@ const Orders = () => {
           </p>
         )}
       </div>
-
-      {/* <Table dataSource={ordersList}>
-            <Column
-                title="Trạng thái đơn hàng"
-                dataIndex="status"
-                key="status"
-                render={(status) => convertStatus(status)}
-            />
-            <Column
-                title="Tên khách hàng"
-                dataIndex={['user', 'fullname']}
-                key="fullname"
-            />
-            <Column title="Tỉnh/Thành phố" dataIndex="province_id" key="province_id" />
-            <Column title="Quận/Huyện" dataIndex="district_id" key="district_id" />
-            <Column title="Xã/Phường" dataIndex="ward_id" key="ward_id" />
-            <Column title="Địa chỉ cụ thể" dataIndex="detail_address" key="detail_address" />
-            <Column
-                title="Thời gian đặt"
-                dataIndex="created_at"
-                key="created_at"
-                render={(created_at) => moment(created_at).format('DD/MM/YYYY')}
-            />
-            <Column title="Ghi chú" dataIndex="note" key="note" />
-            <Column title="Total Price" dataIndex="total_price" key="total_price" />
-            <Column
-                title="Phương thức thanh toán"
-                dataIndex="payment"
-                key="payment"
-                render={(payment) => convertPayment(payment)}
-            />
-            <Column
-                title="Trạng thái thanh toán"
-                dataIndex="status_payment"
-                key="status_payment"
-                render={(payment) => convert_status_Payment(payment)}
-            />
-            <Column
-                title="Action"
-                render={(record) => (
-                    <Space size="middle">
-                        <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>
-                    </Space>
-                )}
-            />
-        </Table> */}
     </div>
   );
 };
