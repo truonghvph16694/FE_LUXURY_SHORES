@@ -166,7 +166,7 @@ const UpdateProduct = () => {
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="name"
-                label="Product Name"
+                label="Tên sản phẩm"
                 rules={[
                     {
                         required: true,
@@ -178,7 +178,7 @@ const UpdateProduct = () => {
             </Form.Item>
             <Form.Item
                 name="description"
-                label="Description"
+                label="Mô tả"
                 rules={[
                     {
                         required: true,
@@ -190,7 +190,7 @@ const UpdateProduct = () => {
             </Form.Item>
             <Form.Item
                 name="price"
-                label="Price"
+                label="Giá"
                 rules={[
                     {
                         required: true,
@@ -202,7 +202,7 @@ const UpdateProduct = () => {
             </Form.Item>
             <Form.Item
                 name="categoryId"
-                label="Category"
+                label="Danh mục"
                 rules={[
                     {
                         required: true,
@@ -210,7 +210,7 @@ const UpdateProduct = () => {
                     },
                 ]}
             >
-                <Select placeholder="Select category">
+                <Select placeholder="Chọn danh mục">
                     {categoryList.map((item, index) => (
                         <Select.Option value={item._id}>{item.name}</Select.Option>
                     ))}
@@ -220,7 +220,7 @@ const UpdateProduct = () => {
 
             <Form.Item
                 name="upload"
-                label="File">
+                label="Ảnh">
                 <Upload
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                     listType="picture-card"
@@ -238,7 +238,9 @@ const UpdateProduct = () => {
                 </Modal>
 
             </Form.Item>
+            <h3>Thuộc tính</h3>
             <div >
+                
                 <Form.List name="product_entrys" >
                     {(fields, { add, remove }) => (
                         <>

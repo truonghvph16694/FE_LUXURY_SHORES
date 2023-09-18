@@ -170,7 +170,7 @@ const Orders = () => {
         {
             title: 'Hình ảnh',
             render: (record) => {
-                return <img src={record.images[0].path} width="15%" alt="" />
+                return <img src={record.images.path} width="15%" alt="" />
             },
         },
         {

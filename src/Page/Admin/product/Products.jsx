@@ -168,8 +168,8 @@ const App = () => {
             <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
           </Link>
           <Popconfirm
-            title="Delete the task"
-            description="Trong danh mục có sản phẩm bạn có chắc chắn muốn xóa!"
+            title="Bạn có chắc muốn thực hiện tác vụ?"
+            description="Bạn có chắc chắn muốn xóa!"
             onConfirm={() => handleDelete(record._id)}
             okText={<span style={{ color: 'white' }}>Yes</span>}
             cancelText="No"

@@ -119,6 +119,10 @@ const UpdateOrders = () => {
                 return record.product.price
             }
         },
+        {
+            title: "Thành tiền",
+            dataIndex: "total_price",
+        },
     ];
 
 
@@ -194,7 +198,7 @@ const UpdateOrders = () => {
 
                 <Form.Item
                     name="status"
-                    label="Status"
+                    label="Trạng thái đơn hàng"
                     rules={[
                         {
                             required: true,
@@ -216,7 +220,7 @@ const UpdateOrders = () => {
                     </Select>
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     name="created_at"
                     label="created_at"
                     rules={[
@@ -285,7 +289,7 @@ const UpdateOrders = () => {
                         <Select.Option value={2}>Thanh toán khi nhận hàng</Select.Option>
 
                     </Select>
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                     <Button htmlType="submit" className='bg-blue-400'>

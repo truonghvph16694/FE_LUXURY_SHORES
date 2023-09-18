@@ -37,6 +37,7 @@ const Orders = () => {
   const fetchOrdersList = async () => {
     try {
       const response = await ordersApi.GetAll();
+      response.reverse(); // Đảo ngược các bản ghi mới nhất lên đầu
       const ordersWithData = await Promise.all(
         response.map(async (order) => {
           const provinceName = await onProvince(order.province_id);
