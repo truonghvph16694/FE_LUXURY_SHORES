@@ -34,6 +34,7 @@ const UpdateOrders = () => {
                 console.log('order:', response);
                 setStatus(response.status);
                 setOrdersList(response);
+                console.log("rp: ", response)
                 setLoading(false);
                 form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note, ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
@@ -118,11 +119,31 @@ const UpdateOrders = () => {
             render: (record) => {
                 return record.product.price
             }
+        }
+    ];
+
+    const columns2 = [
+        {
+            title: "Địa chỉ cụ thể",
+            dataIndex: "detail_address",
+            key: "detail_address"
         },
         {
-            title: "Thành tiền",
-            dataIndex: "total_price",
+            title: "Xã/Phường",
+            dataIndex: "ward_id",
+            key: "ward_id"
         },
+        {
+            title: "Quận/Huyện",
+            dataIndex: "district_id",
+            key: "district_id"
+        },
+        {
+            title: "Tỉnh/Thành phố",
+            dataIndex: "province_id",
+            key: "province_id"
+        }
+    
     ];
 
 
@@ -296,17 +317,23 @@ const UpdateOrders = () => {
                         Update Orders
                     </Button>
                 </Form.Item>
-                
+
             </Form >
             <Link to="/admin/orders"><Button>Back</Button></Link>
-            
-            
+
+
             <div>
                 {!loading ? (
-                    <Table
-                        columns={columns}
-                        dataSource={ordersList.product}
-                    />
+                    <>
+                        <Table
+                            columns={columns}
+                            dataSource={ordersList.product}
+                        />
+                        <Table
+                            columns={columns2}
+                            dataSource={ordersList}
+                        />
+                    </>
                 ) : (
                     <p><Loading /></p>
                 )}

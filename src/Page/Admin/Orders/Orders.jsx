@@ -221,50 +221,44 @@ const Orders = () => {
       render: (text, record, index) => index + 1,
       width: 30,
     },
-    {
-      title: "Trạng thái đơn hàng",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => convertStatus(status),
-      width: 160,
-    },
+    
     {
       title: "Tên khách hàng",
       dataIndex: ["fullName"],
       key: "fullname",
       width: 150,
     },
-    {
-      title: "Tỉnh/Thành phố",
-      dataIndex: "provinceName", // Use the provinceName field instead of province_id
-      key: "provinceName",
-    },
-    {
-      title: "Huyện/Quận",
-      dataIndex: "districtName",
-      key: "districtName",
-    },
-    {
-      title: "Xã/Phường",
-      dataIndex: "wardName",
-      key: "wardName",
-    },
-    {
-      title: "Địa chỉ cụ thể",
-      dataIndex: "detail_address",
-      key: "detail_address",
-    },
+    // {
+    //   title: "Tỉnh/Thành phố",
+    //   dataIndex: "provinceName", // Use the provinceName field instead of province_id
+    //   key: "provinceName",
+    // },
+    // {
+    //   title: "Huyện/Quận",
+    //   dataIndex: "districtName",
+    //   key: "districtName",
+    // },
+    // {
+    //   title: "Xã/Phường",
+    //   dataIndex: "wardName",
+    //   key: "wardName",
+    // },
+    // {
+    //   title: "Địa chỉ cụ thể",
+    //   dataIndex: "detail_address",
+    //   key: "detail_address",
+    // },
     {
       title: "Thời gian đặt",
       dataIndex: "created_at",
       key: "created_at",
       render: (created_at) => moment(created_at).format("DD/MM/YYYY"),
     },
-    {
-      title: "Ghi chú",
-      dataIndex: "note",
-      key: "note",
-    },
+    // {
+    //   title: "Ghi chú",
+    //   dataIndex: "note",
+    //   key: "note",
+    // },
     {
       title: "Tổng tiền",
       dataIndex: "total_price",
@@ -282,6 +276,13 @@ const Orders = () => {
     //   key: "status_payment",
     //   render: (payment) => convert_status_Payment(payment),
     // },
+    {
+      title: "Trạng thái đơn hàng",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => convertStatus(status),
+      width: 160,
+    },
     {
       title: "Action",
       render: (record) => (

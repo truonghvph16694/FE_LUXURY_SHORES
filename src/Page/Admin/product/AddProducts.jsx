@@ -307,6 +307,7 @@ const AddProducts = () => {
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
+              <label htmlFor="">Thêm thuộc tính</label>
               <Form.Item>
                 <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ width: '100%' }}>
                   Add

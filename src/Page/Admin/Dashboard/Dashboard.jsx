@@ -40,9 +40,9 @@ const Dashboard = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
   const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-    const navigate = useNavigate();
-    const tokenlocal = localStorage.getItem('token')
+  const userjson = JSON.parse(userlocal)
+  const navigate = useNavigate();
+  const tokenlocal = localStorage.getItem('token')
 
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -58,6 +58,7 @@ const Dashboard = () => {
   const [quantityOut, setQuantityOut] = useState(0);
   const [priceInventory, setPriceInventory] = useState(0);
   const [monthlyData, setMonthlyData] = useState([]);
+  const [productOut, setProductout] = useState([]);
 
 
   const fetchTotal_price = async () => {
@@ -82,7 +83,8 @@ const Dashboard = () => {
       console.log('ordersData: ', ordersData);
 
       const filteredOrders = ordersData.filter(order => order.status === 3);
-
+      setProductout(filteredOrders)
+      console.log("product-out: ", filteredOrders)
       const sum = filteredOrders.reduce((acc, order) => {
         const orderQuantities = order.product.map(product => product.quantity);
         const orderSum = orderQuantities.reduce((orderAcc, orderQuantity) => orderAcc + orderQuantity, 0);
@@ -168,6 +170,41 @@ const Dashboard = () => {
     }
   };
 
+  // const getProductNamesAndQuantities = () => {
+  //   const productNamesAndQuantities = [];
+  
+  //   productOut.forEach(order => {
+  //     const productMap = new Map(); // Sử dụng Map để theo dõi tổng quantity cho từng product.id
+  
+  //     order.product.forEach(product => {
+  //       const productId = product.product.id; // Lấy trường "id" của sản phẩm
+  //       const productName = product.product.name; // Lấy trường "name" của sản phẩm
+  //       const productQuantity = product.quantity; // Lấy trường "quantity" của sản phẩm
+  
+  //       if (productMap.has(productId)) {
+  //         // Nếu đã có product.id trong Map, thì cộng thêm quantity
+  //         const existingQuantity = productMap.get(productId);
+  //         productMap.set(productId, existingQuantity + productQuantity);
+  //       } else {
+  //         // Nếu chưa có product.id trong Map, thì thêm mới
+  //         productMap.set(productId, productQuantity);
+  //       }
+  //     });
+  
+  //     // Sau khi duyệt qua order.product, chúng ta sẽ có một Map với tổng quantity cho từng product.id
+  //     // Bây giờ, chúng ta sẽ thêm vào productNamesAndQuantities
+  //     productMap.forEach((totalQuantity, productId) => {
+  //       productNamesAndQuantities.push({ name: productName, quantity: totalQuantity });
+  //     });
+  //   });
+  
+  //   return productNamesAndQuantities;
+  // };
+  
+
+  // Gọi hàm để lấy danh sách sản phẩm và số lượng
+  // const productNamesAndQuantities = getProductNamesAndQuantities();
+
 
   useEffect(() => {
     fetchTotal_price();
@@ -177,13 +214,13 @@ const Dashboard = () => {
     fetchOrdersByMonth();
     if (userlocal && userjson.type === "admin" && tokenlocal) {
       setTimeout(() => {
-          navigate('/admin')
+        navigate('/admin')
       }, 100)
-  } else {
+    } else {
       setTimeout(() => {
-          navigate('/')
+        navigate('/')
       }, 100)
-  }
+    }
   }, []);
 
   const formattedTotalPrice = totalPriceSum.toLocaleString('vi-VN', {
@@ -397,7 +434,16 @@ const Dashboard = () => {
         </CCardBody>
       </CCard>
 
-
+      {/* <div>
+        <h2>Danh sách sản phẩm và số lượng:</h2>
+        <ul>
+          {productNamesAndQuantities.map((product, index) => (
+            <li key={index}>
+              <strong>Name:</strong> {product.name}, <strong>Quantity:</strong> {product.quantity}
+            </li>
+          ))}
+        </ul>
+      </div> */}
 
 
     </>
