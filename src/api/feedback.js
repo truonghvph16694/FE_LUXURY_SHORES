@@ -10,6 +10,9 @@ const FeedbackApi = {
   Add: async (data) => {
     return await instance.post("feedback", data);
   },
+  editStatus: async (id, data) => {
+    return await instance.put(`feedback/status/${id}`, data);
+  },
   Update: async (data) => {
     return await instance.patch(`feedback/${data._id}`, data);
   },

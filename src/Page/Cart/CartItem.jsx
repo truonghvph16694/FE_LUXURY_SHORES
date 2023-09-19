@@ -17,6 +17,8 @@ const CartItem = (item) => {
             await setQuantity(quantity - 1);
             await changeQuantityAPI(quantity - 1);
             await sendData();
+        } else {
+            toastError('Số lượng không được nhỏ hơn 1')
         }
     };
 
@@ -25,9 +27,15 @@ const CartItem = (item) => {
     };
 
     const handleIncrease = async () => {
-        setQuantity(quantity + 1);
-        await changeQuantityAPI(quantity + 1);
-        sendData();
+
+        if ((quantity >= item.item.product_entry.quantity)) {
+            toastError('Số lượng mua không được lớn hơn số lượng còn lại trong kho')
+        } else {
+            setQuantity(quantity + 1);
+            await changeQuantityAPI(quantity + 1);
+            sendData();
+        }
+
     };
 
     const showConfirmModal = () => {
@@ -82,7 +90,6 @@ const CartItem = (item) => {
                         readOnly
                     />
                     <button
-                        disabled={quantity >= item.item.product_entry.quantity}
                         onClick={handleIncrease}
                         className="bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black"
                     >

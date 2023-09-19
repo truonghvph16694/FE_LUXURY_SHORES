@@ -7,6 +7,7 @@ import { Table, Popconfirm } from 'antd';
 // import { Link, useParams } from 'react-router-dom';
 import { toastError, toastSuccess } from '../../components/toast/Toast';
 import Loading from "../../components/Loading/Loading"
+import './styles.css'
 
 // const { Column } = Table;
 
@@ -170,7 +171,7 @@ const Orders = () => {
         {
             title: 'Hình ảnh',
             render: (record) => {
-                return <img src={record.images[0].path} width="15%" alt="" />
+                return <img src={record.images.path} width="15%" alt="" />
             },
         },
         {
@@ -254,7 +255,7 @@ const Orders = () => {
             render: (payment) => convert_status_Payment(payment)
         },
         {
-            title: "Action",
+            title: "Đánh Giá",
             render: (record) =>
                 <div>
                     <Popconfirm
@@ -268,10 +269,12 @@ const Orders = () => {
                             {record.status !== 4 ? "Huỷ đơn hàng" : "Đã hủy"}
                         </button> :
                             <Link to={`/feedback/${record._id}`}>
-                                <button>
+                                <button className='btn-custom-green'>
                                     Viết đánh giá
                                 </button>
                             </Link>
+
+
                         }
                     </Popconfirm>
 
@@ -292,7 +295,7 @@ const Orders = () => {
                             expandedRowRender: expandedRowRender,
                         }}
                         dataSource={ordersList.map(order => ({ ...order, key: order._id }))}
-                    // defaultExpandAllRows={true} 
+                    // defaultExpandAllRows={true}
                     />
                 ) : (
                     <div className=' flex justify-center items-center'> <Loading /> </div>

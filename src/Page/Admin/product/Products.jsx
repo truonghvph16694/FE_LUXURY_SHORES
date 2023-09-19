@@ -103,14 +103,14 @@ const App = () => {
 
   const columns = [
     {
-      title: 'No', // Serial Number
+      title: 'STT', // Serial Number
       dataIndex: 'stt',
       key: 'stt',
       render: (text, record, index) => index + 1,
       width: 70,
     },
     {
-      title: 'Name',
+      title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
     },
@@ -120,7 +120,7 @@ const App = () => {
       key: 'price',
     },
     {
-      title: 'Images',
+      title: 'Ảnh',
       dataIndex: 'product_images',
       key: 'product_image',
       render: (record) => {
@@ -131,12 +131,12 @@ const App = () => {
       },
     },
     {
-      title: 'Description',
+      title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Category',
+      title: 'Danh mục',
       dataIndex: 'categoryId',
       key: 'category',
       render: (categoryId) => {
@@ -145,7 +145,7 @@ const App = () => {
       },
     },
     {
-      title: 'Action',
+      title: 'Sửa/Xóa',
       key: 'operation',
       render: (text, record) => (
         <Space size="middle">
@@ -156,8 +156,8 @@ const App = () => {
             title="Delete the task"
             description="Bạn có chắc chắn muốn xóa sản phẩm không?"
             onConfirm={() => handleDelete(record._id)}
-            okText={<span style={{ color: 'white' }}>Yes</span>}
-            cancelText="No"
+            okText={<span style={{ color: 'white' }}>Có</span>}
+            cancelText="Không"
             okButtonProps={{ style: { background: 'green' } }}
             disabled={loading}
           >
@@ -170,14 +170,14 @@ const App = () => {
 
   return (
     <>
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginTop: 20, marginRight: 20 }}>
-  <h1 className='text-2xl font-bold ml-10 '>Tất Cả Sản Phẩm</h1>
-  <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
-    <Button type="primary" icon={<FileAddTwoTone />}>
-      Thêm
-    </Button>
-  </Link>
-</div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginTop: 20, marginRight: 20 }}>
+        <h1 className='text-2xl font-bold ml-10 '>Tất Cả Sản Phẩm</h1>
+        <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
+          <Button type="primary" icon={<FileAddTwoTone />}>
+            Thêm
+          </Button>
+        </Link>
+      </div>
 
       {/* Render the table after the API call is completed */}
       {!loading ? (
