@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message, Space, Select, Upload, Modal } from 'antd';
 import { LoadingOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import productApi from '../../../api/products';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import categoryApi from '../../../api/category';
 import colorApi from '../../../api/color';
@@ -24,11 +24,6 @@ const AddProducts = () => {
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileOrigin, setFileOrigin] = useState([]);
-
-  const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-
-    const tokenlocal = localStorage.getItem('token')
 
   // Cấu hình thông tin Cloudinary của bạn
   const cloudName = 'datn2023';
@@ -66,16 +61,6 @@ const AddProducts = () => {
     fetchCategoryList();
     // fetchProductColorList();
     fetchProductSizeList();
-
-    if (userlocal && userjson.type === "admin" && tokenlocal) {
-      setTimeout(() => {
-          navigate('/admin/products/add')
-      }, 500)
-  } else {
-      setTimeout(() => {
-          navigate('/')
-      }, 500)
-  }
   }, []);
 
   const beforeUpload = (file) => {
@@ -148,7 +133,7 @@ const AddProducts = () => {
     <Form form={form} onFinish={onFinish} layout="vertical">
       <Form.Item
         name="name"
-        label="Products"
+        label="Tên sản Phẩm"
         rules={[
           {
             required: true,
@@ -160,7 +145,7 @@ const AddProducts = () => {
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
+        label="Mô tả"
         rules={[
           {
             required: true,
@@ -172,7 +157,7 @@ const AddProducts = () => {
       </Form.Item>
       <Form.Item
         name="price"
-        label="Price"
+        label="Giá"
         rules={[
           {
             required: true,
@@ -196,7 +181,7 @@ const AddProducts = () => {
       </Form.Item> */}
       <Form.Item
         name="categoryId"
-        label="Category"
+        label="Danh Mục"
         rules={[
           {
             required: true,
@@ -214,7 +199,7 @@ const AddProducts = () => {
       </Form.Item>
       <Form.Item
         name="upload"
-        label="File">
+        label="Ảnh">
         <Upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
@@ -282,7 +267,7 @@ const AddProducts = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="Quantity" />
+                    <Input placeholder="Số lượng" />
                   </Form.Item>
 
                   <Form.Item
@@ -310,7 +295,7 @@ const AddProducts = () => {
               <label htmlFor="">Thêm thuộc tính</label>
               <Form.Item>
                 <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ width: '100%' }}>
-                  Add
+                  Thêm
                 </Button>
               </Form.Item>
             </>
@@ -322,7 +307,6 @@ const AddProducts = () => {
         <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
           Thêm Sản Phẩm
         </Button>
-        <Link to={`/admin/products`}><Button>Back</Button></Link>
       </Form.Item>
     </Form>
   );

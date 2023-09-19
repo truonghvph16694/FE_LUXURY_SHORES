@@ -5,7 +5,7 @@ import sizeApi from '../../../api/size';
 // import colorApi from '../../../api/color';
 import { Badge, Dropdown, Space, Table, Popconfirm, Button } from 'antd';
 import { DeleteTwoTone, EditTwoTone, FileAddTwoTone } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toastSuccess } from '../../../components/toast/Toast';
 // import { Image as CloudinaryImage } from 'cloudinary-react';
 import Loading from '../../../components/Loading/Loading';
@@ -17,11 +17,6 @@ const App = () => {
   // const [productColor, setProductColorList] = useState([]);
   const [productSize, setProductSizeList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-
-  const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-    const navigate = useNavigate();
-    const tokenlocal = localStorage.getItem('token')
 
   const fetchProductList = async () => {
     try {
@@ -66,16 +61,6 @@ const App = () => {
     fetchProductSizeList();
     // fetchProductColorList();
     fetchCategoryList();
-
-    if (userlocal && userjson.type === "admin" && tokenlocal) {
-      setTimeout(() => {
-          navigate('/admin/products')
-      }, 100)
-  } else {
-      setTimeout(() => {
-          navigate('/')
-      }, 100)
-  }
   }, []);
 
   const handleDelete = async (id) => {
@@ -118,14 +103,14 @@ const App = () => {
 
   const columns = [
     {
-      title: 'No', // Serial Number
+      title: 'STT', // Serial Number
       dataIndex: 'stt',
       key: 'stt',
       render: (text, record, index) => index + 1,
       width: 70,
     },
     {
-      title: 'Name',
+      title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
     },
@@ -135,7 +120,7 @@ const App = () => {
       key: 'price',
     },
     {
-      title: 'Images',
+      title: 'Ảnh',
       dataIndex: 'product_images',
       key: 'product_image',
       render: (record) => {
@@ -146,12 +131,12 @@ const App = () => {
       },
     },
     {
-      title: 'Description',
+      title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Category',
+      title: 'Danh mục',
       dataIndex: 'categoryId',
       key: 'category',
       render: (categoryId) => {
@@ -160,7 +145,7 @@ const App = () => {
       },
     },
     {
-      title: 'Action',
+      title: 'Sửa/Xóa',
       key: 'operation',
       render: (text, record) => (
         <Space size="middle">
@@ -168,11 +153,11 @@ const App = () => {
             <EditTwoTone style={{ fontSize: '20px', color: '#08c' }} />
           </Link>
           <Popconfirm
-            title="Bạn có chắc muốn thực hiện tác vụ?"
-            description="Bạn có chắc chắn muốn xóa!"
+            title="Delete the task"
+            description="Bạn có chắc chắn muốn xóa sản phẩm không?"
             onConfirm={() => handleDelete(record._id)}
-            okText={<span style={{ color: 'white' }}>Yes</span>}
-            cancelText="No"
+            okText={<span style={{ color: 'white' }}>Có</span>}
+            cancelText="Không"
             okButtonProps={{ style: { background: 'green' } }}
             disabled={loading}
           >
@@ -185,14 +170,14 @@ const App = () => {
 
   return (
     <>
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginTop: 20, marginRight: 20 }}>
-  <h1 className='text-2xl font-bold ml-10 '>Tất Cả Sản Phẩm</h1>
-  <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
-    <Button type="primary" icon={<FileAddTwoTone />}>
-      Thêm
-    </Button>
-  </Link>
-</div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, marginTop: 20, marginRight: 20 }}>
+        <h1 className='text-2xl font-bold ml-10 '>Tất Cả Sản Phẩm</h1>
+        <Link to={'/admin/products/add'} style={{ backgroundColor: "blue", borderRadius: 10 }}>
+          <Button type="primary" icon={<FileAddTwoTone />}>
+            Thêm
+          </Button>
+        </Link>
+      </div>
 
       {/* Render the table after the API call is completed */}
       {!loading ? (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, message, Space, Select, Upload, Modal } from 'antd';
 import productApi from '../../../api/products';
 import sizeApi from '../../../api/size';
@@ -24,12 +24,6 @@ const UpdateProduct = () => {
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
-
-    const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-
-    const tokenlocal = localStorage.getItem('token')
-
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -53,16 +47,6 @@ const UpdateProduct = () => {
         };
 
         fetchProduct();
-
-        if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate(`/admin/products/edit/${id}`)
-            }, 500)
-        } else {
-            setTimeout(() => {
-                navigate('/')
-            }, 500)
-        }
     }, [id, form]);
 
     const onFinish = async (values) => {
@@ -166,7 +150,7 @@ const UpdateProduct = () => {
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="name"
-                label="Tên sản phẩm"
+                label="Tên Sản Phẩm"
                 rules={[
                     {
                         required: true,
@@ -202,7 +186,7 @@ const UpdateProduct = () => {
             </Form.Item>
             <Form.Item
                 name="categoryId"
-                label="Danh mục"
+                label="Danh Mục"
                 rules={[
                     {
                         required: true,
@@ -210,7 +194,7 @@ const UpdateProduct = () => {
                     },
                 ]}
             >
-                <Select placeholder="Chọn danh mục">
+                <Select placeholder="Select category">
                     {categoryList.map((item, index) => (
                         <Select.Option value={item._id}>{item.name}</Select.Option>
                     ))}
@@ -238,9 +222,7 @@ const UpdateProduct = () => {
                 </Modal>
 
             </Form.Item>
-            <h3>Thuộc tính</h3>
             <div >
-                
                 <Form.List name="product_entrys" >
                     {(fields, { add, remove }) => (
                         <>
@@ -263,7 +245,7 @@ const UpdateProduct = () => {
                                             },
                                         ]}
                                     >
-                                        <Input placeholder="Quantity" />
+                                        <Input placeholder="Số lượng" />
                                     </Form.Item>
                                     {/* <Form.Item
                                         {...restField}
@@ -318,7 +300,7 @@ const UpdateProduct = () => {
                             ))}
                             <Form.Item>
                                 <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ width: '100%' }}>
-                                    Add
+                                    Thêm
                                 </Button>
                             </Form.Item>
                         </>
@@ -327,9 +309,8 @@ const UpdateProduct = () => {
             </div>
             <Form.Item>
                 <Button type="primary" htmlType="submit" style={{ backgroundColor: "blue", borderRadius: 10 }}>
-                    Update Products
+                    Sửa Mới
                 </Button>
-                <Link to={`/admin/products`}><Button>Back</Button></Link>
             </Form.Item>
         </Form>
     );

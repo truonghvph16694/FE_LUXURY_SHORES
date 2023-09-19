@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import categoryApi from '../../../api/category';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
@@ -9,12 +9,6 @@ const UpdateCategory = () => {
     // const history = useHistory();
     const [form] = Form.useForm();
     const navigate = useNavigate();
-
-    const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-
-    const tokenlocal = localStorage.getItem('token')
-
     useEffect(() => {
         const fetchCategory = async () => {
             try {
@@ -27,17 +21,6 @@ const UpdateCategory = () => {
         };
 
         fetchCategory();
-
-        if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate(`/admin/category/edit/${id}`)
-            }, 500)
-        } else {
-            setTimeout(() => {
-                navigate('/')
-            }, 500)
-        }
-
     }, [id, form]);
 
     const onFinish = async (values) => {
@@ -63,7 +46,7 @@ const UpdateCategory = () => {
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="name"
-                label="Category Name"
+                label="Tên Danh Mục"
                 rules={[
                     {
                         required: true,
@@ -71,14 +54,13 @@ const UpdateCategory = () => {
                     },
                 ]}
             >
-                <Input placeholder="Enter category name" />
+                <Input placeholder="danh mục" />
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className='bg-blue-500'>
-                    Update Category
+                    Sửa Danh Mục
                 </Button>
-                <Link to={`/admin/category`}><Button>Back</Button></Link>
             </Form.Item>
         </Form>
     );

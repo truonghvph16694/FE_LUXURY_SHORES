@@ -13,7 +13,7 @@ const userApi = {
   Update: async (data) => {
     return await instance.put(`user/${data._id}`, data);
   },
-  editStatus: async (id,data) => {
+  editStatus: async (id, data) => {
     return await instance.put(`user/status/${id}`, data);
   },
   Remove: async (id) => {
@@ -26,8 +26,8 @@ const userApi = {
     return await instance.post("auth/signup", data);
   },
   logout: async () => {
-    return await instance.post("auth/logout")
-  }
+    return await instance.post("auth/logout");
+  },
 };
 
 export default userApi;

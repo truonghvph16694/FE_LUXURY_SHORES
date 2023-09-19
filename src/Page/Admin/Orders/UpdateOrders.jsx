@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, Button, message, Select, Table } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import Loading from '../../../components/Loading/Loading';
+import { formatCurrency } from '../../../../utils';
 
 
 const UpdateOrders = () => {
@@ -15,11 +16,6 @@ const UpdateOrders = () => {
 
     const [ordersList, setOrdersList] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-
-    const tokenlocal = localStorage.getItem('token')
 
     console.log("Selected status:", status);
 
@@ -43,17 +39,6 @@ const UpdateOrders = () => {
         };
 
         fetchOrders();
-
-        if (userlocal && userjson.type === "admin" && tokenlocal) {
-            setTimeout(() => {
-                navigate(`/admin/orders/edit/${id}`)
-            }, 500)
-        } else {
-            setTimeout(() => {
-                navigate('/')
-            }, 500)
-        }
-
     }, [id, form]);
     const handleStatusChange = (value) => {
         let newStatus = value;
@@ -117,7 +102,7 @@ const UpdateOrders = () => {
         {
             title: "Giá",
             render: (record) => {
-                return record.product.price
+                return formatCurrency(record.product.price)
             }
         }
     ];
@@ -128,22 +113,6 @@ const UpdateOrders = () => {
             dataIndex: "detail_address",
             key: "detail_address"
         },
-        {
-            title: "Xã/Phường",
-            dataIndex: "ward_id",
-            key: "ward_id"
-        },
-        {
-            title: "Quận/Huyện",
-            dataIndex: "district_id",
-            key: "district_id"
-        },
-        {
-            title: "Tỉnh/Thành phố",
-            dataIndex: "province_id",
-            key: "province_id"
-        }
-    
     ];
 
 
@@ -151,70 +120,6 @@ const UpdateOrders = () => {
     return (
         <div >
             <Form form={form} onFinish={onFinish} layout="vertical">
-                {/* <Form.Item
-                    name="user_id"
-                    label="User_ID"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter User ID',
-                        },
-                    ]}
-                >
-                    <Input placeholder="User_ID" disabled />
-                </Form.Item> */}
-
-                {/* <Form.Item
-                    name="province_id"
-                    label="Province_id"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter Province_id',
-                        },
-                    ]}
-                >
-                    <Input placeholder="Enter province id" disabled />
-                </Form.Item>
-
-                <Form.Item
-                    name="district_id"
-                    label="district_id"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter district_id',
-                        },
-                    ]}
-                >
-                    <Input placeholder="Enter district_id" disabled />
-                </Form.Item>
-
-                <Form.Item
-                    name="ward_id"
-                    label="ward_id"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter ward_id',
-                        },
-                    ]}
-                >
-                    <Input placeholder="Enter ward_id" disabled />
-                </Form.Item>
-
-                <Form.Item
-                    name="detail_address"
-                    label="detail_address"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter detail_address',
-                        },
-                    ]}
-                >
-                    <Input placeholder="Enter detail_address" disabled />
-                </Form.Item> */}
 
 
                 <Form.Item
@@ -234,10 +139,10 @@ const UpdateOrders = () => {
                         disabled={status === 3}
                     >
                         <Select.Option value={0} disabled={status >= 0}>Đơn hàng mới</Select.Option>
-                        <Select.Option value={1} disabled={status >= 1}>Đang xử lý</Select.Option>
+                        <Select.Option value={1} disabled={status >= 1}>Xác nhận</Select.Option>
                         <Select.Option value={2} disabled={status >= 2}>Đang giao hàng</Select.Option>
                         <Select.Option value={3} disabled={status >= 3}>Hoàn thành</Select.Option>
-                        <Select.Option value={4} disabled={true}>Đã hủy</Select.Option>
+                        <Select.Option value={4} disabled={status >= 3}>Đã hủy</Select.Option>
                     </Select>
                 </Form.Item>
 
@@ -252,9 +157,9 @@ const UpdateOrders = () => {
                     ]}
                 >
                     <Input placeholder="Enter created_at" disabled />
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item
+                {/* <Form.Item
                     name="note"
                     label="note"
                     rules={[
@@ -265,9 +170,9 @@ const UpdateOrders = () => {
                     ]}
                 >
                     <Input placeholder="Note" disabled />
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item
+                {/* <Form.Item
                     name="ships"
                     label="ships"
                     rules={[
@@ -278,9 +183,9 @@ const UpdateOrders = () => {
                     ]}
                 >
                     <Input placeholder="Enter ships" disabled />
-                </Form.Item>
+                </Form.Item> */}
 
-                <Form.Item
+                {/* <Form.Item
                     name="total_price"
                     label="total_price"
                     rules={[
@@ -317,23 +222,35 @@ const UpdateOrders = () => {
                         Update Orders
                     </Button>
                 </Form.Item>
-
             </Form >
-            <Link to="/admin/orders"><Button>Back</Button></Link>
-
 
             <div>
                 {!loading ? (
-                    <>
+                    <div className='relative'>
                         <Table
                             columns={columns}
                             dataSource={ordersList.product}
+                            pagination={false}
                         />
-                        <Table
-                            columns={columns2}
-                            dataSource={ordersList}
-                        />
-                    </>
+                        <div className='flex pt-4'>
+                            <div className=''>
+                                <label htmlFor="" className='font-bold'>Ghi chú :</label>
+                                <span>{ordersList.note}</span>
+                            </div>
+                            <div className='absolute  right-24'>
+                                <div className='ml-36'>
+                                    <label className='font-bold' >Phí ship :</label>
+                                    <span> {formatCurrency(ordersList.ships)}</span>
+                                </div>
+
+                                <br />
+                                <br />
+                                <br />
+                                <label className='font-bold text-3xl '>Tổng tiền:</label>
+                                <span className='text-3xl'> {formatCurrency(ordersList.total_price)}</span>
+                            </div>
+                        </div>
+                    </div>
                 ) : (
                     <p><Loading /></p>
                 )}

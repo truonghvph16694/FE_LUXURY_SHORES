@@ -1,43 +1,53 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import ordersApi from "../../../api/orders";
-import userApi from "../../../api/user";
-import { Space, Table, Popconfirm, Button } from "antd";
+import { Space, Table, Select, Button } from "antd";
 import {
   DeleteTwoTone,
   EditTwoTone,
   FileAddTwoTone,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
-import { toastSuccess } from "../../../components/toast/Toast";
+import { Link } from "react-router-dom";
 import Loading from "../../../components/Loading/Loading";
 
 const { Column } = Table;
+const { Option } = Select;
 
 const Orders = () => {
   const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [searchOrderId, setSearchOrderId] = useState(""); // Thêm state cho ID đơn hàng
 
-  const userlocal = localStorage.getItem('user')
-    const userjson = JSON.parse(userlocal)
-    const navigate = useNavigate();
-    const tokenlocal = localStorage.getItem('token')
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value);
+  };
 
-  // const fetchOrdersList = async () => {
-  //     try {
-  //         const response = await ordersApi.GetAll();
-  //         // console.log('response', response);
-  //         setOrdersList(response);
-  //         setLoading(false)
-  //     } catch (error) {
-  //         // console.log('Failed to fetch OrdersList', error);
-  //     }
-  // };
+  const handleOrderIdChange = (e) => {
+    setSearchOrderId(e.target.value);
+  };
+
+  const handleSearchOrderId = () => {
+    if (searchOrderId.trim() === "") {
+      setFilteredOrders([]);
+    } else {
+      const foundOrder = ordersList.find((order) => order._id === searchOrderId);
+      if (foundOrder) {
+        setFilteredOrders([foundOrder]);
+      } else {
+        // Hiển thị thông báo nếu không tìm thấy đơn hàng
+        // Ví dụ: toastError("Không tìm thấy đơn hàng với ID này");
+        setFilteredOrders([]);
+      }
+    }
+  };
+
   const fetchOrdersList = async () => {
     try {
       const response = await ordersApi.GetAll();
-      response.reverse(); // Đảo ngược các bản ghi mới nhất lên đầu
       const ordersWithData = await Promise.all(
         response.map(async (order) => {
           const provinceName = await onProvince(order.province_id);
@@ -49,7 +59,7 @@ const Orders = () => {
       setOrdersList(ordersWithData);
       setLoading(false);
     } catch (error) {
-      // console.log("Failed to fetch OrdersList", error);
+      console.error("Error fetching orders:", error);
     }
   };
 
@@ -59,7 +69,7 @@ const Orders = () => {
       padding: "2px 6px",
       borderRadius: "4px",
       fontWeight: "bold",
-      color: "white", // Màu chữ trắng
+      color: "white",
     };
 
     switch (status) {
@@ -77,21 +87,19 @@ const Orders = () => {
         );
       case 2:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "Green" }}>
+          <span style={{ ...statusStyle, backgroundColor: "orange" }}>
             Đang Giao Hàng
           </span>
         );
       case 3:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "Gray" }}>
+          <span style={{ ...statusStyle, backgroundColor: "Green" }}>
             Hoàn Thành
           </span>
         );
       case 4:
         return (
-          <span style={{ ...statusStyle, backgroundColor: "Red" }}>
-            Đã Hủy
-          </span>
+          <span style={{ ...statusStyle, backgroundColor: "Red" }}>Đã Hủy</span>
         );
       default:
         return (
@@ -115,75 +123,24 @@ const Orders = () => {
     }
   };
 
-  const convert_status_Payment = (payment) => {
-    const paymentStyle = {
-      display: "inline-block",
-      padding: "4px 10px",
-      borderRadius: "4px",
-      fontWeight: "bold",
-    };
-
-    switch (payment) {
-      case 0:
-        return (
-          <button
-            style={{
-              ...paymentStyle,
-              color: "white", // Set text color to white
-              border: "2px solid red", // Colored border
-              backgroundColor: "red", // Background color
-            }}
-          >
-            Chưa thanh toán
-          </button>
-        );
-      case 1:
-        return (
-          <button
-            style={{
-              ...paymentStyle,
-              color: "white", // Set text color to white
-              border: "2px solid green", // Colored border
-              backgroundColor: "green", // Background color
-            }}
-          >
-            Đã thanh toán
-          </button>
-        );
-      default:
-        return (
-          <button
-            style={{
-              ...paymentStyle,
-              color: "white", // Set text color to white
-              border: "2px solid black", // Colored border
-              backgroundColor: "black", // Background color
-            }}
-          >
-            Đang xử lý
-          </button>
-        );
-    }
-  };
-
   const onProvince = async (id) => {
     try {
       const response = await fetch(`https://provinces.open-api.vn/api/p/${id}`);
-      const data = await response.json(); // Parse JSON response
-      // // console.log('Data:', data); // Log the data for debugging
-      return data.name; // Return the 'name' property from the data
+      const data = await response.json();
+      return data.name;
     } catch (error) {
-      console.error("Error:", error);
-      return null; // Return null in case of an error
+      console.error("Error fetching province:", error);
+      return null;
     }
   };
+
   const onDistrict = async (id) => {
     try {
       const response = await fetch(`https://provinces.open-api.vn/api/d/${id}`);
       const data = await response.json();
       return data.name;
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching district:", error);
       return null;
     }
   };
@@ -194,31 +151,23 @@ const Orders = () => {
       const data = await response.json();
       return data.name;
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching ward:", error);
       return null;
     }
   };
 
   useEffect(() => {
     fetchOrdersList();
-
-    if (userlocal && userjson.type === "admin" && tokenlocal) {
-      setTimeout(() => {
-          navigate('/admin/orders')
-      }, 100)
-  } else {
-      setTimeout(() => {
-          navigate('/')
-      }, 100)
-  }
   }, []);
 
   const columns = [
     {
-      title: "No", // Serial Number
+      title: "No",
       dataIndex: "stt",
       key: "stt",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => {
+        return index + 1;
+      },
       width: 30,
     },
     
@@ -270,12 +219,6 @@ const Orders = () => {
       key: "payment",
       render: (payment) => convertPayment(payment),
     },
-    // {
-    //   title: "Trạng thái thanh toán",
-    //   dataIndex: "status_payment",
-    //   key: "status_payment",
-    //   render: (payment) => convert_status_Payment(payment),
-    // },
     {
       title: "Trạng thái đơn hàng",
       dataIndex: "status",
@@ -287,22 +230,18 @@ const Orders = () => {
       title: "Action",
       render: (record) => (
         <Space size="middle">
-          {record.status !== 3 ? (
-            <Link to={`/admin/orders/edit/${record._id}`}>
-              <EditTwoTone style={{ fontSize: "20px", color: "#08c" }} />
-            </Link>
-          ) : null}
+          <Link to={`/admin/orders/edit/${record._id}`}>
+            <EditTwoTone style={{ fontSize: "20px", color: "#08c" }} />
+          </Link>
         </Space>
       ),
       width: 10,
     },
-    // Other fields you want to display in the main table
   ];
 
   return (
-    
     <div>
-         <div
+      <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -312,18 +251,53 @@ const Orders = () => {
           marginRight: 20,
         }}
       >
-        <h1 className="text-2xl font-bold ml-10 ">Danh Sách Đơn Hàng</h1>
+        <h1 className="text-2xl font-bold ml-10">Danh Sách Đơn Hàng</h1>
       </div>
       <div>
-        {!loading ? ( 
+        <div className="mb-4 flex items-center justify-end mr-8">
+          <input
+            type="text"
+            value={searchOrderId}
+            onChange={handleOrderIdChange}
+            placeholder="Nhập ID đơn hàng"
+            className="px-4 py-2 border rounded-l-md focus:outline-none focus:ring focus:border-blue-300"
+            style={{ marginRight: "10px" }}
+          />
+          <Button
+            type="primary"
+            onClick={handleSearchOrderId}
+            style={{ marginRight: "10px" }}
+            className="bg-blue-500"
+          >
+            Tìm kiếm theo ID
+          </Button>
+          Lọc:<Select
+            style={{ width: 150, marginLeft: "10px" }}
+            placeholder="Chọn trạng thái"
+            onChange={handleStatusChange}
+            value={selectedStatus}
+          >
+            <Option value={null}>Tất cả</Option>
+            <Option value={0}>Đang xử lí</Option>
+            <Option value={1}>Xác nhận</Option>
+            <Option value={2}>Đang Giao Hàng</Option>
+            <Option value={3}>Hoàn Thành</Option>
+            <Option value={4}>Đã Hủy</Option>
+          </Select>
+        </div>
+
+        {!loading ? (
           <Table
             columns={columns}
-            
-            dataSource={ordersList.map((order) => ({
-              ...order,
-              key: order._id,
-            }))}
-          // defaultExpandAllRows={true}
+            dataSource={
+              filteredOrders.length > 0
+                ? filteredOrders
+                : selectedStatus !== null
+                  ? ordersList.filter((order) => order.status === selectedStatus)
+                  : searchQuery
+                    ? filteredOrders
+                    : ordersList
+            }
           />
         ) : (
           <p>
@@ -331,52 +305,6 @@ const Orders = () => {
           </p>
         )}
       </div>
-
-      {/* <Table dataSource={ordersList}>
-            <Column
-                title="Trạng thái đơn hàng"
-                dataIndex="status"
-                key="status"
-                render={(status) => convertStatus(status)}
-            />
-            <Column
-                title="Tên khách hàng"
-                dataIndex={['user', 'fullname']}
-                key="fullname"
-            />
-            <Column title="Tỉnh/Thành phố" dataIndex="province_id" key="province_id" />
-            <Column title="Quận/Huyện" dataIndex="district_id" key="district_id" />
-            <Column title="Xã/Phường" dataIndex="ward_id" key="ward_id" />
-            <Column title="Địa chỉ cụ thể" dataIndex="detail_address" key="detail_address" />
-            <Column
-                title="Thời gian đặt"
-                dataIndex="created_at"
-                key="created_at"
-                render={(created_at) => moment(created_at).format('DD/MM/YYYY')}
-            />
-            <Column title="Ghi chú" dataIndex="note" key="note" />
-            <Column title="Total Price" dataIndex="total_price" key="total_price" />
-            <Column
-                title="Phương thức thanh toán"
-                dataIndex="payment"
-                key="payment"
-                render={(payment) => convertPayment(payment)}
-            />
-            <Column
-                title="Trạng thái thanh toán"
-                dataIndex="status_payment"
-                key="status_payment"
-                render={(payment) => convert_status_Payment(payment)}
-            />
-            <Column
-                title="Action"
-                render={(record) => (
-                    <Space size="middle">
-                        <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>
-                    </Space>
-                )}
-            />
-        </Table> */}
     </div>
   );
 };

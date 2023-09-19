@@ -16,7 +16,7 @@ const ClientFooter = () => {
                         alt="logo"
 
                     />
-                    <h3 className="uppercase font-bold text-2xl ml-14">LUXURY STORE</h3>
+                    <h3 className="uppercase font-bold text-2xl ml-20">LUXURY</h3>
 
                     <p className="pt-2 mr-[50px] lg:mr-0 leading-tight">
                         Với thông điệp <b>Refined Life</b> Shop mong muốn đem đến cho khách hàng một lối sống tinh gọn bằng các sản phẩm thời trang tinh tế.
@@ -50,7 +50,7 @@ const ClientFooter = () => {
                     </ul>
                 </div>
             </div>
-            <p className="border border-t-gray-300 border-b-0 border-l-0 border-r-0 text-sm font-semibold text-[#888888] pt-5 text-center">Copyright ⓒ 2023 by LUXURY STORE</p>
+            <p className="border border-t-gray-300 border-b-0 border-l-0 border-r-0 text-sm font-semibold text-[#888888] pt-5 text-center">Copyright ⓒ 2023 by LUXURY</p>
         </footer>
     );
 };

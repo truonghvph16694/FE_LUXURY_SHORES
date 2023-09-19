@@ -39,8 +39,14 @@ const AdminLayout = () => {
     useEffect(() => {
         const navigationE = navigationElement.current;
         const mainE = mainElement.current;
-        
 
+        if (userlocal && userjson.type === "admin" && tokenlocal) {
+            console.log("sửa lại")
+        } else {
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        }
 
         if (toggle) {
             navigationE.classList.toggle(styles.active);
@@ -83,7 +89,7 @@ const AdminLayout = () => {
                                     />
                                 </span>
                                 <span className="text-[19px] font-[600] ml-[10px] mt-2 italic hover:text-red-600 ">
-                                    LUXURY STORE
+                                    LUXURY
                                 </span>
                             </Link>
                         </li>
