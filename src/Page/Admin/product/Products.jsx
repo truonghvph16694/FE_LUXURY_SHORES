@@ -154,7 +154,7 @@ const App = () => {
           </Link>
           <Popconfirm
             title="Delete the task"
-            description="Trong danh mục có sản phẩm bạn có chắc chắn muốn xóa!"
+            description="Bạn có chắc chắn muốn xóa sản phẩm không?"
             onConfirm={() => handleDelete(record._id)}
             okText={<span style={{ color: 'white' }}>Yes</span>}
             cancelText="No"

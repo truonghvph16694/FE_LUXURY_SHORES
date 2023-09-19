@@ -118,9 +118,9 @@ const ClientHeader = () => {
                                         <span>Xin chào!</span>
                                         <h3 className="pt-2">{user.fullname}</h3>
                                     </div>
-                                    <Link to={"/account"}>
+                                    {/* <Link to={"/account"}>
                                         <div className={styles.item_user}>Thông tin tài khoản</div>
-                                    </Link>
+                                    </Link> */}
 
                                     {user?.type == 'admin' ? (
                                         <Link to={"/admin/"}>
