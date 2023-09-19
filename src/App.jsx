@@ -68,7 +68,7 @@ function App() {
       {/* Frontend Route */}
       <Route path="/" element={<ClientLayout />}>
         <Route index path='/' element={<HomePage />} />
-        {/* <Route path='tintuc' element={<Tintuc />} /> */}
+        <Route path='tintuc' element={<Tintuc />} />
         <Route path='lienhe' element={<Lienhe />} />
         <Route path='product' element={<Product />} />
         <Route path='product/:id' element={<Product_detail />} />
