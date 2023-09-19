@@ -1,0 +1,16 @@
+/* Tintuc.css */
+
+.news-item {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+  
+  .news-text {
+    margin-right: 20px; /* Khoảng cách giữa chữ và ảnh */
+  }
+  
+  .news-image {
+    max-width: 100%;
+  }
+  
