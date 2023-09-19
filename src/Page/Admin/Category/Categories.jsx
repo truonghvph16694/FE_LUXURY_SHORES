@@ -113,14 +113,14 @@ const Categories = () => {
         <Table dataSource={categoryList}>
           <Column title="STT" dataIndex="stt" key="stt" />
 
-          <Column title="Name" dataIndex="name" key="name" />
+          <Column title="Tên Danh Mục" dataIndex="name" key="name" />
           <Column
-            title="Quantity-Product"
+            title="Số Lượng Sản Phẩm"
             key="products.length"
             render={(record) => <span>{record.products.length} </span>}
           />
           <Column
-            title="Action"
+            title="Hành động"
             render={(record) => (
               <Space size="middle">
                 <Link to={`/admin/category/edit/${record._id}`}>
