@@ -56,7 +56,7 @@ const User = () => {
       {!loading ? (
         <Table dataSource={userList}>
           <Column title="No" dataIndex="stt" key="stt" />
-          <Column title="FullName" dataIndex="fullname" key="fullname" />
+          <Column title="Tên" dataIndex="fullname" key="fullname" />
           <Column title="Số điện thoại" dataIndex="phone" key="phone" />
           <Column title="Email" dataIndex="email" key="email" />
           <Column

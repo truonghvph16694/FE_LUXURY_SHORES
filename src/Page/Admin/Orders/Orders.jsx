@@ -310,7 +310,7 @@ const Orders = () => {
             onClick={handleSearch}
             className="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
           >
-            Search
+            Tìm Kiếm
           </button>
         </div>
 

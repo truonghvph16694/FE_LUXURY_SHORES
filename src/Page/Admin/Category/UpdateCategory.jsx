@@ -46,7 +46,7 @@ const UpdateCategory = () => {
         <Form form={form} onFinish={onFinish} layout="vertical">
             <Form.Item
                 name="name"
-                label="Category Name"
+                label="Tên Danh Mục"
                 rules={[
                     {
                         required: true,
@@ -54,12 +54,12 @@ const UpdateCategory = () => {
                     },
                 ]}
             >
-                <Input placeholder="Enter category name" />
+                <Input placeholder="danh mục" />
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className='bg-blue-500'>
-                    Update Category
+                    Sửa Danh Mục
                 </Button>
             </Form.Item>
         </Form>

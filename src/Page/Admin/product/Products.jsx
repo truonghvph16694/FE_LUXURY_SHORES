@@ -103,14 +103,14 @@ const App = () => {
 
   const columns = [
     {
-      title: 'No', // Serial Number
+      title: 'STT', // Serial Number
       dataIndex: 'stt',
       key: 'stt',
       render: (text, record, index) => index + 1,
       width: 70,
     },
     {
-      title: 'Name',
+      title: 'Tên Sản Phẩm',
       dataIndex: 'name',
       key: 'name',
     },
@@ -120,7 +120,7 @@ const App = () => {
       key: 'price',
     },
     {
-      title: 'Images',
+      title: 'Ảnh',
       dataIndex: 'product_images',
       key: 'product_image',
       render: (record) => {
@@ -131,12 +131,12 @@ const App = () => {
       },
     },
     {
-      title: 'Description',
+      title: 'Mô Tả',
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Category',
+      title: 'Danh Mục',
       dataIndex: 'categoryId',
       key: 'category',
       render: (categoryId) => {
@@ -145,7 +145,7 @@ const App = () => {
       },
     },
     {
-      title: 'Action',
+      title: 'Hoạt Động',
       key: 'operation',
       render: (text, record) => (
         <Space size="middle">
