@@ -5,6 +5,7 @@ import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
 import Loading from '../../../components/Loading/Loading';
 import { formatCurrency } from '../../../../utils';
+import mailOrder from '../../../api/mail';
 
 
 const UpdateOrders = () => {
@@ -17,8 +18,8 @@ const UpdateOrders = () => {
     const [ordersList, setOrdersList] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    console.log("Selected status:", status);
-
+    const userLogin = localStorage.getItem('user');
+    const objLogin = JSON.parse(userLogin);
     // const handleStatusChange = (value) => {
     //     console.log("Selected status:", value);
     //     setStatus(value);
@@ -41,7 +42,6 @@ const UpdateOrders = () => {
     }, [id, form]);
     const handleStatusChange = (value) => {
         let newStatus = value;
-
         if (newStatus === 3) {
             const confirm = window.confirm("Are you sure you want to set the status to Completed?");
             if (!confirm) {
@@ -64,6 +64,18 @@ const UpdateOrders = () => {
         try {
 
             const response = await ordersApi.Update({ ...values, _id: id });
+
+
+
+
+            const dataMail = {
+                user: objLogin,
+                order: ordersList
+            }
+            await mailOrder.sendMailFinish(dataMail);
+
+
+
             console.log('Update orders response:', response);
             if (response.status === 200) {
                 message.success('Orders updated successfully');

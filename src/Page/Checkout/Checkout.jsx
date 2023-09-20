@@ -7,6 +7,7 @@ import ordersApi from "../../api/orders";
 import { toastError, toastSuccess } from "../../components/toast/Toast";
 import paymentApi from "../../api/payment";
 import { useNavigate } from "react-router-dom";
+import mailOrder from "../../api/mail";
 
 const LocationList = () => {
     const [provinces, setProvinces] = useState([]);
@@ -131,6 +132,7 @@ const LocationList = () => {
                 payment: Payment,
                 // linkpay
             };
+
         } else {
             products = {
                 user_id: objLogin._id,
@@ -145,6 +147,11 @@ const LocationList = () => {
             }
         }
         const response = await ordersApi.Add(products);
+        const dataMail = {
+            user: objLogin,
+            order: response.data
+        }
+        await mailOrder.sendmailCreate(dataMail);
 
         const payment = {
             amount: parseInt((parseInt(totalSum)) + ((parseInt(ship)))),

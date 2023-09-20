@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo đặt hàng thành công</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Để .tt có thể căn góc phải */
+        }
+
+        .header {
+            display: flex;
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            margin-bottom: 20px; /* Để tạo khoảng cách giữa header và nội dung */
+        }
+
+        .header img {
+            width: auto;
+            height: 50px;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        p {
+            font-size: 16px;    
+            color: #555555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tt {
+            position: absolute;
+            right: 50px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .container p{
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="./public/logo1.jpg" alt="">
+        </div>
+        <h1>Đặt hàng thành công!</h1>
+        Xin chào: <b>Hùng</b>  
+        <p>Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xác nhận và đang được xử lý.</p>
+        <p>Chi tiết đơn hàng:</p>
+        <table>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Tổng cộng</th>
+            </tr>
+            <tr>
+                <td>Tên sản phẩm 1</td>
+                <td>1</td>
+                <td>$50.00</td>
+                <td>$50.00</td>
+            </tr>
+            <tr>
+                <td>Tên sản phẩm 2</td>
+                <td>2</td>
+                <td>$25.00</td>
+                <td>$50.00</td>
+            </tr>
+        </table>
+        <span class="tt">Tổng tiền : 1000.000.000đ</span>
+        <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi. Chúng tôi sẽ thông báo cho bạn khi đơn hàng của bạn được giao.</p>
+        <!-- <a href="/localhost:3000/orders" class="button">Xem đơn hàng</a> -->
+    </div>
+</body>
+</html>

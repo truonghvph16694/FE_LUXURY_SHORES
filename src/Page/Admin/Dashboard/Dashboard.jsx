@@ -210,29 +210,31 @@ const Dashboard = () => {
   return (
     <>
       <div className="grid grid-cols-4 gap-4 p-4">
-        <div className="border border-gray-300 p-4 bg-yellow-300">
-          <h2 className="text-xl">Tổng giá trị tồn kho
-            <br />
-            <span>  {formattedPriceInventory}</span>
-          </h2>
+        <div className="border border-gray-300 p-4 bg-yellow-300 relative">
+          <p className='text-[8px] absolute right-0'>Tổng số lượng sản phầm tồn kho * giá sản phẩm</p>
+          <h2 className="text-xl">Tổng giá trị tồn kho</h2>
+          <br />
+          <span className='text-3xl font-bold'>  {formattedPriceInventory}</span>
+
         </div>
-        <div className="border border-gray-300 p-4 bg-blue-400">
-          <h2 className="text-xl">Doanh thu:
-            <br />
-            <span> {formattedTotalPrice}</span>
-          </h2>
+        <div className="border border-gray-300 p-4 bg-blue-400 relative">
+          <p className='text-[8px] absolute right-0'>Số lượng sản phẩm bán ra * giá sản phẩm</p>
+          <h2 className="text-xl">Doanh thu:      </h2>
+          <br />
+          <span className='text-3xl font-bold'> {formattedTotalPrice}</span>
+
         </div>
         <div className="border border-gray-300 p-4 bg-pink-300">
-          <h2 className="text-xl">Tổng sản phẩm đã nhập vào
-            <br />
-            <span> {quantity}</span> Đôi
-          </h2>
+          <h2 className="text-xl">Tổng sản phẩm đã nhập vào  </h2>
+          <br />
+          <span className='text-3xl font-bold'> {quantity}</span>
+
         </div>
         <div className="border border-gray-300 p-4 bg-green-400">
-          <h2 className="text-xl">Số sản phẩm đã bán ra
-            <br />
-            <span>{quantityOut}</span> Đôi
-          </h2>
+          <h2 className="text-xl">Số sản phẩm đã bán ra </h2>
+          <br />
+          <span className='text-3xl font-bold'>{quantityOut}</span>
+
         </div>
       </div>
       <CCard className="mb-4 mt-8">
@@ -310,7 +312,7 @@ const Dashboard = () => {
                 Doanh Thu Hàng Năm
               </h1>
               <br />
-              <div className="small text-medium-emphasis">2023</div>
+              <div className="small text-medium-emphasis">2020-2023</div>
             </CCol>
           </CRow>
           <CChartLine
@@ -319,7 +321,7 @@ const Dashboard = () => {
               labels: ['2022', '2023'],
               datasets: [
                 {
-                  label: 'Annual Sales',
+                  label: 'Doanh thu',
                   backgroundColor: hexToRgba('#63c2de', 10),
                   borderColor: '#63c2de',
                   pointHoverBackgroundColor: '#63c2de',

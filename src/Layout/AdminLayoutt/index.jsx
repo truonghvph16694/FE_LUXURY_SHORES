@@ -81,13 +81,16 @@ const AdminLayout = () => {
                         <li>
                             <Link to="/">
                                 <span className={styles.icon}>
-                                    <img
-                                        src={logo}
-                                        className={styles.io}
-                                        alt=""
-                                        width="100px"
-                                    />
+                                    <Link to={'/'}>
+                                        <img
+                                            src={logo}
+                                            className={styles.io}
+                                            alt=""
+                                            width="100px"
+                                        />
+                                    </Link>
                                 </span>
+
                                 <span className="text-[19px] font-[600] ml-[10px] mt-2 italic hover:text-red-600 ">
                                     LUXURY
                                 </span>
