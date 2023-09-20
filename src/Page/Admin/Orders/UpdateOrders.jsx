@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Form, Input, Button, message, Select, Table } from 'antd';
 import ordersApi from '../../../api/orders';
 import { toastError, toastSuccess } from '../../../components/toast/Toast';
@@ -16,6 +16,9 @@ const UpdateOrders = () => {
 
     const [ordersList, setOrdersList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [ward, setWard] = useState();
+    const [district, setDistrict] = useState();
+    const [province, setProvince] = useState();
 
     console.log("Selected status:", status);
 
@@ -31,6 +34,12 @@ const UpdateOrders = () => {
                 setStatus(response.status);
                 setOrdersList(response);
                 console.log("rp: ", response)
+                const provinceName = await onProvince(response.province_id);
+                const districtName = await onDistrict(response.district_id);
+                const wardName = await onWard(response.ward_id);
+                setWard(wardName);
+                setProvince(provinceName);
+                setDistrict(districtName)
                 setLoading(false);
                 form.setFieldsValue({ status: response.status, user_id: response.user_id, province_id: response.province_id, district_id: response.district_id, ward_id: response.ward_id, detail_address: response.detail_address, created_at: response.created_at, note: response.note, ships: response.ships, finish_date: response.finish_date, total_price: response.total_price, payment: response.payment }); // Đặt giá trị mặc định cho trường name trong Form
             } catch (error) {
@@ -81,8 +90,43 @@ const UpdateOrders = () => {
         }
     };
 
+    const columns2 = [
+        {
+            title: "Địa chỉ cụ thể",
+            render: () => {
+                return <div className=''>
+                    <span>{ordersList.detail_address}</span>
+                </div>
+            }
+        },
+        {
+            title: "Xã/Phường",
+            render: () => {
+                return <div className=''>
+                    <span>{ward}</span>
+                </div>
+            }
+        },
+        {
+            title: "Quận/Huyện",
+            render: () => {
+                return <div className=''>
+                    <span>{district}</span>
+                </div>
+            }
+        },
+        {
+            title: "Tỉnh/Thành phố",
+            render: () => {
+                return <div className=''>
+                    <span>{province}</span>
+                </div>
+            }
+        },
+    ]
 
     const columns = [
+
         {
             title: "Sản phẩm",
             render: (record) => {
@@ -107,14 +151,40 @@ const UpdateOrders = () => {
         }
     ];
 
-    const columns2 = [
-        {
-            title: "Địa chỉ cụ thể",
-            dataIndex: "detail_address",
-            key: "detail_address"
-        },
-    ];
 
+
+    const onProvince = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/p/${id}`);
+            const data = await response.json();
+            return data.name;
+        } catch (error) {
+            console.error("Error fetching province:", error);
+            return null;
+        }
+    };
+
+    const onDistrict = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/d/${id}`);
+            const data = await response.json();
+            return data.name;
+        } catch (error) {
+            console.error("Error fetching district:", error);
+            return null;
+        }
+    };
+
+    const onWard = async (id) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/w/${id}`);
+            const data = await response.json();
+            return data.name;
+        } catch (error) {
+            console.error("Error fetching ward:", error);
+            return null;
+        }
+    };
 
 
     return (
@@ -219,11 +289,11 @@ const UpdateOrders = () => {
 
                 <Form.Item>
                     <Button htmlType="submit" className='bg-blue-400'>
-                        Update Orders
+                        Cập nhật đơn hàng
                     </Button>
                 </Form.Item>
             </Form >
-
+            <Link to="/admin/orders"><Button>Trở về</Button></Link>
             <div>
                 {!loading ? (
                     <div className='relative'>
@@ -232,7 +302,15 @@ const UpdateOrders = () => {
                             dataSource={ordersList.product}
                             pagination={false}
                         />
+                        <Table
+                            columns={columns2}
+                            dataSource={ordersList.product}
+                            pagination={false}
+                        />
+
+
                         <div className='flex pt-4'>
+
                             <div className=''>
                                 <label htmlFor="" className='font-bold'>Ghi chú :</label>
                                 <span>{ordersList.note}</span>

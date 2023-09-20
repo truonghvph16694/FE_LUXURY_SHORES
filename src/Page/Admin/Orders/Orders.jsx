@@ -48,6 +48,7 @@ const Orders = () => {
   const fetchOrdersList = async () => {
     try {
       const response = await ordersApi.GetAll();
+      response.reverse()
       const ordersWithData = await Promise.all(
         response.map(async (order) => {
           const provinceName = await onProvince(order.province_id);
